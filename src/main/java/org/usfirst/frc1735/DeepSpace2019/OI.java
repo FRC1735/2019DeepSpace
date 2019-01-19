@@ -12,8 +12,11 @@
 package org.usfirst.frc1735.DeepSpace2019;
 
 import org.usfirst.frc1735.DeepSpace2019.commands.AutonomousCommand;
+import org.usfirst.frc1735.DeepSpace2019.commands.EneterArcadeMode;
+import org.usfirst.frc1735.DeepSpace2019.commands.EnterTankMode;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
