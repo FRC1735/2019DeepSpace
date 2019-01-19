@@ -116,5 +116,6 @@ public class Robot extends TimedRobot {
     private void initializeSmartDashboard() {
         SmartDashboard.putData("Auto mode", chooser);
         SmartDashboard.putNumber(SmartDashboardKeys.JOYSTICK_DEADZONE, DEFAULT_JOYSTICK_DEADZONE);
+        SmartDashboard.putString(SmartDashboardKeys.DRIVETRAIN_MODE, "ARCADE");
     }
 }
