@@ -78,7 +78,7 @@ Children:
         validators: [Joystick]
         value: '1'
     Base: Joystick
-    Name: Joystick 1
+    Name: JoyRight
   Properties: {}
   Base: OI
   Name: Operator Interface
