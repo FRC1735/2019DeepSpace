@@ -13,7 +13,7 @@ package org.usfirst.frc1735.DeepSpace2019.commands;
 import edu.wpi.first.wpilibj.command.Command;
 
 import org.usfirst.frc1735.DeepSpace2019.Robot;
-import org.usfirst.frc1735.DeepSpace2019.SmartDashboardKeys;
+import org.usfirst.frc1735.DeepSpace2019.smartdashboard.SmartDashboardKeys;
 
 /**
  *
