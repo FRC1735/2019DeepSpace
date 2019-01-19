@@ -13,6 +13,7 @@ package org.usfirst.frc1735.DeepSpace2019.commands;
 import edu.wpi.first.wpilibj.command.Command;
 
 import org.usfirst.frc1735.DeepSpace2019.Robot;
+import org.usfirst.frc1735.DeepSpace2019.SmartDashboardKeys;
 
 /**
  *
@@ -44,7 +45,7 @@ public class DriveWithJoystick extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        Robot.driveTrain.selectableDriveWithJoystick(Robot.oi.joystick1);
+        Robot.driveTrain.driveWithJoystick(Robot.oi.joystick1);
     }
 
     // Make this return true when this Command no longer needs to run execute()
