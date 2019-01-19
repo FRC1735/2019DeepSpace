@@ -12,7 +12,7 @@
 package org.usfirst.frc1735.DeepSpace2019;
 
 import org.usfirst.frc1735.DeepSpace2019.commands.AutonomousCommand;
-import org.usfirst.frc1735.DeepSpace2019.commands.EneterArcadeMode;
+import org.usfirst.frc1735.DeepSpace2019.commands.EnterArcadeMode;
 import org.usfirst.frc1735.DeepSpace2019.commands.EnterTankMode;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -67,7 +67,7 @@ public class OI {
         joyLeft = new Joystick(0);
         
         arcadeMode = new JoystickButton(joyLeft, 2);
-        arcadeMode.whenPressed(new EneterArcadeMode());
+        arcadeMode.whenPressed(new EnterArcadeMode());
         tankMode = new JoystickButton(joyLeft, 1);
         tankMode.whenPressed(new EnterTankMode());
         joyRight = new Joystick(1);
