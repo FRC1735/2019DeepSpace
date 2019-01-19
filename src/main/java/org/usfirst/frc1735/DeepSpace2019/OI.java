@@ -11,7 +11,9 @@
 
 package org.usfirst.frc1735.DeepSpace2019;
 
-import org.usfirst.frc1735.DeepSpace2019.commands.*;
+import org.usfirst.frc1735.DeepSpace2019.commands.AutonomousCommand;
+
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
