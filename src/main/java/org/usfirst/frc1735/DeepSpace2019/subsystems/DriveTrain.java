@@ -79,45 +79,22 @@ public class DriveTrain extends Subsystem {
         // Put code here to be run every loop
     }
 
-    public void driveWithJoystick() {
-        final Joystick left = Robot.oi.joyLeft;
-        final Joystick right = Robot.oi.joyRight;
-
+    public void drive(final double joystickAX, final double joystickAY, final double joystickBX, final double joystickBY) {
         final String driveMode = SmartDashboard.getString(SmartDashboardKeys.DRIVETRAIN_MODE, "ARCADE");
 
         if (driveMode.equals("TANK")) {
-            driveWithJoystickTankMode(left, right);
+            tankDrive(joystickAX, joystickAY, joystickBX, joystickBY);
         } else { // ARCADE is the default/fallback
-            driveWithJoystickArcadeMode(left);
+            arcadeDrive(joystickAX, joystickAY);
         }
     }
 
-    private void driveWithJoystickArcadeMode(final Joystick joystick) {
-        final double joystickX = applyDeadzoneFilter(joystick.getX());
-        final double joystickY = applyDeadzoneFilter(joystick.getY());
-
-        differentialDrive1.arcadeDrive(-joystickY, joystickX, true);
-    }
-
-    private void driveWithJoystickTankMode(final Joystick left, final Joystick right) {
-        double joystickLeftY, joystickRightY;
-
-        joystickLeftY = applyDeadzoneFilter(left.getY());
-        joystickRightY = applyDeadzoneFilter(right.getY());
-
-        // TODO - handle dead zone for tank mode
-
+    private void tankDrive(final double joystickAX, final double joystickAY, final double joystickBX, final double joystickBY) {
         // TODO
-        //differentialDrive1.tankDrive(, rightSpeed);
     }
 
-    private double applyDeadzoneFilter(final double joystickAxisValue) {
-        final double joystickDeadzone = SmartDashboard.getNumber(SmartDashboardKeys.JOYSTICK_DEADZONE, 0);
-        if (Math.abs(joystickAxisValue) < joystickDeadzone) {
-            return 0;
-        } else {
-            return joystickAxisValue;
-        }
+    private void arcadeDrive(final double joystickX, final double joystickY) {
+        differentialDrive1.arcadeDrive(-joystickY, joystickX, true);
     }
 
     public void stop() {

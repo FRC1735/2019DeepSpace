@@ -10,10 +10,13 @@
 
 
 package org.usfirst.frc1735.DeepSpace2019.commands;
-import edu.wpi.first.wpilibj.command.Command;
 
 import org.usfirst.frc1735.DeepSpace2019.Robot;
 import org.usfirst.frc1735.DeepSpace2019.smartdashboard.SmartDashboardKeys;
+
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -45,7 +48,11 @@ public class DriveWithJoystick extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        Robot.driveTrain.driveWithJoystick();
+        final Joystick joystickA = Robot.oi.joyLeft;
+        final Joystick joystickB = Robot.oi.joyRight;
+
+        Robot.driveTrain.drive(applyDeadzoneFilter(joystickA.getX()), applyDeadzoneFilter(joystickA.getY()),
+                        applyDeadzoneFilter(joystickB.getX()), applyDeadzoneFilter(joystickB.getY()));
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -66,4 +73,14 @@ public class DriveWithJoystick extends Command {
     protected void interrupted() {
         end();
     }
+
+    private double applyDeadzoneFilter(final double joystickAxisValue) {
+        final double joystickDeadzone = SmartDashboard.getNumber(SmartDashboardKeys.JOYSTICK_DEADZONE, 0);
+        if (Math.abs(joystickAxisValue) < joystickDeadzone) {
+            return 0;
+        } else {
+            return joystickAxisValue;
+        }
+    }
+
 }
