@@ -90,7 +90,7 @@ public class DriveTrain extends Subsystem {
     }
 
     private void tankDrive(final double joystickAX, final double joystickAY, final double joystickBX, final double joystickBY) {
-        // TODO
+        differentialDrive1.tankDrive(-joystickAY, -joystickBY);
     }
 
     private void arcadeDrive(final double joystickX, final double joystickY) {
