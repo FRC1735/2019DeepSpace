@@ -12,6 +12,8 @@
 package org.usfirst.frc1735.DeepSpace2019.commands;
 
 import org.usfirst.frc1735.DeepSpace2019.Robot;
+import org.usfirst.frc1735.DeepSpace2019.joysticks.AbstractJoystick;
+import org.usfirst.frc1735.DeepSpace2019.joysticks.JoystickFactory;
 import org.usfirst.frc1735.DeepSpace2019.smartdashboard.SmartDashboardKeys;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -48,11 +50,11 @@ public class DriveWithJoystick extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        final Joystick joystickA = Robot.oi.joyLeft;
-        final Joystick joystickB = Robot.oi.joyRight;
+        final AbstractJoystick joystickLeft = JoystickFactory.get(Robot.oi.joyLeft);
+        final AbstractJoystick joystickRight = JoystickFactory.get(Robot.oi.joyRight);
 
-        Robot.driveTrain.drive(applyDeadzoneFilter(joystickA.getX()), applyDeadzoneFilter(joystickA.getY()),
-                        applyDeadzoneFilter(joystickB.getX()), applyDeadzoneFilter(joystickB.getY()));
+        Robot.driveTrain.drive(applyDeadzoneFilter(joystickLeft.getX()), applyDeadzoneFilter(joystickLeft.getY()),
+                        applyDeadzoneFilter(joystickRight.getX()), applyDeadzoneFilter(joystickRight.getY()));
     }
 
     // Make this return true when this Command no longer needs to run execute()
