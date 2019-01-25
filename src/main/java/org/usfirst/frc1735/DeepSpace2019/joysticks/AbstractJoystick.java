@@ -4,9 +4,11 @@ import edu.wpi.first.wpilibj.Joystick;
 
 public abstract class AbstractJoystick {
     protected Joystick joystick;
+    protected Role role;
 
-    public AbstractJoystick(final Joystick joystick) {
+    public AbstractJoystick(final Joystick joystick, final Role role) {
         this.joystick = joystick;
+        this.role = role;
         initializeKeymap();
     }
 

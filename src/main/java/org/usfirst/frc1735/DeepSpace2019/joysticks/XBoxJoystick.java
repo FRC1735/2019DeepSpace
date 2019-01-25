@@ -8,8 +8,11 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 public class XBoxJoystick extends AbstractJoystick {
-    public XBoxJoystick(final Joystick joystick) {
-        super(joystick);
+    private static final int BUTTON_X = 3;
+    private static final int BUTTON_Y = 4;
+
+    public XBoxJoystick(final Joystick joystick, final Role role) {
+        super(joystick, role);
     }
 
     @Override
@@ -24,13 +27,19 @@ public class XBoxJoystick extends AbstractJoystick {
 
     @Override
     void initializeKeymap() {
-        // X Button
-        Robot.oi.arcadeMode = new JoystickButton(joystick, 3);
-        Robot.oi.arcadeMode.whenPressed(new EnterArcadeMode());
+        switch (role) {
+            case DRIVER_LEFT:
+                Robot.oi.arcadeMode = new JoystickButton(joystick, BUTTON_X);
+                Robot.oi.arcadeMode.whenPressed(new EnterArcadeMode());
 
-        // Y Button
-        Robot.oi.tankMode = new JoystickButton(joystick, 4);
-        Robot.oi.tankMode.whenPressed(new EnterTankMode());
-	}
+                Robot.oi.tankMode = new JoystickButton(joystick, BUTTON_Y);
+                Robot.oi.tankMode.whenPressed(new EnterTankMode());
 
+                break;
+
+            case OPERATOR:
+                // Do nothing for now
+                break;
+        }
+    }
 }

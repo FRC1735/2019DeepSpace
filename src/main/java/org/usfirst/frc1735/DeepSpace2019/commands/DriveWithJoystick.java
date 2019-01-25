@@ -14,6 +14,7 @@ package org.usfirst.frc1735.DeepSpace2019.commands;
 import org.usfirst.frc1735.DeepSpace2019.Robot;
 import org.usfirst.frc1735.DeepSpace2019.joysticks.AbstractJoystick;
 import org.usfirst.frc1735.DeepSpace2019.joysticks.JoystickFactory;
+import org.usfirst.frc1735.DeepSpace2019.joysticks.Role;
 import org.usfirst.frc1735.DeepSpace2019.smartdashboard.SmartDashboardKeys;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -50,8 +51,8 @@ public class DriveWithJoystick extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        final AbstractJoystick joystickLeft = JoystickFactory.get(Robot.oi.joyLeft);
-        final AbstractJoystick joystickRight = JoystickFactory.get(Robot.oi.joyRight);
+        final AbstractJoystick joystickLeft = JoystickFactory.get(Robot.oi.joyLeft, Role.DRIVER_LEFT);
+        final AbstractJoystick joystickRight = JoystickFactory.get(Robot.oi.joyRight, Role.DRIVER_LEFT);
 
         Robot.driveTrain.drive(applyDeadzoneFilter(joystickLeft.getX()), applyDeadzoneFilter(joystickLeft.getY()),
                         applyDeadzoneFilter(joystickRight.getX()), applyDeadzoneFilter(joystickRight.getY()));

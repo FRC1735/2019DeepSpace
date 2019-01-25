@@ -4,8 +4,8 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 
 public class JoystickFactory {
-    public static AbstractJoystick get(final Joystick joystick) {
+    public static AbstractJoystick get(final Joystick joystick, final Role role) {
         //DriverStation.getInstance().getJoystickIsXbox(stick)
-        return new XBoxJoystick(joystick);
+        return new XBoxJoystick(joystick, role);
     }
 }
