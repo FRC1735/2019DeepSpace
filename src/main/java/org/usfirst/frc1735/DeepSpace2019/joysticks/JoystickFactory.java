@@ -5,7 +5,10 @@ import edu.wpi.first.wpilibj.Joystick;
 
 public class JoystickFactory {
     public static AbstractJoystick get(final Joystick joystick, final Role role) {
-        //DriverStation.getInstance().getJoystickIsXbox(stick)
-        return new XBoxJoystick(joystick, role);
+        if (DriverStation.getInstance().getJoystickIsXbox(joystick.getPort())) {
+            return new XBoxJoystick(joystick, role);
+        } else {
+            return new StandardJoystick(joystick, role);
+        }
     }
 }
