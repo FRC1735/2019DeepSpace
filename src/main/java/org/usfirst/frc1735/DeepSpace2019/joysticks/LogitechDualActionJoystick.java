@@ -47,12 +47,12 @@ public class LogitechDualActionJoystick extends AbstractJoystick {
     }
 
     @Override
-    public double getXSwivelStick() {
+    public double getSwivelStickX() {
         return joystick.getRawAxis(2);
     }
 
     @Override
-    public double getYSwivelStick() {
+    public double getSwivelStickY() {
         return joystick.getRawAxis(3);
     }
 

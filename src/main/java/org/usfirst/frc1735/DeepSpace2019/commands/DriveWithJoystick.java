@@ -61,8 +61,8 @@ public class DriveWithJoystick extends Command {
         if (joystickLeft.isCapableOfSoloTankMode()) {
             Robot.driveTrain.drive(applyDeadzoneFilter(joystickLeft.getX()), 
                         -applyDeadzoneFilter(joystickLeft.getY()),
-                        applyDeadzoneFilter(joystickLeft.getXSwivelStick()), 
-                        -applyDeadzoneFilter(joystickLeft.getYSwivelStick()));
+                        applyDeadzoneFilter(joystickLeft.getSwivelStickX()), 
+                        -applyDeadzoneFilter(joystickLeft.getSwivelStickY()));
         } else {
             Robot.driveTrain.drive(applyDeadzoneFilter(joystickLeft.getX()), 
                         -applyDeadzoneFilter(joystickLeft.getY()),

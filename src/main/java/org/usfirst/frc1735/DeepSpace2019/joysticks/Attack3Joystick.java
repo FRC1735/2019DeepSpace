@@ -48,12 +48,12 @@ public class Attack3Joystick extends AbstractJoystick {
     }
 
     @Override
-    public double getXSwivelStick() {
+    public double getSwivelStickX() {
         return 0;
     }
 
     @Override
-    public double getYSwivelStick() {
+    public double getSwivelStickY() {
         return 0;
     }
 }

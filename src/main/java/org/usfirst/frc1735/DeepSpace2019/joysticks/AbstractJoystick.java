@@ -18,9 +18,9 @@ public abstract class AbstractJoystick {
 
     public abstract double getY();
 
-    public abstract double getXSwivelStick();
+    public abstract double getSwivelStickX();
 
-    public abstract double getYSwivelStick();
+    public abstract double getSwivelStickY();
 
     public abstract boolean isCapableOfSoloTankMode();
 }
