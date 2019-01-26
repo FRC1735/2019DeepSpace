@@ -34,7 +34,8 @@ public class Attack3Joystick extends AbstractJoystick {
                 Robot.oi.tankMode = new JoystickButton(joystick, 1);
                 Robot.oi.tankMode.whenPressed(new EnterTankMode());
                 break;  
-
+           
+            case DRIVER_RIGHT:
             case OPERATOR:
                 // TODO
                 break;

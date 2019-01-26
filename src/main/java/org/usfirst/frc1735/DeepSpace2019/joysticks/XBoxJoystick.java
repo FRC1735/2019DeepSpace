@@ -37,6 +37,7 @@ public class XBoxJoystick extends AbstractJoystick {
 
                 break;
 
+            case DRIVER_RIGHT:
             case OPERATOR:
                 // Do nothing for now
                 break;

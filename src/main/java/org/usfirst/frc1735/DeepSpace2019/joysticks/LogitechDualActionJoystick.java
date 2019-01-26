@@ -34,6 +34,7 @@ public class LogitechDualActionJoystick extends AbstractJoystick {
                 Robot.oi.tankMode.whenPressed(new EnterTankMode());
                 break;
 
+            case DRIVER_RIGHT:
             case OPERATOR: 
                 // TODO
                 break;

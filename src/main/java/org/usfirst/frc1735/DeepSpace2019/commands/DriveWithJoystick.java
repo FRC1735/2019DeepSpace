@@ -52,7 +52,7 @@ public class DriveWithJoystick extends Command {
         joystickDeadzone = SmartDashboard.getNumber(SmartDashboardKeys.JOYSTICK_DEADZONE, 0);
         joystickFactory = new JoystickFactory();
         joystickLeft = joystickFactory.get(Robot.oi.joyLeft, Role.DRIVER_LEFT);
-        joystickRight = joystickFactory.get(Robot.oi.joyRight, Role.DRIVER_LEFT);
+        joystickRight = joystickFactory.get(Robot.oi.joyRight, Role.DRIVER_RIGHT);
 
     }
 
