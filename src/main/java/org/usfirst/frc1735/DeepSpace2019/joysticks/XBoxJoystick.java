@@ -41,10 +41,10 @@ public class XBoxJoystick extends AbstractJoystick {
     void initializeKeymap() {
         switch (role) {
             case DRIVER_LEFT:
-                Robot.oi.arcadeMode = new JoystickButton(joystick, BUTTON_X);
+                Robot.oi.arcadeMode = new JoystickButton(joystick, 3);
                 Robot.oi.arcadeMode.whenPressed(new EnterArcadeMode());
 
-                Robot.oi.tankMode = new JoystickButton(joystick, BUTTON_Y);
+                Robot.oi.tankMode = new JoystickButton(joystick, 4);
                 Robot.oi.tankMode.whenPressed(new EnterTankMode());
 
                 break;
