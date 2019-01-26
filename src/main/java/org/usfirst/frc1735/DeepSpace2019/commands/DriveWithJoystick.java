@@ -53,8 +53,9 @@ public class DriveWithJoystick extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        final AbstractJoystick joystickLeft = JoystickFactory.get(Robot.oi.joyLeft, Role.DRIVER_LEFT);
-        final AbstractJoystick joystickRight = JoystickFactory.get(Robot.oi.joyRight, Role.DRIVER_LEFT);
+        final JoystickFactory joystickFactory = new JoystickFactory();
+        final AbstractJoystick joystickLeft = joystickFactory.get(Robot.oi.joyLeft, Role.DRIVER_LEFT);
+        final AbstractJoystick joystickRight = joystickFactory.get(Robot.oi.joyRight, Role.DRIVER_LEFT);
 
         Robot.driveTrain.drive(applyDeadzoneFilter(joystickLeft.getX()), applyDeadzoneFilter(joystickLeft.getY()),
                         applyDeadzoneFilter(joystickRight.getX()), applyDeadzoneFilter(joystickRight.getY()));
