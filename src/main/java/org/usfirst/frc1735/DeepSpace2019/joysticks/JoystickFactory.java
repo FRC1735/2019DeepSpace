@@ -7,6 +7,8 @@ public class JoystickFactory {
     public static AbstractJoystick get(final Joystick joystick, final Role role) {
         if (DriverStation.getInstance().getJoystickIsXbox(joystick.getPort())) {
             return new XBoxJoystick(joystick, role);
+        } else if (DriverStation.getInstance().getJoystickName(joystick.getPort()).equals("Logitech Dual Action")) {
+            return new LogitechDualActionJoystick(joystick, role);
         } else {
             return new Attack3Joystick(joystick, role);
         }
