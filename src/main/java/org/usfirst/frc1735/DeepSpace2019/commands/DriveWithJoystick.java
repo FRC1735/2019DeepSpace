@@ -15,9 +15,9 @@ import org.usfirst.frc1735.DeepSpace2019.Robot;
 import org.usfirst.frc1735.DeepSpace2019.joysticks.AbstractJoystick;
 import org.usfirst.frc1735.DeepSpace2019.joysticks.JoystickFactory;
 import org.usfirst.frc1735.DeepSpace2019.joysticks.Role;
+import org.usfirst.frc1735.DeepSpace2019.joysticks.XBoxJoystick;
 import org.usfirst.frc1735.DeepSpace2019.smartdashboard.SmartDashboardKeys;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -60,7 +60,13 @@ public class DriveWithJoystick extends Command {
     @Override
     protected void execute() {
         Robot.driveTrain.drive(applyDeadzoneFilter(joystickLeft.getX()), applyDeadzoneFilter(joystickLeft.getY()),
+                         applyDeadzoneFilter(((XBoxJoystick)joystickLeft).getXSwivelStick()), 
+                         applyDeadzoneFilter(((XBoxJoystick)joystickLeft).getYSwivelStick()));
+
+        /*
+        Robot.driveTrain.drive(applyDeadzoneFilter(joystickLeft.getX()), applyDeadzoneFilter(joystickLeft.getY()),
                         applyDeadzoneFilter(joystickRight.getX()), applyDeadzoneFilter(joystickRight.getY()));
+                        */
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -11,6 +11,8 @@ public class XBoxJoystick extends AbstractJoystick {
     private static final int BUTTON_X = 3;
     private static final int BUTTON_Y = 4;
 
+    // 0 and 1 are left xbox controller swivel stick
+
     public XBoxJoystick(final Joystick joystick, final Role role) {
         super(joystick, role);
     }
@@ -23,6 +25,14 @@ public class XBoxJoystick extends AbstractJoystick {
     @Override
     public double getY() {
         return joystick.getRawAxis(5);
+    }
+
+    public double getXSwivelStick() {
+        return joystick.getRawAxis(0);
+    }
+
+    public double getYSwivelStick() {
+        return joystick.getRawAxis(1);
     }
 
     @Override
