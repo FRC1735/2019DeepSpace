@@ -107,6 +107,14 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         // Put code here to be run every loop
     }
 
+    // Getter functions for our motors
+    public WPI_TalonSRX getLeftMotor() {
+        return leftMotor;
+    }
+    public WPI_TalonSRX getRightMotor() {
+        return rightMotor;
+    }
+    
     public void drivetrainInit() {
     	// Do initialization that cannot be done in the constructor because robot.init isn't executed yet so we don't have a gyro instance.
     	
@@ -296,13 +304,14 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         final String driveMode = SmartDashboard.getString(SmartDashboardKeys.DRIVETRAIN_MODE, "ARCADE");
 
         if (driveMode.equals("TANK")) {
-            tankDrive(joystickAX, joystickAY, joystickBX, joystickBY);
+            tankDrive(joystickAY, joystickBY);
         } else { // ARCADE is the default/fallback
             arcadeDrive(joystickAX, joystickAY);
         }
     }
 
-    private void tankDrive(final double joystickAX, final double joystickAY, final double joystickBX, final double joystickBY) {
+    // Autonomous Turn command wants to control the driveline directly in tank mode, so expose as public
+    public void tankDrive(final double joystickAY, final double joystickBY) {
         differentialDrive1.tankDrive(-joystickAY, -joystickBY);
     }
 

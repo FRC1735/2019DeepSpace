@@ -12,8 +12,10 @@
 package org.usfirst.frc1735.DeepSpace2019;
 
 import org.usfirst.frc1735.DeepSpace2019.commands.AutonomousCommand;
+import org.usfirst.frc1735.DeepSpace2019.commands.DriveWithPID;
 import org.usfirst.frc1735.DeepSpace2019.commands.EnterArcadeMode;
 import org.usfirst.frc1735.DeepSpace2019.commands.EnterTankMode;
+import org.usfirst.frc1735.DeepSpace2019.commands.Turn;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
