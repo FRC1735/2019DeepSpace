@@ -8,7 +8,7 @@ public class JoystickFactory {
         if (DriverStation.getInstance().getJoystickIsXbox(joystick.getPort())) {
             return new XBoxJoystick(joystick, role);
         } else {
-            return new StandardJoystick(joystick, role);
+            return new Attack3Joystick(joystick, role);
         }
     }
 }

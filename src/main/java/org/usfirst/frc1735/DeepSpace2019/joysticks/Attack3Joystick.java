@@ -9,12 +9,22 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 // TODO - get the real name for this type of Joystick
-public class StandardJoystick extends AbstractJoystick {
+public class Attack3Joystick extends AbstractJoystick {
 
-    public StandardJoystick(final Joystick joystick, final Role role) {
+    public Attack3Joystick(final Joystick joystick, final Role role) {
         super(joystick, role);
     }
 
+    @Override
+    public double getX() {
+        return joystick.getX();
+    }
+
+    @Override
+    public double getY() {
+        return joystick.getY();
+    }
+    
     @Override
     void initializeKeymap() {
         switch (role) {
@@ -31,15 +41,4 @@ public class StandardJoystick extends AbstractJoystick {
                 break;
         }
     }
-
-    @Override
-    public double getX() {
-        return joystick.getX();
-    }
-
-    @Override
-    public double getY() {
-        return joystick.getY();
-    }
-
 }
