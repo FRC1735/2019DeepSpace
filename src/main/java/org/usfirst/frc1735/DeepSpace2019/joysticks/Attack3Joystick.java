@@ -8,7 +8,6 @@ import org.usfirst.frc1735.DeepSpace2019.commands.EnterTankMode;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
-// TODO - get the real name for this type of Joystick
 public class Attack3Joystick extends AbstractJoystick {
 
     public Attack3Joystick(final Joystick joystick, final Role role) {
