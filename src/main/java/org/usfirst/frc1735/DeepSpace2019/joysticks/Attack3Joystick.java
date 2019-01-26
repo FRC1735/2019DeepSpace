@@ -41,4 +41,19 @@ public class Attack3Joystick extends AbstractJoystick {
                 break;
         }
     }
+
+    @Override
+    public boolean isCapableOfSoloTankMode() {
+        return false;
+    }
+
+    @Override
+    public double getXSwivelStick() {
+        return 0;
+    }
+
+    @Override
+    public double getYSwivelStick() {
+        return 0;
+    }
 }

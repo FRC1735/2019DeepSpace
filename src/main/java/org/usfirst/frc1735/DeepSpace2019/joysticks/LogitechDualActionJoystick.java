@@ -14,16 +14,6 @@ public class LogitechDualActionJoystick extends AbstractJoystick {
     }
 
     @Override
-    public double getX() {
-        return joystick.getRawAxis(2);
-    }
-
-    @Override
-    public double getY() {
-        return joystick.getRawAxis(3);
-    }   
-    
-    @Override
     void initializeKeymap() {
         switch(role) {
             case DRIVER_LEFT:
@@ -40,4 +30,32 @@ public class LogitechDualActionJoystick extends AbstractJoystick {
                 break;
         }
     }
+
+    @Override
+    public boolean isCapableOfSoloTankMode() {
+        return true;
+    }
+
+    @Override
+    public double getX() {
+        return joystick.getRawAxis(0);
+    }
+
+    @Override
+    public double getY() {
+        return joystick.getRawAxis(1);
+    }
+
+    @Override
+    public double getXSwivelStick() {
+        return joystick.getRawAxis(2);
+    }
+
+    @Override
+    public double getYSwivelStick() {
+        return joystick.getRawAxis(3);
+    }
+
+    
+
 }

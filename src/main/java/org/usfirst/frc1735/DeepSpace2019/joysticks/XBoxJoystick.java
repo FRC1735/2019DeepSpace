@@ -19,20 +19,22 @@ public class XBoxJoystick extends AbstractJoystick {
 
     @Override
     public double getX() {
-        return joystick.getRawAxis(4);
+        return joystick.getRawAxis(0);
     }
 
     @Override
     public double getY() {
-        return joystick.getRawAxis(5);
-    }
-
-    public double getXSwivelStick() {
-        return joystick.getRawAxis(0);
-    }
-
-    public double getYSwivelStick() {
         return joystick.getRawAxis(1);
+    }
+
+    @Override
+    public double getXSwivelStick() {
+        return joystick.getRawAxis(4);
+    }
+
+    @Override
+    public double getYSwivelStick() {
+        return joystick.getRawAxis(5);
     }
 
     @Override
@@ -52,5 +54,10 @@ public class XBoxJoystick extends AbstractJoystick {
                 // Do nothing for now
                 break;
         }
+    }
+
+    @Override
+    public boolean isCapableOfSoloTankMode() {
+        return true;
     }
 }

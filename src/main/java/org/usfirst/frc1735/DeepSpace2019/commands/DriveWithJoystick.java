@@ -53,20 +53,22 @@ public class DriveWithJoystick extends Command {
         joystickFactory = new JoystickFactory();
         joystickLeft = joystickFactory.get(Robot.oi.joyLeft, Role.DRIVER_LEFT);
         joystickRight = joystickFactory.get(Robot.oi.joyRight, Role.DRIVER_RIGHT);
-
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        Robot.driveTrain.drive(applyDeadzoneFilter(joystickLeft.getX()), applyDeadzoneFilter(joystickLeft.getY()),
-                         applyDeadzoneFilter(((XBoxJoystick)joystickLeft).getXSwivelStick()), 
-                         applyDeadzoneFilter(((XBoxJoystick)joystickLeft).getYSwivelStick()));
-
-        /*
-        Robot.driveTrain.drive(applyDeadzoneFilter(joystickLeft.getX()), applyDeadzoneFilter(joystickLeft.getY()),
-                        applyDeadzoneFilter(joystickRight.getX()), applyDeadzoneFilter(joystickRight.getY()));
-                        */
+        if (joystickLeft.isCapableOfSoloTankMode()) {
+            Robot.driveTrain.drive(applyDeadzoneFilter(joystickLeft.getX()), 
+                        -applyDeadzoneFilter(joystickLeft.getY()),
+                        applyDeadzoneFilter(joystickLeft.getXSwivelStick()), 
+                        -applyDeadzoneFilter(joystickLeft.getYSwivelStick()));
+        } else {
+            Robot.driveTrain.drive(applyDeadzoneFilter(joystickLeft.getX()), 
+                        -applyDeadzoneFilter(joystickLeft.getY()),
+                        applyDeadzoneFilter(joystickRight.getX()), 
+                        -applyDeadzoneFilter(joystickRight.getY()));
+        }
     }
 
     // Make this return true when this Command no longer needs to run execute()
