@@ -105,6 +105,8 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     @Override
     public void periodic() {
         // Put code here to be run every loop
+        SmartDashboard.putNumber("Yaw", Robot.ahrs.getYaw()); //-180 to +180 from last zeroed yaw setting
+
     }
 
     // Getter functions for our motors
@@ -135,21 +137,22 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         /* Typically, only the P value needs to be modified.                   */
         LiveWindow.addActuator("DriveSystem", "RotateController", drivelineController);
         
-        //Expose these to the SmartDashboard for DEBUG ONLY:
+        //Expose thes initial compiled-in settings to the SmartDashboard for development work and overrides.  We will only sample them once, when enabling the robot.
+        // SOME of these values can be different between practice and competition robots, so take that into account for initial settings...
     	SmartDashboard.putBoolean("TurnAbsolute", true); // Assume absolute mode
-    	SmartDashboard.putNumber("TurnAngle", 0); // Assuming relative, zero means no change.
-    	SmartDashboard.putNumber("TurnLP", kLargeTurnP);
+    	SmartDashboard.putNumber("TurnAngle", 0); // If relative, zero means no change.
+        SmartDashboard.putNumber("TurnLP", Robot.isPracticeBot()?kPracticeLargeTurnP:kLargeTurnP);
     	SmartDashboard.putNumber("TurnLI", kLargeTurnI);
     	SmartDashboard.putNumber("TurnLD", kLargeTurnD);
-    	SmartDashboard.putNumber("TurnLMax", kLargeTurnPIDOutputMax);
-    	SmartDashboard.putNumber("TurnMP", kMedTurnP);
+    	SmartDashboard.putNumber("TurnLMax", Robot.isPracticeBot()?kPracticeLargeTurnPIDOutputMax:kLargeTurnPIDOutputMax);
+    	SmartDashboard.putNumber("TurnMP", Robot.isPracticeBot()?kPracticeMedTurnP:kMedTurnP);
     	SmartDashboard.putNumber("TurnMI", kMedTurnI);
     	SmartDashboard.putNumber("TurnMD", kMedTurnD);
-    	SmartDashboard.putNumber("TurnMMax", kMedTurnPIDOutputMax);
-    	SmartDashboard.putNumber("TurnSP", kSmallTurnP);
+    	SmartDashboard.putNumber("TurnMMax", Robot.isPracticeBot()?kPracticeMedTurnPIDOutputMax:kMedTurnPIDOutputMax);
+    	SmartDashboard.putNumber("TurnSP", Robot.isPracticeBot()?kPracticeSmallTurnP:kSmallTurnP);
     	SmartDashboard.putNumber("TurnSI", kSmallTurnI);
     	SmartDashboard.putNumber("TurnSD", kSmallTurnD);
-    	SmartDashboard.putNumber("TurnSMax", kSmallTurnPIDOutputMax);
+    	SmartDashboard.putNumber("TurnSMax", Robot.isPracticeBot()?kPracticeSmallTurnPIDOutputMax:kSmallTurnPIDOutputMax);
     	
     	SmartDashboard.putNumber("TurnErr", kToleranceDegrees);
     	
@@ -190,7 +193,8 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     	
     	// Closed-loop PID initialization/configuration
     	//
-    	// See full code example at https://github.com/CrossTheRoadElec/FRC-Examples-STEAMWORKS/blob/master/JAVA_MotionMagicExample/src/org/usfirst/frc/team217/robot/Robot.java
+        // See full code example at https://github.com/CrossTheRoadElec/FRC-Examples-STEAMWORKS/blob/master/JAVA_MotionMagicExample/src/org/usfirst/frc/team217/robot/Robot.java
+        // General documentation on CTRE examples at https://github.com/CrossTheRoadElec/Phoenix-Examples-Languages/tree/master/Java
 
     	// set the peak and nominal outputs, -1 to 1 in percentage of nominal voltage (even if battery voltage is higher)
     	leftMotor.configNominalOutputForward(0.0, 0);
@@ -345,24 +349,34 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         m_rotateToAngleRate = output;
     }
     
-    public void setSmallTurnPID() {
-        double p = SmartDashboard.getNumber("TurnSP", kSmallTurnP);
-        double i = SmartDashboard.getNumber("TurnSI", kSmallTurnI);
-        double d = SmartDashboard.getNumber("TurnSD", kSmallTurnD);
-        double max = SmartDashboard.getNumber("TurnSMax", kSmallTurnPIDOutputMax);
+    // This function samples the PID values from the SmartDashboard and stores them locally.
+    //This allows us to change the values from the SmartDashboard, but store them locally for higher performance.
+    // Use the current value as the default if SD is broken and doesn't return a value...
+    public static void updatePIDValuesFromSD() {
+        smallTurnP = SmartDashboard.getNumber("TurnSP", smallTurnP);
+        smallTurnI = SmartDashboard.getNumber("TurnSI", smallTurnI);
+        smallTurnD = SmartDashboard.getNumber("TurnSD", smallTurnD);
+        smallTurnPIDOutputMax = SmartDashboard.getNumber("TurnSMax", smallTurnPIDOutputMax);
  
-        drivelineController.setPID(p,i,d, kSmallTurnF);
-        drivelineController.setOutputRange(-max, max); // What is the allowable range of values to send to the output (our motor rotation)
+        medTurnP = SmartDashboard.getNumber("TurnMP", medTurnP);
+        medTurnI = SmartDashboard.getNumber("TurnMI", medTurnI);
+        medTurnD = SmartDashboard.getNumber("TurnMD", medTurnD);
+        medTurnPIDOutputMax = SmartDashboard.getNumber("TurnMMax", medTurnPIDOutputMax);
+
+        largeTurnP = SmartDashboard.getNumber("TurnLP", largeTurnP);
+        largeTurnI = SmartDashboard.getNumber("TurnLI", largeTurnI);
+        largeTurnD = SmartDashboard.getNumber("TurnLD", largeTurnD);
+        largeTurnPIDOutputMax = SmartDashboard.getNumber("TurnLMax", largeTurnPIDOutputMax);
+    }
+
+    public void setSmallTurnPID() {
+        drivelineController.setPID(smallTurnP,smallTurnI,smallTurnD, smallTurnF);
+        drivelineController.setOutputRange(-smallTurnPIDOutputMax, smallTurnPIDOutputMax); // What is the allowable range of values to send to the output (our motor rotation)
     }
     
     public void setMedTurnPID() {
-            double p = SmartDashboard.getNumber("TurnMP", kMedTurnP);
-            double i = SmartDashboard.getNumber("TurnMI", kMedTurnI);
-            double d = SmartDashboard.getNumber("TurnMD", kMedTurnD);
-            double max = SmartDashboard.getNumber("TurnMMax", kMedTurnPIDOutputMax);
- 
-        drivelineController.setPID(p,i,d, kMedTurnF);
-        drivelineController.setOutputRange(-max, max); // What is the allowable range of values to send to the output (our motor rotation)
+        drivelineController.setPID(medTurnP,medTurnI,medTurnD, medTurnF);
+        drivelineController.setOutputRange(-medTurnPIDOutputMax, medTurnPIDOutputMax); // What is the allowable range of values to send to the output (our motor rotation)
     }
  
     public void setLargeTurnPID() {
@@ -371,8 +385,8 @@ public class DriveTrain extends Subsystem implements PIDOutput {
             double d = SmartDashboard.getNumber("TurnLD", kLargeTurnD);
             double max = SmartDashboard.getNumber("TurnLMax", kLargeTurnPIDOutputMax);
  
-        drivelineController.setPID(p,i,d, kLargeTurnF);
-        drivelineController.setOutputRange(-max, max); // What is the allowable range of values to send to the output (our motor rotation)
+        drivelineController.setPID(largeTurnP,largeTurnI,largeTurnD, largeTurnF);
+        drivelineController.setOutputRange(-largeTurnPIDOutputMax, largeTurnPIDOutputMax); // What is the allowable range of values to send to the output (our motor rotation)
     }
  
     public double getTv() {
@@ -427,24 +441,31 @@ public class DriveTrain extends Subsystem implements PIDOutput {
      public static final double kToleranceDistUnits = (int) 1/*inches*/ * kEncoderTicksPerInch; // stop if we are within this many encoder units of our setpoint.  18.85 inches/rev and 4096 ticks/rev means .25" is ~50 encoder ticks
  
      static final double kLargeTurnP = 0.015;
+     static final double kPracticeLargeTurnP = 0.015;
      static final double kLargeTurnI = 0.00; //0.001504;
      static final double kLargeTurnD = 0.00;
      static final double kLargeTurnF = 0.00;
      public static final double kLargeTurnPIDOutputMax = 0.55; // Max motor output in large PID mode 0.55
+     public static final double kPracticeLargeTurnPIDOutputMax = 0.55; // Max motor output in large PID mode 0.55
+
  
      public static final double kMedTurnPIDLimit = 15.0; // Errors smaller than this number of degrees should use the medium PID profile
      static final double kMedTurnP = 0.2; //use a very large (relative to normal) P to guarantee max motor output
+     static final double kPracticeMedTurnP = 0.1; //use a very large (relative to normal) P to guarantee max motor output
      static final double kMedTurnI = 0.00;
      static final double kMedTurnD = 0.5;
      static final double kMedTurnF = 0.00;
      public static final double kMedTurnPIDOutputMax = 0.24; // Max motor output in medium PID mode
+     public static final double kPracticeMedTurnPIDOutputMax = 0.24; // Max motor output in medium PID mode
  
      public static final double kSmallTurnPIDLimit = 1; // Errors smaller than this number of degrees should use the small PID profile
      static final double kSmallTurnP = 0.4; //use a very large (relative to normal) P to guarantee max motor output
+     static final double kPracticeSmallTurnP = 0.2; //use a very large (relative to normal) P to guarantee max motor output
      static final double kSmallTurnI = 0.1;
      static final double kSmallTurnD = 0.5;
      static final double kSmallTurnF = 0.00;
      public static final double kSmallTurnPIDOutputMax = 0.19; // Max motor output in small PID mode
+     public static final double kPracticeSmallTurnPIDOutputMax = 0.19; // Max motor output in small PID mode
  
      /* Hardware PID values for the Talon */
      static final double kDistP = 0.075; //Practice bot had .15 but was also overshooting.  
@@ -457,5 +478,25 @@ public class DriveTrain extends Subsystem implements PIDOutput {
      static final double kRightAccelTime = 0.625; // allow for a different accel on right side if needed
      static final int kRightAccelUnits= (int) (kTopSpeed/kRightAccelTime);
  
+     // We also need LOCAL COPIES of the following values, which will start as the constants above but can be overridden by the SmartDashboard via updatePIDValuesFromSD()
+     static double largeTurnP = kLargeTurnP;
+     static double largeTurnI = kLargeTurnI;
+     static double largeTurnD = kLargeTurnD;
+     static double largeTurnF = kLargeTurnF;
+     static double largeTurnPIDOutputMax = kLargeTurnPIDOutputMax;
+     
+ 
+     static double medTurnP = kMedTurnP;
+     static double medTurnI = kMedTurnI;
+     static double medTurnD = kMedTurnD;
+     static double medTurnF = kMedTurnF;
+     static double medTurnPIDOutputMax = kMedTurnPIDOutputMax;
+ 
+     static double smallTurnP = kSmallTurnP;
+     static double smallTurnI = kSmallTurnI;
+     static double smallTurnD = kSmallTurnD;
+     static double smallTurnF = kSmallTurnF;
+     static double smallTurnPIDOutputMax = kSmallTurnPIDOutputMax;
+   
 }
 

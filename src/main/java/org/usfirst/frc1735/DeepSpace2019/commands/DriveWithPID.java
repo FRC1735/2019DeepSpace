@@ -144,20 +144,21 @@ public class DriveWithPID extends Command {
     	//  update our rolling average distance traveled.  We need to compare this AVERAGE when deciding when to terminate.
     	double avgDist = calcAvgDist(Robot.driveTrain.getRightMotor().getSelectedSensorPosition(0));
 
-    	System.out.println(" FLerr: " + Robot.driveTrain.getLeftMotor().getClosedLoopError(0) +
-    			" out_pct: " + Robot.driveTrain.getLeftMotor().getMotorOutputPercent() +
-    			" CLTarget: " + Robot.driveTrain.getLeftMotor().getClosedLoopTarget(0) +
-    			" Pos: " + Robot.driveTrain.getLeftMotor().getSelectedSensorPosition(0) +
-    			" Vel: " + Robot.driveTrain.getLeftMotor().getSelectedSensorVelocity(0) + 
-    			" Mode: " + Robot.driveTrain.getLeftMotor().getControlMode() + 
-    			" AvgDist: " + avgDist + "\n" +
-    			" FRerr: " + Robot.driveTrain.getRightMotor().getClosedLoopError(0) +
-    			" out_pct: " + Robot.driveTrain.getRightMotor().getMotorOutputPercent() +
-    			" CLTarget: " + Robot.driveTrain.getRightMotor().getClosedLoopTarget(0) +
-    			" Pos: " + Robot.driveTrain.getRightMotor().getSelectedSensorPosition(0) +
-    			" Vel: " + Robot.driveTrain.getRightMotor().getSelectedSensorVelocity(0) +
-    			" Mode: " + Robot.driveTrain.getLeftMotor().getControlMode());
-  				
+		if  (Robot.isDbgOn()) { // Use variable rather than print wrapper so that we also avoid all the CAN bus queries...
+			System.out.println(" FLerr: " + Robot.driveTrain.getLeftMotor().getClosedLoopError(0) +
+					" out_pct: " + Robot.driveTrain.getLeftMotor().getMotorOutputPercent() +
+					" CLTarget: " + Robot.driveTrain.getLeftMotor().getClosedLoopTarget(0) +
+					" Pos: " + Robot.driveTrain.getLeftMotor().getSelectedSensorPosition(0) +
+					" Vel: " + Robot.driveTrain.getLeftMotor().getSelectedSensorVelocity(0) + 
+					" Mode: " + Robot.driveTrain.getLeftMotor().getControlMode() + 
+					" AvgDist: " + avgDist + "\n" +
+					" FRerr: " + Robot.driveTrain.getRightMotor().getClosedLoopError(0) +
+					" out_pct: " + Robot.driveTrain.getRightMotor().getMotorOutputPercent() +
+					" CLTarget: " + Robot.driveTrain.getRightMotor().getClosedLoopTarget(0) +
+					" Pos: " + Robot.driveTrain.getRightMotor().getSelectedSensorPosition(0) +
+					" Vel: " + Robot.driveTrain.getRightMotor().getSelectedSensorVelocity(0) +
+					" Mode: " + Robot.driveTrain.getLeftMotor().getControlMode());
+		}
     	//@FIXME:  Should finished be checking BOTH sensors??
     	
     	// The most intuitive thing to check would be the closed loop error, and if it's less than the allowable error we're done.

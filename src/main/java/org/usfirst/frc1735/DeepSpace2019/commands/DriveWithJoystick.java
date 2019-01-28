@@ -48,6 +48,8 @@ public class DriveWithJoystick extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
+        // If we are doing a demo of the robot, we don't want people accidentally driving it off into the sunset.
+        if (Robot.isDemoMode()) return; // and do nothing.
         final Joystick joystickA = Robot.oi.joyLeft;
         final Joystick joystickB = Robot.oi.joyRight;
 
