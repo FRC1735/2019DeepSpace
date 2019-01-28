@@ -316,11 +316,11 @@ public class DriveTrain extends Subsystem implements PIDOutput {
 
     // Autonomous Turn command wants to control the driveline directly in tank mode, so expose as public
     public void tankDrive(final double joystickAY, final double joystickBY) {
-        differentialDrive1.tankDrive(-joystickAY, -joystickBY);
+        differentialDrive1.tankDrive(joystickAY, joystickBY);
     }
 
     private void arcadeDrive(final double joystickX, final double joystickY) {
-        differentialDrive1.arcadeDrive(-joystickY, joystickX, true);
+        differentialDrive1.arcadeDrive(joystickY, joystickX, true);
     }
 
     public void stop() {
