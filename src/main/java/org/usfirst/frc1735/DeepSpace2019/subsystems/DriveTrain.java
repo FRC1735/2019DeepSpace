@@ -110,11 +110,11 @@ public class DriveTrain extends Subsystem {
     }
 
     private void tankDrive(final double joystickAX, final double joystickAY, final double joystickBX, final double joystickBY) {
-        differentialDrive1.tankDrive(-joystickAY, -joystickBY);
+        differentialDrive1.tankDrive(joystickAY, joystickBY);
     }
 
     private void arcadeDrive(final double joystickX, final double joystickY) {
-        differentialDrive1.arcadeDrive(-joystickY, joystickX, true);
+        differentialDrive1.arcadeDrive(joystickY, joystickX, true);
     }
 
     public void stop() {
