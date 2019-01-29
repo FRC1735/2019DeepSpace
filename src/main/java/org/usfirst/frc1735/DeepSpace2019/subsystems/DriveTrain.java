@@ -136,26 +136,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         /* tuning of the Turn Controller's P, I and D coefficients.            */
         /* Typically, only the P value needs to be modified.                   */
         LiveWindow.addActuator("DriveSystem", "RotateController", drivelineController);
-        
-        //Expose thes initial compiled-in settings to the SmartDashboard for development work and overrides.  We will only sample them once, when enabling the robot.
-        // SOME of these values can be different between practice and competition robots, so take that into account for initial settings...
-    	SmartDashboard.putBoolean("TurnAbsolute", true); // Assume absolute mode
-    	SmartDashboard.putNumber("TurnAngle", 0); // If relative, zero means no change.
-        SmartDashboard.putNumber("TurnLP", Robot.isPracticeBot()?kPracticeLargeTurnP:kLargeTurnP);
-    	SmartDashboard.putNumber("TurnLI", kLargeTurnI);
-    	SmartDashboard.putNumber("TurnLD", kLargeTurnD);
-    	SmartDashboard.putNumber("TurnLMax", Robot.isPracticeBot()?kPracticeLargeTurnPIDOutputMax:kLargeTurnPIDOutputMax);
-    	SmartDashboard.putNumber("TurnMP", Robot.isPracticeBot()?kPracticeMedTurnP:kMedTurnP);
-    	SmartDashboard.putNumber("TurnMI", kMedTurnI);
-    	SmartDashboard.putNumber("TurnMD", kMedTurnD);
-    	SmartDashboard.putNumber("TurnMMax", Robot.isPracticeBot()?kPracticeMedTurnPIDOutputMax:kMedTurnPIDOutputMax);
-    	SmartDashboard.putNumber("TurnSP", Robot.isPracticeBot()?kPracticeSmallTurnP:kSmallTurnP);
-    	SmartDashboard.putNumber("TurnSI", kSmallTurnI);
-    	SmartDashboard.putNumber("TurnSD", kSmallTurnD);
-    	SmartDashboard.putNumber("TurnSMax", Robot.isPracticeBot()?kPracticeSmallTurnPIDOutputMax:kSmallTurnPIDOutputMax);
-    	
-    	SmartDashboard.putNumber("TurnErr", kToleranceDegrees);
-    	
+            	
     	//-----------------------------
     	//Hook up to the Limelight
     	//-----------------------------
@@ -348,7 +329,30 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     public void pidWrite(double output) {
         m_rotateToAngleRate = output;
     }
-    
+
+
+    //Expose thes initial compiled-in settings to the SmartDashboard for development work and overrides.  We will only sample them once, when enabling the robot.
+    // SOME of these values can be different between practice and competition robots, so take that into account for initial settings...
+    public static void updatePIDValuesToSD() {
+        // get the current value of PracticeBot from the Smart Dashboard
+        boolean isPracticeBot = Robot.getPracticeBotFromSD();
+    	SmartDashboard.putBoolean("TurnAbsolute", true); // Assume absolute mode
+    	SmartDashboard.putNumber("TurnAngle", 0); // If relative, zero means no change.
+        SmartDashboard.putNumber("TurnLP", isPracticeBot?kPracticeLargeTurnP:kLargeTurnP);
+    	SmartDashboard.putNumber("TurnLI", kLargeTurnI);
+    	SmartDashboard.putNumber("TurnLD", kLargeTurnD);
+    	SmartDashboard.putNumber("TurnLMax", isPracticeBot?kPracticeLargeTurnPIDOutputMax:kLargeTurnPIDOutputMax);
+    	SmartDashboard.putNumber("TurnMP", isPracticeBot?kPracticeMedTurnP:kMedTurnP);
+    	SmartDashboard.putNumber("TurnMI", kMedTurnI);
+    	SmartDashboard.putNumber("TurnMD", kMedTurnD);
+    	SmartDashboard.putNumber("TurnMMax", isPracticeBot?kPracticeMedTurnPIDOutputMax:kMedTurnPIDOutputMax);
+    	SmartDashboard.putNumber("TurnSP", isPracticeBot?kPracticeSmallTurnP:kSmallTurnP);
+    	SmartDashboard.putNumber("TurnSI", kSmallTurnI);
+    	SmartDashboard.putNumber("TurnSD", kSmallTurnD);
+    	SmartDashboard.putNumber("TurnSMax", isPracticeBot?kPracticeSmallTurnPIDOutputMax:kSmallTurnPIDOutputMax);
+    	
+        SmartDashboard.putNumber("TurnErr", kToleranceDegrees);
+}
     // This function samples the PID values from the SmartDashboard and stores them locally.
     //This allows us to change the values from the SmartDashboard, but store them locally for higher performance.
     // Use the current value as the default if SD is broken and doesn't return a value...
