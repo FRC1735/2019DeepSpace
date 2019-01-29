@@ -38,6 +38,8 @@ public class GetDefaultPIDs extends InstantCommand {
     // Called once when this command runs
     @Override
     protected void initialize() {
+        //Grab the compiled-in PID default values (based on current state of PracticeBot switch in the SmartDabhoard) and set the smart dashboard values.
+        Robot.driveTrain.updatePIDValuesToSD();
     }
 
 }

@@ -80,6 +80,9 @@ public class Robot extends TimedRobot {
     public static boolean isPracticeBot() {
         return practiceBot;
     }
+    public static boolean getPracticeBotFromSD() {
+        return SmartDashboard.getBoolean("PracticeBot", false);
+    }
 
 
 
@@ -214,7 +217,7 @@ public class Robot extends TimedRobot {
         Robot.updateDbgModeFromSD();
 
         // Sample the flag for whether the attached robot is a Practice robot, or the Competition robot
-        practiceBot = SmartDashboard.getBoolean("PracticeBot", false);
+        practiceBot = getPracticeBotFromSD();
 
         // Allow the SmartDashboard to override the compiled-in values for the PID values.
         // This could be disabled by commenting out the call, of course.

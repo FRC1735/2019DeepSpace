@@ -2,18 +2,40 @@
   "tabPane": [
     {
       "title": "SmartDashboard",
-      "autoPopulate": true,
+      "autoPopulate": false,
       "autoPopulatePrefix": "SmartDashboard/",
       "widgetPane": {
-        "gridSize": 128.0,
+        "gridSize": 32.0,
         "showGrid": true,
         "hgap": 16.0,
         "vgap": 16.0,
         "tiles": {
-          "0,0": {
+          "6,0": {
             "size": [
-              1,
-              1
+              3,
+              2
+            ],
+            "content": {
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/ResetGyro",
+              "_title": "ResetGyro"
+            }
+          },
+          "4,3": {
+            "size": [
+              4,
+              3
+            ],
+            "content": {
+              "_type": "ComboBox Chooser",
+              "_source0": "network_table:///SmartDashboard/Robot Field Position",
+              "_title": "Robot Field Position"
+            }
+          },
+          "0,3": {
+            "size": [
+              4,
+              3
             ],
             "content": {
               "_type": "ComboBox Chooser",
@@ -21,10 +43,32 @@
               "_title": "Auto mode"
             }
           },
-          "1,0": {
+          "0,0": {
             "size": [
-              1,
-              1
+              3,
+              3
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Drivetrain Mode",
+              "_title": "Drivetrain Mode"
+            }
+          },
+          "3,0": {
+            "size": [
+              3,
+              3
+            ],
+            "content": {
+              "_type": "Toggle Switch",
+              "_source0": "network_table:///SmartDashboard/PracticeBot",
+              "_title": "PracticeBot"
+            }
+          },
+          "9,0": {
+            "size": [
+              4,
+              2
             ],
             "content": {
               "_type": "Text View",
@@ -32,15 +76,37 @@
               "_title": "Joystick Deadzone"
             }
           },
-          "2,0": {
+          "8,3": {
             "size": [
-              1,
-              1
+              3,
+              2
             ],
             "content": {
-              "_type": "Command",
-              "_source0": "network_table:///SmartDashboard/Autonomous Command",
-              "_title": "Autonomous Command"
+              "_type": "Toggle Switch",
+              "_source0": "network_table:///SmartDashboard/SquaredInputs",
+              "_title": "SquaredInputs"
+            }
+          },
+          "5,7": {
+            "size": [
+              4,
+              2
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///limelight/camMode",
+              "_title": "/limelight/camMode"
+            }
+          },
+          "2,7": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///limelight/ledMode",
+              "_title": "/limelight/ledMode"
             }
           }
         }
@@ -51,15 +117,15 @@
       "autoPopulate": true,
       "autoPopulatePrefix": "LiveWindow/",
       "widgetPane": {
-        "gridSize": 128.0,
+        "gridSize": 32.0,
         "showGrid": true,
         "hgap": 16.0,
         "vgap": 16.0,
         "tiles": {
           "0,0": {
             "size": [
-              2,
-              4
+              9,
+              9
             ],
             "content": {
               "_type": "Subsystem Layout",
@@ -78,17 +144,487 @@
               ]
             }
           },
-          "2,0": {
+          "20,1": {
             "size": [
-              2,
-              4
+              7,
+              1
+            ],
+            "content": {
+              "_type": "Network Table Tree",
+              "_source0": "network_table:///LiveWindow/DriveSystem",
+              "_title": "DriveSystem"
+            }
+          },
+          "10,0": {
+            "size": [
+              9,
+              11
             ],
             "content": {
               "_type": "Subsystem Layout",
               "_source0": "network_table:///LiveWindow/Ungrouped",
               "_title": "Ungrouped",
               "Layout/Label position": "BOTTOM",
-              "_children": []
+              "_children": [
+                {
+                  "_type": "Speed Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/Victor SPX [3]",
+                  "_title": "Victor SPX [3]",
+                  "Visuals/Orientation": "HORIZONTAL"
+                },
+                {
+                  "_type": "Speed Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/Victor SPX [4]",
+                  "_title": "Victor SPX [4]",
+                  "Visuals/Orientation": "HORIZONTAL"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Autonomous",
+      "autoPopulate": false,
+      "autoPopulatePrefix": "",
+      "widgetPane": {
+        "gridSize": 32.0,
+        "showGrid": true,
+        "hgap": 16.0,
+        "vgap": 16.0,
+        "tiles": {
+          "9,7": {
+            "size": [
+              3,
+              2
+            ],
+            "content": {
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/AutonomousExperiment",
+              "_title": "/SmartDashboard/AutonomousExperiment"
+            }
+          },
+          "13,7": {
+            "size": [
+              3,
+              2
+            ],
+            "content": {
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/Autonomous Command",
+              "_title": "/SmartDashboard/Autonomous Command"
+            }
+          },
+          "9,5": {
+            "size": [
+              7,
+              2
+            ],
+            "content": {
+              "_type": "ComboBox Chooser",
+              "_source0": "network_table:///SmartDashboard/Auto mode",
+              "_title": "/SmartDashboard/Auto mode"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Drive",
+      "autoPopulate": false,
+      "autoPopulatePrefix": "",
+      "widgetPane": {
+        "gridSize": 32.0,
+        "showGrid": true,
+        "hgap": 16.0,
+        "vgap": 16.0,
+        "tiles": {
+          "6,0": {
+            "size": [
+              3,
+              3
+            ],
+            "content": {
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/DriveWithPID",
+              "_title": "SmartDashboard/DriveWithPID"
+            }
+          },
+          "0,0": {
+            "size": [
+              3,
+              3
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Drivetrain Mode",
+              "_title": "SmartDashboard/Drivetrain Mode"
+            }
+          },
+          "0,3": {
+            "size": [
+              5,
+              3
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Joystick Deadzone",
+              "_title": "SmartDashboard/Joystick Deadzone"
+            }
+          },
+          "5,3": {
+            "size": [
+              3,
+              2
+            ],
+            "content": {
+              "_type": "Toggle Switch",
+              "_source0": "network_table:///SmartDashboard/SquaredInputs",
+              "_title": "SmartDashboard/SquaredInputs"
+            }
+          },
+          "3,0": {
+            "size": [
+              3,
+              3
+            ],
+            "content": {
+              "_type": "Toggle Switch",
+              "_source0": "network_table:///SmartDashboard/PracticeBot",
+              "_title": "SmartDashboard/PracticeBot"
+            }
+          },
+          "13,0": {
+            "size": [
+              4,
+              10
+            ],
+            "content": {
+              "_type": "List Layout",
+              "_title": "List",
+              "Layout/Label position": "BOTTOM",
+              "_children": [
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/P",
+                  "_title": "SmartDashboard/P"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/I",
+                  "_title": "SmartDashboard/I"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/D",
+                  "_title": "SmartDashboard/D"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/F",
+                  "_title": "SmartDashboard/F"
+                }
+              ]
+            }
+          },
+          "9,0": {
+            "size": [
+              4,
+              10
+            ],
+            "content": {
+              "_type": "List Layout",
+              "_title": "List",
+              "Layout/Label position": "BOTTOM",
+              "_children": [
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/Cruise Dist",
+                  "_title": "SmartDashboard/Cruise Dist"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/Cruise SpeedDir",
+                  "_title": "SmartDashboard/Cruise SpeedDir"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/Cruise Accel",
+                  "_title": "SmartDashboard/Cruise Accel"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/Cruise R Accel",
+                  "_title": "SmartDashboard/Cruise R Accel"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Turn",
+      "autoPopulate": false,
+      "autoPopulatePrefix": "",
+      "widgetPane": {
+        "gridSize": 32.0,
+        "showGrid": true,
+        "hgap": 16.0,
+        "vgap": 16.0,
+        "tiles": {
+          "0,0": {
+            "size": [
+              3,
+              2
+            ],
+            "content": {
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/ResetGyro",
+              "_title": "SmartDashboard/ResetGyro"
+            }
+          },
+          "0,2": {
+            "size": [
+              3,
+              2
+            ],
+            "content": {
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/Turn: FromSD",
+              "_title": "SmartDashboard/Turn: FromSD"
+            }
+          },
+          "0,6": {
+            "size": [
+              3,
+              2
+            ],
+            "content": {
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/Turn: abs90",
+              "_title": "SmartDashboard/Turn: abs90"
+            }
+          },
+          "0,4": {
+            "size": [
+              3,
+              2
+            ],
+            "content": {
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/Turn: absZero",
+              "_title": "SmartDashboard/Turn: absZero"
+            }
+          },
+          "11,3": {
+            "size": [
+              3,
+              2
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/PID Mode",
+              "_title": "SmartDashboard/PID Mode"
+            }
+          },
+          "11,0": {
+            "size": [
+              3,
+              3
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Yaw",
+              "_title": "SmartDashboard/Yaw"
+            }
+          },
+          "3,2": {
+            "size": [
+              3,
+              2
+            ],
+            "content": {
+              "_type": "Toggle Switch",
+              "_source0": "network_table:///SmartDashboard/TurnAbsolute",
+              "_title": "SmartDashboard/TurnAbsolute"
+            }
+          },
+          "6,2": {
+            "size": [
+              3,
+              2
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/TurnAngle",
+              "_title": "SmartDashboard/TurnAngle"
+            }
+          },
+          "9,2": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/TurnErr",
+              "_title": "SmartDashboard/TurnErr"
+            }
+          },
+          "14,0": {
+            "size": [
+              4,
+              7
+            ],
+            "content": {
+              "_type": "List Layout",
+              "_title": "List",
+              "Layout/Label position": "BOTTOM",
+              "_children": [
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/TurnLP",
+                  "_title": "SmartDashboard/TurnLP"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/TurnLI",
+                  "_title": "SmartDashboard/TurnLI"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/TurnLD",
+                  "_title": "SmartDashboard/TurnLD"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/TurnLMax",
+                  "_title": "SmartDashboard/TurnLMax"
+                }
+              ]
+            }
+          },
+          "18,0": {
+            "size": [
+              4,
+              7
+            ],
+            "content": {
+              "_type": "Subsystem Layout",
+              "_title": "List",
+              "Layout/Label position": "BOTTOM",
+              "_children": [
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/TurnMP",
+                  "_title": "SmartDashboard/TurnMP"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/TurnMI",
+                  "_title": "SmartDashboard/TurnMI"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/TurnMD",
+                  "_title": "SmartDashboard/TurnMD"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/TurnMMax",
+                  "_title": "SmartDashboard/TurnMMax"
+                }
+              ]
+            }
+          },
+          "22,0": {
+            "size": [
+              4,
+              7
+            ],
+            "content": {
+              "_type": "List Layout",
+              "_title": "List",
+              "Layout/Label position": "BOTTOM",
+              "_children": [
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/TurnSP",
+                  "_title": "SmartDashboard/TurnSP"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/TurnSI",
+                  "_title": "SmartDashboard/TurnSI"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/TurnSD",
+                  "_title": "SmartDashboard/TurnSD"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/TurnSMax",
+                  "_title": "SmartDashboard/TurnSMax"
+                }
+              ]
+            }
+          },
+          "11,5": {
+            "size": [
+              3,
+              2
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/MotorOut",
+              "_title": "SmartDashboard/MotorOut"
+            }
+          },
+          "10,7": {
+            "size": [
+              3,
+              2
+            ],
+            "content": {
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/GetDefaultPIDs",
+              "_title": "/SmartDashboard/GetDefaultPIDs"
+            }
+          },
+          "10,10": {
+            "size": [
+              3,
+              2
+            ],
+            "content": {
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/UpdateDebugEnable",
+              "_title": "/SmartDashboard/UpdateDebugEnable"
+            }
+          },
+          "10,12": {
+            "size": [
+              3,
+              3
+            ],
+            "content": {
+              "_type": "Toggle Switch",
+              "_source0": "network_table:///SmartDashboard/Demo Mode",
+              "_title": "SmartDashboard/Demo Mode"
+            }
+          },
+          "14,12": {
+            "size": [
+              3,
+              3
+            ],
+            "content": {
+              "_type": "Toggle Switch",
+              "_source0": "network_table:///SmartDashboard/Master Debug Enable",
+              "_title": "SmartDashboard/Master Debug Enable"
             }
           }
         }
@@ -98,7 +634,7 @@
   "windowGeometry": {
     "x": 0.0,
     "y": 0.0,
-    "width": 1368.0,
-    "height": 872.0
+    "width": 2133.333251953125,
+    "height": 954.6666870117188
   }
 }
