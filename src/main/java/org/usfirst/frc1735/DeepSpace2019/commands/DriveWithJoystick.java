@@ -58,6 +58,8 @@ public class DriveWithJoystick extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
+        // If we are doing a demo of the robot, we don't want people accidentally driving it off into the sunset.
+        if (Robot.isDemoMode()) return; // and do nothing.
         if (joystickLeft.isCapableOfSoloTankMode()) {
             Robot.driveTrain.drive(applyDeadzoneFilter(joystickLeft.getX()), 
                         -applyDeadzoneFilter(joystickLeft.getY()),
