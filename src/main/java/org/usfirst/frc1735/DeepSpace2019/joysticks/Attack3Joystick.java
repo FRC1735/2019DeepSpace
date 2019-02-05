@@ -28,11 +28,17 @@ public class Attack3Joystick extends AbstractJoystick {
     void initializeKeymap() {
         switch (role) {
             case DRIVER_LEFT:
-                Robot.oi.arcadeMode = new JoystickButton(joystick, 2);
+                Robot.oi.arcadeMode = new JoystickButton(joystick, 11);
                 Robot.oi.arcadeMode.whenPressed(new EnterArcadeMode());
                 
-                Robot.oi.tankMode = new JoystickButton(joystick, 1);
+                Robot.oi.tankMode = new JoystickButton(joystick, 10);
                 Robot.oi.tankMode.whenPressed(new EnterTankMode());
+
+                Robot.oi.clawIn = new JoystickButton(joystick, 2);
+                Robot.oi.clawIn.whenHeld(new ClawCmd(Claw.in));
+
+                Robot.oi.clawOut = new JoystickButton(joystick, 1);
+                Robot.oi.clawOut.whenHeld(new ClawCmd(Claw.out));
                 break;  
            
             case DRIVER_RIGHT:

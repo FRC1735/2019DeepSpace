@@ -22,6 +22,12 @@ public class LogitechDualActionJoystick extends AbstractJoystick {
 
                 Robot.oi.tankMode = new JoystickButton(joystick, 4);
                 Robot.oi.tankMode.whenPressed(new EnterTankMode());
+
+                Robot.oi.clawIn = new JoystickButton(joystick, 2);
+                Robot.oi.clawIn.whenHeld(new ClawCmd(Claw.in));
+
+                Robot.oi.clawOut = new JoystickButton(joystick, 3);
+                Robot.oi.clawOut.whenHeld(new ClawCmd(Claw.out));
                 break;
 
             case DRIVER_RIGHT:
