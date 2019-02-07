@@ -252,7 +252,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         rightFollower.setNeutralMode(NeutralMode.Coast);
         
         // When driving in Open Loop mode via the differentialDrive object, turn on the WPILib safety checks
-        differentialDrive1.setSafetyEnabled(true);
+        differentialDrive1.setSafetyEnabled(false);
 
     }
 
@@ -282,7 +282,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         rightMotor.setSelectedSensorPosition(0,0,0); // position, PIDidx (0= normal), timeout in ms
    	
         // When driving in PID mode, turn off the WPILib safety checks
-        differentialDrive1.setSafetyEnabled(false);
+        differentialDrive1.setSafetyEnabled(true);
     }
 
     public void drive(final double joystickAX, final double joystickAY, final double joystickBX, final double joystickBY) {

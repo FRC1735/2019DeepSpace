@@ -1,8 +1,10 @@
 package org.usfirst.frc1735.DeepSpace2019.joysticks;
 
 import org.usfirst.frc1735.DeepSpace2019.Robot;
+import org.usfirst.frc1735.DeepSpace2019.commands.ClawCmd;
 import org.usfirst.frc1735.DeepSpace2019.commands.EnterArcadeMode;
 import org.usfirst.frc1735.DeepSpace2019.commands.EnterTankMode;
+import org.usfirst.frc1735.DeepSpace2019.subsystems.Claw;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -22,6 +24,12 @@ public class LogitechDualActionJoystick extends AbstractJoystick {
 
                 Robot.oi.tankMode = new JoystickButton(joystick, 4);
                 Robot.oi.tankMode.whenPressed(new EnterTankMode());
+
+                Robot.oi.clawIn = new JoystickButton(joystick, 2);
+                Robot.oi.clawIn.whileHeld(new ClawCmd(Claw.in));
+
+                Robot.oi.clawOut = new JoystickButton(joystick, 3);
+                Robot.oi.clawOut.whileHeld(new ClawCmd(Claw.out));
                 break;
 
             case DRIVER_RIGHT:
