@@ -156,7 +156,7 @@ Children:
           default: '1'
           name: Button
           validators: null
-          value: '1'
+          value: '32'
         Command: !!robotbuilder.data.properties.TypeSelectionProperty
           default: None
           name: Command
@@ -185,7 +185,7 @@ Children:
           default: '1'
           name: Button
           validators: null
-          value: '2'
+          value: '32'
         Command: !!robotbuilder.data.properties.TypeSelectionProperty
           default: None
           name: Command
@@ -216,7 +216,7 @@ Children:
           default: '1'
           name: Button
           validators: null
-          value: '3'
+          value: '32'
         Command: !!robotbuilder.data.properties.TypeSelectionProperty
           default: None
           name: Command
@@ -247,7 +247,7 @@ Children:
           default: '1'
           name: Button
           validators: null
-          value: '4'
+          value: '32'
         Command: !!robotbuilder.data.properties.TypeSelectionProperty
           default: None
           name: Command
@@ -594,7 +594,10 @@ Children:
       Requires: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
         name: Requires, type: Subsystem, validators: null, value: Claw}
       Parameter presets: !!robotbuilder.data.properties.ParameterSetProperty
-        default: &id010
+        default: []
+        name: Parameter presets
+        validators: null
+        value:
         - !!robotbuilder.data.properties.ParameterSet
           name: stop
           parameters:
@@ -607,9 +610,6 @@ Children:
           name: in
           parameters:
           - {name: magDir, type: double, value: '-1'}
-        name: Parameter presets
-        validators: null
-        value: *id010
       Button on SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: true,
         name: Button on SmartDashboard, validators: null, value: false}
     Base: Command

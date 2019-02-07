@@ -50,10 +50,10 @@ public class XBoxJoystick extends AbstractJoystick {
                 Robot.oi.tankMode.whenPressed(new EnterTankMode());
 
                 Robot.oi.clawIn = new JoystickButton(joystick, 1);
-                Robot.oi.clawIn.whenHeld(new ClawCmd(Claw.in));
+                Robot.oi.clawIn.whileHeld(new ClawCmd(Claw.in));
 
                 Robot.oi.clawOut = new JoystickButton(joystick, 2);
-                Robot.oi.clawOut.whenHeld(new ClawCmd(Claw.out));
+                Robot.oi.clawOut.whileHeld(new ClawCmd(Claw.out));
 
                 break;
 

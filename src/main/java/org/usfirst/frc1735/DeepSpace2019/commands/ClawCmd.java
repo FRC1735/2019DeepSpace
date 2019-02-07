@@ -46,7 +46,7 @@ public class ClawCmd extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        Claw.clawMove(m_magDir);
+        Robot.claw.clawMove(m_magDir);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -58,13 +58,15 @@ public class ClawCmd extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        Claw.clawMove(0);
+        System.out.println("ClawCmd End");
+        Robot.claw.clawMove(0);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     @Override
     protected void interrupted() {
+        System.out.println("ClawCmd Int");
         end();
     }
 }

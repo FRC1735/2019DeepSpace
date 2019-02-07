@@ -72,8 +72,8 @@ public class Claw extends Subsystem {
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-    public static void clawMove(double magDir) {
-        clawMotor.set(magDir);
+    public void clawMove(double magDir) {
+        this.clawMotor.set(magDir);
     }   
 
     //variables for controlling direction

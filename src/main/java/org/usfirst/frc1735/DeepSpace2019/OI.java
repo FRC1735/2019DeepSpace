@@ -13,6 +13,7 @@ package org.usfirst.frc1735.DeepSpace2019;
 
 import org.usfirst.frc1735.DeepSpace2019.commands.AutonomousCommand;
 import org.usfirst.frc1735.DeepSpace2019.commands.AutonomousExperiment;
+import org.usfirst.frc1735.DeepSpace2019.commands.ClawCmd;
 import org.usfirst.frc1735.DeepSpace2019.commands.DriveWithPID;
 import org.usfirst.frc1735.DeepSpace2019.commands.EnterArcadeMode;
 import org.usfirst.frc1735.DeepSpace2019.commands.EnterTankMode;
@@ -76,13 +77,13 @@ public class OI {
 
         joyLeft = new Joystick(0);
         
-        clawOut = new JoystickButton(joyLeft, 4);
+        clawOut = new JoystickButton(joyLeft, 32);
         clawOut.whileHeld(new ClawCmd(1));
-        clawIn = new JoystickButton(joyLeft, 3);
+        clawIn = new JoystickButton(joyLeft, 32);
         clawIn.whileHeld(new ClawCmd(-1));
-        arcadeMode = new JoystickButton(joyLeft, 2);
+        arcadeMode = new JoystickButton(joyLeft, 32);
         arcadeMode.whenPressed(new EnterArcadeMode());
-        tankMode = new JoystickButton(joyLeft, 1);
+        tankMode = new JoystickButton(joyLeft, 32);
         tankMode.whenPressed(new EnterTankMode());
         joyRight = new Joystick(1);
         

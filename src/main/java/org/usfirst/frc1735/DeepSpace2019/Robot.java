@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.SPI;
 import org.usfirst.frc1735.DeepSpace2019.commands.AutonomousCommand;
 import org.usfirst.frc1735.DeepSpace2019.commands.AutonomousExperiment;
 import org.usfirst.frc1735.DeepSpace2019.smartdashboard.SmartDashboardKeys;
+import org.usfirst.frc1735.DeepSpace2019.subsystems.Claw;
 import org.usfirst.frc1735.DeepSpace2019.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.DriverStation;
