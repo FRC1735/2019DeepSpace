@@ -58,7 +58,6 @@ public class ClawCmd extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        System.out.println("ClawCmd End");
         Robot.claw.clawMove(0);
     }
 
@@ -66,7 +65,6 @@ public class ClawCmd extends Command {
     // subsystems is scheduled to run
     @Override
     protected void interrupted() {
-        System.out.println("ClawCmd Int");
         end();
     }
 }
