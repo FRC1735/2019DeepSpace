@@ -83,6 +83,13 @@ public class AlienDeployer extends Subsystem {
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
+    public void alienDeployerMove(double magDir){
+        this.alienDeployerMotor.set(magDir);
+    }
 
+    //variables for controlling direction
+    public static final double stop=0;
+    public static final double out=1.0;
+    public static final double in=-1.0;
 }
 

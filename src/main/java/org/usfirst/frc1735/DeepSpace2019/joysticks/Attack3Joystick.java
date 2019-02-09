@@ -2,10 +2,14 @@ package org.usfirst.frc1735.DeepSpace2019.joysticks;
 
 
 import org.usfirst.frc1735.DeepSpace2019.Robot;
+import org.usfirst.frc1735.DeepSpace2019.commands.AlienDeploy;
 import org.usfirst.frc1735.DeepSpace2019.commands.ClawCmd;
 import org.usfirst.frc1735.DeepSpace2019.commands.EnterArcadeMode;
 import org.usfirst.frc1735.DeepSpace2019.commands.EnterTankMode;
+import org.usfirst.frc1735.DeepSpace2019.commands.HatchManipulator;
+import org.usfirst.frc1735.DeepSpace2019.subsystems.AlienDeployer;
 import org.usfirst.frc1735.DeepSpace2019.subsystems.Claw;
+import org.usfirst.frc1735.DeepSpace2019.subsystems.HatchGrabber;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -44,8 +48,17 @@ public class Attack3Joystick extends AbstractJoystick {
                 break;  
            
             case DRIVER_RIGHT:
+                break;
+
             case OPERATOR:
-                // TODO
+                Robot.oi.releaseHatch = new JoystickButton(joystick, 5);
+                Robot.oi.releaseHatch.whenPressed(new HatchManipulator(HatchGrabber.out));
+                Robot.oi.grabHatch = new JoystickButton(joystick, 4);
+                Robot.oi.grabHatch.whenPressed(new HatchManipulator(HatchGrabber.in));
+                Robot.oi.alienAttack = new JoystickButton(joystick, 3);
+                Robot.oi.alienAttack.whenPressed(new AlienDeploy(AlienDeployer.out));
+                Robot.oi.alienRetreat = new JoystickButton(joystick, 2);
+                Robot.oi.alienRetreat.whenPressed(new AlienDeploy(AlienDeployer.in));
                 break;
         }
     }

@@ -71,6 +71,13 @@ public class HatchGrabber extends Subsystem {
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
+    public void hatchGrabberMove(double magDir){
+        this.hatchGrabberMotor.set(magDir);
+    }
 
+    //variables for controlling direction
+    public static final double stop=0;
+    public static final double out=1.0;
+    public static final double in=-1.0;
 }
 
