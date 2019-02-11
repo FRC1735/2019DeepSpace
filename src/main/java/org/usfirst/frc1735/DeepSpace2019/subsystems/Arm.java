@@ -14,8 +14,11 @@ package org.usfirst.frc1735.DeepSpace2019.subsystems;
 
 import org.usfirst.frc1735.DeepSpace2019.commands.*;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 
@@ -71,33 +74,37 @@ public class Arm extends Subsystem {
 
     @Override
     public void periodic() {
-        liveUpdateFromSD();
-        SmartDashboard.putNumber("ProcessVariableArm", m_encoder.getPosition()); // Current encoder value (in rotations?)
+        updatePIDsFromSD(); // optionally update the current PIDs from the SD.  Comment out to avoid this.
+        updateSetpointFromSD(); // optionally update the controller setpoint based on above calculations.  Comment out to avoid this.
+        m_processVariableArmEntry.setDouble(m_encoder.getPosition()); // Current encoder value (in rotations?)
     }
 
-    public void liveUpdateFromSD() {
-         // Put code here to be run every loop
-        // read PID coefficients from SmartDashboard
-        double p = SmartDashboard.getNumber("P Arm", 0);
-        double i = SmartDashboard.getNumber("I Arm", 0);
-        double d = SmartDashboard.getNumber("D Arm", 0);
-        double iz = SmartDashboard.getNumber("I Zone Arm", 0);
-        double ff = SmartDashboard.getNumber("Feed Forward Arm", 0);
-        double max = SmartDashboard.getNumber("Max Output Arm", 0);
-        double min = SmartDashboard.getNumber("Min OutputArm", 0);
-        double rotations = SmartDashboard.getNumber("Set Rotations Arm", 0);
+    // This function causes all thelocal/active PID coefficients and related controller variables to be updated based on whatever's in the SmartDashboard.
+    // Can be called in the above periodic() function, or intiated by a Command button on the SmartDashboard
+    public void updatePIDsFromSD() {
+        // read PID coefficients from SmartDashboard (Arg is the default)
+        double p = m_pArmEntry.getDouble(0);
+        double i = m_iArmEntry.getDouble(0);
+        double d = m_dArmEntry.getDouble(0);
+        double iz = m_izArmEntry.getDouble(0);
+        double ff = m_ffArmEntry.getDouble(0);
+        double max = m_maxOutputArmEntry.getDouble(0);
+        double min = m_minOutputArmEntry.getDouble(0);
 
-        // if PID coefficients on SmartDashboard have changed, write new values to controller
-        if((p != pArm)) { m_pidController.setP(p); pArm = p; }
-        if((i != iArm)) { m_pidController.setI(i); iArm = i; }
-        if((d != dArm)) { m_pidController.setD(d); dArm = d; }
-        if((iz != izArm)) { m_pidController.setIZone(iz); izArm = iz; }
-        if((ff != ffArm)) { m_pidController.setFF(ff); ffArm = ff; }
-        if((max != maxOutputArm) || (min != minOutputArm)) { 
+        // if PID coefficients on SmartDashboard are different from our latest operating values, write the new values to controller and store them locally.
+        if((p != m_pArm)) { m_pidController.setP(p); m_pArm = p; }
+        if((i != m_iArm)) { m_pidController.setI(i); m_iArm = i; }
+        if((d != m_dArm)) { m_pidController.setD(d); m_dArm = d; }
+        if((iz != m_izArm)) { m_pidController.setIZone(iz); m_izArm = iz; }
+        if((ff != m_ffArm)) { m_pidController.setFF(ff); m_ffArm = ff; }
+        if((max != m_maxOutputArm) || (min != m_minOutputArm)) { 
         m_pidController.setOutputRange(min, max); 
-        minOutputArm = min; maxOutputArm = max; 
+        m_minOutputArm = min; m_maxOutputArm = max;
         }
+    }
 
+    // Update the setpoint based on the current ARM member variable
+    void updateSetpointFromSD() {
         /**
          * PIDController objects are commanded to a set point using the 
          * SetReference() method.
@@ -112,14 +119,14 @@ public class Arm extends Subsystem {
          *  com.revrobotics.ControlType.kVelocity
          *  com.revrobotics.ControlType.kVoltage
          */
-        m_pidController.setReference(rotations, ControlType.kPosition);
-        
-        SmartDashboard.putNumber("SetPoint Arm", rotations);
-        // moved to periodic directly
-        // SmartDashboard.putNumber("ProcessVariable", m_encoder.getPosition());
-
+        double rotations = m_setpointArmEntry.getDouble(0);
+        if ((rotations != m_setpointRotationsArm)) {
+            m_setpointRotationsArm = rotations;
+            m_pidController.setReference(m_setpointRotationsArm, ControlType.kPosition);
+        }
     }
 
+    // One-time initialization of the ARM PID controller and hardware.  Called by Robot.robotInit()
     public void initArm() {
         m_pidController = armMotor.getPIDController();
 
@@ -127,37 +134,37 @@ public class Arm extends Subsystem {
         m_encoder = armMotor.getEncoder();
         
         // set PID coefficients
-        m_pidController.setP(kPArm);
         m_pidController.setI(kIArm);
         m_pidController.setD(kDArm);
         m_pidController.setIZone(kIzArm);
         m_pidController.setFF(kFFArm);
         m_pidController.setOutputRange(kMinOutputArm, kMaxOutputArm);
     
-        // display PID coefficients on SmartDashboard
-        SmartDashboard.putNumber("P Arm", kPArm);
-        SmartDashboard.putNumber("I Arm", kIArm);
-        SmartDashboard.putNumber("D Arm", kDArm);
-        SmartDashboard.putNumber("I Zone Arm", kIzArm);
-        SmartDashboard.putNumber("Feed Forward Arm", kFFArm);
-        SmartDashboard.putNumber("Max Output Arm", kMaxOutputArm);
-        SmartDashboard.putNumber("Min Output Arm", kMinOutputArm);
-        SmartDashboard.putNumber("Set Rotations Arm", 0);
-    
+        // display PID coefficients on Shuffleboard (and create references to each entry at the same time)
+        m_armTab = Shuffleboard.getTab("Arm"); // Creates tab if it doesn't already exist.
+        m_pArmEntry = m_armTab.add("P Arm", kPArm).getEntry();
+        m_iArmEntry = m_armTab.add("I Arm", kIArm).getEntry();
+        m_dArmEntry = m_armTab.add("D Arm", kDArm).getEntry();
+        m_izArmEntry = m_armTab.add("I Zone Arm", kIzArm).getEntry();
+        m_ffArmEntry = m_armTab.add("Feed Forward Arm", kFFArm).getEntry();
+        m_maxOutputArmEntry = m_armTab.add("Max Output Arm", kMaxOutputArm).getEntry();
+        m_minOutputArmEntry = m_armTab.add("Min Output Arm", kMinOutputArm).getEntry();
+        m_setpointArmEntry = m_armTab.add("Set Rotations Arm", 0).getEntry();
+        m_processVariableArmEntry = m_armTab.add("ProcessVariable Arm", m_encoder.getPosition()).getEntry();
     }
+
     // Simple function to directly control the motor without any PID
     public void simpleMoveArm(double magDir) {
         armMotor.set(magDir);
     }
 
-    // Joystick value modifies PID setting for ARM
+    //Use this function to use a joystick value to modifies PID setpoint for the ARM
     public void PIDMoveArm(double magDir) {
-        //magdir is corrected for joystick values before getting here.
+        //magdir is assumed to be corrected for joystick Y values before getting here.
         // range is +1 to -1.  We want to map that so that +1 is the forward-most position of the arm/encoder, and -1 is the rearmost (With zero being straight up)
         // Assume (for now) symmetric values for fwd vs backward.
         double setpointArm = magDir * kMaxArmVal;
         m_pidController.setReference(setpointArm, ControlType.kPosition);
-
     }
 
 
@@ -166,14 +173,26 @@ public class Arm extends Subsystem {
 
     // END AUTOGENERATED CODE, SOURCE=ROBOTBUILDER ID=CMDPIDGETTERS
 
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
-
     // Member variables
+    // Pointer to the Shuffleboard tab for the Arm:
+    ShuffleboardTab m_armTab;
+    // Entries for each of the values we want to manipulate in the tab
+    NetworkTableEntry m_pArmEntry;
+    NetworkTableEntry m_iArmEntry;
+    NetworkTableEntry m_dArmEntry;
+    NetworkTableEntry m_ffArmEntry;
+    NetworkTableEntry m_izArmEntry;
+    NetworkTableEntry m_maxOutputArmEntry;
+    NetworkTableEntry m_minOutputArmEntry;
+    NetworkTableEntry m_setpointArmEntry; // Change this to modify the setpoint (in rotations)
+    NetworkTableEntry m_processVariableArmEntry; // current encoder position (Value?  Rotations?)
+    
+
     // Arm setpoints:
     //    Max rotation is 240', which is +/-120 if zero is Top Dead Center.
     //    Therefore, in rotations, each direction is .33333333 rotations.
     static final double kMaxArmVal = .25; // start with 0.25 so that we don't get close to the hard limits while testing.  We'll sneak up on the final value when tuning.
+    static double m_setpointRotationsArm = 0; // for live updates via SD, this is the current/latest setpoint captured.
 
     // Arm PID coefficients (compiled-in; can override via SD)
     static final double kPArm = 0.3; 
@@ -185,13 +204,12 @@ public class Arm extends Subsystem {
     static final double kMinOutputArm = -0.4;
     
     // Current Arm PID coefficients (pulled from compile or SD)
-    static double pArm = kPArm; 
-    static double iArm = kIArm;
-    static double dArm = kDArm; 
-    static double izArm = kIzArm; 
-    static double ffArm = kFFArm; 
-    static double maxOutputArm = kMaxOutputArm;  // May adjust this higher later...
-    static double minOutputArm = kMinOutputArm;
-   
+    static double m_pArm = kPArm; 
+    static double m_iArm = kIArm;
+    static double m_dArm = kDArm; 
+    static double m_izArm = kIzArm; 
+    static double m_ffArm = kFFArm; 
+    static double m_maxOutputArm = kMaxOutputArm;  // May adjust this higher later...
+    static double m_minOutputArm = kMinOutputArm;
 }
 

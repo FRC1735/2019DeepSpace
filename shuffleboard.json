@@ -180,6 +180,44 @@
                 }
               ]
             }
+          },
+          "27,0": {
+            "size": [
+              6,
+              11
+            ],
+            "content": {
+              "_type": "Subsystem Layout",
+              "_source0": "network_table:///LiveWindow/Claw",
+              "_title": "Claw",
+              "Layout/Label position": "BOTTOM",
+              "_children": [
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/Claw/ClawMotor/Value",
+                  "_title": "ClawMotor/Value"
+                },
+                {
+                  "_type": "Speed Controller",
+                  "_source0": "network_table:///LiveWindow/Claw/ClawMotor",
+                  "_title": "ClawMotor",
+                  "Visuals/Orientation": "HORIZONTAL"
+                }
+              ]
+            }
+          },
+          "33,0": {
+            "size": [
+              6,
+              11
+            ],
+            "content": {
+              "_type": "Subsystem Layout",
+              "_source0": "network_table:///LiveWindow/Arm",
+              "_title": "Arm",
+              "Layout/Label position": "BOTTOM",
+              "_children": []
+            }
           }
         }
       }
@@ -625,6 +663,130 @@
               "_type": "Toggle Switch",
               "_source0": "network_table:///SmartDashboard/Master Debug Enable",
               "_title": "SmartDashboard/Master Debug Enable"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Arm",
+      "autoPopulate": false,
+      "autoPopulatePrefix": "",
+      "widgetPane": {
+        "gridSize": 32.0,
+        "showGrid": true,
+        "hgap": 16.0,
+        "vgap": 16.0,
+        "tiles": {
+          "14,2": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/D Gain",
+              "_title": "/SmartDashboard/D Gain"
+            }
+          },
+          "16,2": {
+            "size": [
+              3,
+              2
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Feed Forward",
+              "_title": "/SmartDashboard/Feed Forward"
+            }
+          },
+          "10,2": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/P Gain",
+              "_title": "/SmartDashboard/P Gain"
+            }
+          },
+          "12,2": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/I Gain",
+              "_title": "/SmartDashboard/I Gain"
+            }
+          },
+          "10,5": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Max Output",
+              "_title": "/SmartDashboard/Max Output"
+            }
+          },
+          "12,5": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Min Output",
+              "_title": "/SmartDashboard/Min Output"
+            }
+          },
+          "14,7": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/ProcessVariable",
+              "_title": "/SmartDashboard/ProcessVariable"
+            }
+          },
+          "21,5": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Set Rotations",
+              "_title": "/SmartDashboard/Set Rotations"
+            }
+          },
+          "16,7": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/SetPoint",
+              "_title": "/SmartDashboard/SetPoint"
+            }
+          },
+          "0,0": {
+            "size": [
+              3,
+              3
+            ],
+            "content": {
+              "_type": "List Layout",
+              "_title": "List Layout",
+              "Layout/Label position": "BOTTOM",
+              "_children": []
             }
           }
         }
