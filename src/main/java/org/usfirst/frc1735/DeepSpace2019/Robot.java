@@ -15,6 +15,8 @@ import com.kauailabs.navx.frc.AHRS;
 
 import org.usfirst.frc1735.DeepSpace2019.commands.AutonomousCommand;
 import org.usfirst.frc1735.DeepSpace2019.commands.AutonomousExperiment;
+import org.usfirst.frc1735.DeepSpace2019.joysticks.JoystickFactory;
+import org.usfirst.frc1735.DeepSpace2019.joysticks.Role;
 import org.usfirst.frc1735.DeepSpace2019.smartdashboard.SmartDashboardKeys;
 import org.usfirst.frc1735.DeepSpace2019.subsystems.AlienDeployer;
 import org.usfirst.frc1735.DeepSpace2019.subsystems.Arm;
@@ -143,8 +145,9 @@ public class Robot extends TimedRobot {
     	ahrs.zeroYaw(); // Init the gyro to zero degrees
     	
     	//Run some boot-time drivetrain initializtion (some final init will happen at teleop/autonomous init
-    	Robot.driveTrain.drivetrainInit();
+        Robot.driveTrain.drivetrainInit();
 
+        new JoystickFactory().get(Robot.oi.operator, Role.OPERATOR);
     }
 
     /**
