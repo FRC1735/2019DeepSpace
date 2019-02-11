@@ -190,8 +190,10 @@ public class Arm extends Subsystem {
 
     // Arm setpoints:
     //    Max rotation is 240', which is +/-120 if zero is Top Dead Center.
-    //    Therefore, in rotations, each direction is .33333333 rotations.
-    static final double kMaxArmVal = .25; // start with 0.25 so that we don't get close to the hard limits while testing.  We'll sneak up on the final value when tuning.
+    //    Therefore, in rotations, each direction is .33333333 rotations of the whole arm, but that's with a 49:1 reduction.  sooo...
+    static final double kArmGearRatio = 49.0;
+    static final double kMaxArmSwingInRotations = 0.25; // start with 0.25 so that we don't get close to the hard limits while testing.  We'll sneak up on the final value when tuning.
+    static final double kMaxArmVal = kArmGearRatio * kMaxArmSwingInRotations; // start with 0.25 so that we don't get close to the hard limits while testing.  We'll sneak up on the final value when tuning.
     static double m_setpointRotationsArm = 0; // for live updates via SD, this is the current/latest setpoint captured.
 
     // Arm PID coefficients (compiled-in; can override via SD)
