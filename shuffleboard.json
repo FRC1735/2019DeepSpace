@@ -205,6 +205,74 @@
               "Layout/Label position": "BOTTOM",
               "_children": [
                 {
+                  "_type": "Speed Controller",
+                  "_source0": "network_table:///LiveWindow/Claw/ClawMotor",
+                  "_title": "ClawMotor",
+                  "Visuals/Orientation": "HORIZONTAL"
+                }
+              ]
+            }
+          },
+          "33,0": {
+            "size": [
+              6,
+              11
+            ],
+            "content": {
+              "_type": "Subsystem Layout",
+              "_source0": "network_table:///LiveWindow/Arm",
+              "_title": "Arm",
+              "Layout/Label position": "BOTTOM",
+              "_children": [
+                {
+                  "_type": "Boolean Box",
+                  "_source0": "network_table:///LiveWindow/Arm/FrontSwingSwitch/Value",
+                  "_title": "FrontSwingSwitch/Value",
+                  "Colors/Color when true": "#7CFC00FF",
+                  "Colors/Color when false": "#8B0000FF"
+                },
+                {
+                  "_type": "Boolean Box",
+                  "_source0": "network_table:///LiveWindow/Arm/BackSwingSwitch/Value",
+                  "_title": "BackSwingSwitch/Value",
+                  "Colors/Color when true": "#7CFC00FF",
+                  "Colors/Color when false": "#8B0000FF"
+                }
+              ]
+            }
+          },
+          "19,2": {
+            "size": [
+              6,
+              11
+            ],
+            "content": {
+              "_type": "Subsystem Layout",
+              "_source0": "network_table:///LiveWindow/AlienDeployer",
+              "_title": "AlienDeployer",
+              "Layout/Label position": "BOTTOM",
+              "_children": [
+                {
+                  "_type": "Speed Controller",
+                  "_source0": "network_table:///LiveWindow/AlienDeployer/AlienDeployerMotor",
+                  "_title": "AlienDeployerMotor",
+                  "Visuals/Orientation": "HORIZONTAL"
+                }
+              ]
+            }
+          },
+          "27,0": {
+            "size": [
+              6,
+              11
+            ],
+            "content": {
+              "_type": "Subsystem Layout",
+              "_source0": "network_table:///LiveWindow/Claw",
+              "_title": "Claw",
+              "Layout/Label position": "BOTTOM",
+              "_children": [
+                {
                   "_type": "Text View",
                   "_source0": "network_table:///LiveWindow/Claw/ClawMotor/Value",
                   "_title": "ClawMotor/Value"
@@ -438,11 +506,6 @@
               "_children": [
                 {
                   "_type": "Text View",
-                  "_source0": "network_table:///SmartDashboard/Cruise Dist",
-                  "_title": "SmartDashboard/Cruise Dist"
-                },
-                {
-                  "_type": "Text View",
                   "_source0": "network_table:///SmartDashboard/Cruise SpeedDir",
                   "_title": "SmartDashboard/Cruise SpeedDir"
                 },
@@ -455,8 +518,24 @@
                   "_type": "Text View",
                   "_source0": "network_table:///SmartDashboard/Cruise R Accel",
                   "_title": "SmartDashboard/Cruise R Accel"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/Cruise Dist",
+                  "_title": "SmartDashboard/Cruise Dist"
                 }
               ]
+            }
+          },
+          "5,7": {
+            "size": [
+              4,
+              3
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Cruise Dist",
+              "_title": "/SmartDashboard/Cruise Dist"
             }
           }
         }
@@ -730,9 +809,9 @@
     }
   ],
   "windowGeometry": {
-    "x": -6.666666507720947,
-    "y": 1.3333333730697632,
-    "width": 2114.666748046875,
-    "height": 901.3333129882812
+    "x": -8.0,
+    "y": -8.0,
+    "width": 1296.0,
+    "height": 816.0
   }
 }
