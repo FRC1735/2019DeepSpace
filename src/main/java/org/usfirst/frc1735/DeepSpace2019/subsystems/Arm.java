@@ -74,8 +74,8 @@ public class Arm extends Subsystem {
 
     @Override
     public void periodic() {
-        updatePIDsFromSD(); // optionally update the current PIDs from the SD.  Comment out to avoid this.
-        updateSetpointFromSD(); // optionally update the controller setpoint based on above calculations.  Comment out to avoid this.
+        //updatePIDsFromSD(); // optionally update the current PIDs from the SD.  Comment out to avoid this.
+        //updateSetpointFromSD(); // optionally update the controller setpoint based on above calculations.  Comment out to avoid this.
         m_processVariableArmEntry.setDouble(m_encoder.getPosition()); // Current encoder value (in rotations?)
     }
 
@@ -151,6 +151,8 @@ public class Arm extends Subsystem {
         m_minOutputArmEntry = m_armTab.add("Min Output Arm", kMinOutputArm).getEntry();
         m_setpointArmEntry = m_armTab.add("Set Rotations Arm", 0).getEntry();
         m_processVariableArmEntry = m_armTab.add("ProcessVariable Arm", m_encoder.getPosition()).getEntry();
+        // Command to trigger a read of all ARM-related variables from Shuffleboard
+        m_armTab.add("UpdateArmPIDs", new UpdateArmPIDs());
     }
 
     // Simple function to directly control the motor without any PID
@@ -197,8 +199,8 @@ public class Arm extends Subsystem {
     static double m_setpointRotationsArm = 0; // for live updates via SD, this is the current/latest setpoint captured.
 
     // Arm PID coefficients (compiled-in; can override via SD)
-    static final double kPArm = 0.3; 
-    static final double kIArm = 1e-4;
+    static final double kPArm = 0.45; 
+    static final double kIArm = 1e-3;
     static final double kDArm = 0; 
     static final double kIzArm = 0; 
     static final double kFFArm = 0; 
