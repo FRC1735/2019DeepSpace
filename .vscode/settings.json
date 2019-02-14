@@ -11,5 +11,9 @@
     "**/CVS": true,
     "bin/": true
   },
-  "wpilib.online": true
+  "wpilib.online": true,
+  "workbench.editor.highlightModifiedTabs": true,
+  "breadcrumbs.enabled": true,
+  "files.autoSave": "afterDelay",
+  "editor.tabCompletion": "on"
 }

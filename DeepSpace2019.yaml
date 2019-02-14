@@ -192,16 +192,6 @@ Children:
   - Children:
     - Children: []
       Properties:
-        CAN ID: !!robotbuilder.data.properties.ChoicesProperty
-          choices: *id001
-          default: '2'
-          name: CAN ID
-          validators: *id002
-          value: '5'
-      Base: Talon SRX
-      Name: ArmMotor
-    - Children: []
-      Properties:
         Input Channel (Digital): !!robotbuilder.data.properties.ChoicesProperty
           choices: &id009 ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
             '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22',
@@ -222,6 +212,23 @@ Children:
           value: '3'
       Base: Limit Switch
       Name: BackSwingSwitch
+    - Children: []
+      Properties:
+        CAN ID: !!robotbuilder.data.properties.ChoicesProperty
+          choices: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11',
+            '12', '13', '14', '15', '16', '17', '18', '19', '20']
+          default: '2'
+          name: CAN ID
+          validators: [CANID, DistinctValidator]
+          value: '5'
+        Motor Type: !!robotbuilder.data.properties.ChoicesProperty
+          choices: [Brushless, Brushed]
+          default: Brushless
+          name: Motor Type
+          validators: [ChildDropdownSelected]
+          value: Brushless
+      Base: CAN SparkMAX
+      Name: ArmMotor
     Properties:
       Send to SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: false,
         name: Send to SmartDashboard, validators: null, value: false}
@@ -678,7 +685,7 @@ Children:
         validators: null
         value: []
       Run When Disabled: !!robotbuilder.data.properties.BooleanProperty {default: false,
-        name: Run When Disabled, validators: null, value: false}
+        name: Run When Disabled, validators: null, value: true}
       Requires: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
         name: Requires, type: Subsystem, validators: null, value: None}
       Parameter presets: !!robotbuilder.data.properties.ParameterSetProperty
@@ -952,12 +959,10 @@ Properties:
     name: Export Subsystems, validators: null, value: true}
   Simulation World File: !!robotbuilder.data.properties.StringProperty {default: /usr/share/frcsim/worlds/GearsBotDemo.world,
     name: Simulation World File, validators: null, value: /usr/share/frcsim/worlds/GearsBotDemo.world}
-  Wiring file location: !!robotbuilder.data.properties.FileProperty {default: 'C:\Users\Green
-      Reapers 5\', extension: null, folder: true, name: Wiring file location, validators: null,
-    value: ..\}
-  Export Directory: !!robotbuilder.data.properties.FileProperty {default: 'C:\Users\Green
-      Reapers 5\FRCProjects', extension: null, folder: true, name: Export Directory,
-    validators: null, value: ..\}
+  Wiring file location: !!robotbuilder.data.properties.FileProperty {default: 'C:\Users\Scott\',
+    extension: null, folder: true, name: Wiring file location, validators: null, value: ..\}
+  Export Directory: !!robotbuilder.data.properties.FileProperty {default: 'C:\Users\Scott\FRCProjects',
+    extension: null, folder: true, name: Export Directory, validators: null, value: ..\}
   Autonomous Command: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
     name: Autonomous Command, type: Command, validators: null, value: Autonomous Command}
   Eclipse Workspace: !!robotbuilder.data.properties.FileProperty {default: 'C:\Users\Green

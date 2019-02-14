@@ -146,6 +146,7 @@ public class Robot extends TimedRobot {
     	
     	//Run some boot-time drivetrain initializtion (some final init will happen at teleop/autonomous init
         Robot.driveTrain.drivetrainInit();
+        Robot.arm.initArm();
 
         new JoystickFactory().get(Robot.oi.operator, Role.OPERATOR);
     }

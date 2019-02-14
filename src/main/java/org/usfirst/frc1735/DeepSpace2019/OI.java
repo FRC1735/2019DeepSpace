@@ -24,6 +24,7 @@ import org.usfirst.frc1735.DeepSpace2019.commands.LightsOff;
 import org.usfirst.frc1735.DeepSpace2019.commands.LightsOn;
 import org.usfirst.frc1735.DeepSpace2019.commands.ResetGyro;
 import org.usfirst.frc1735.DeepSpace2019.commands.Turn;
+import org.usfirst.frc1735.DeepSpace2019.commands.UpdateArmPIDs;
 import org.usfirst.frc1735.DeepSpace2019.commands.UpdateDebugEnable;
 import org.usfirst.frc1735.DeepSpace2019.joysticks.AbstractJoystick;
 import org.usfirst.frc1735.DeepSpace2019.joysticks.JoystickFactory;
