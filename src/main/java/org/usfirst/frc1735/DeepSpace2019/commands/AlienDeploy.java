@@ -40,6 +40,12 @@ public class AlienDeploy extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
+        if(m_magDir >= 0) {
+            setTimeout(0.75);
+        }
+        else { //Here we are negative
+            setTimeout(0.75);
+        }
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -51,7 +57,7 @@ public class AlienDeploy extends Command {
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        return false;
+        return isTimedOut();
     }
 
     // Called once after isFinished returns true
