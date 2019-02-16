@@ -129,8 +129,26 @@ public class HatchGrabber extends Subsystem {
        	//Set the mode to Position.  Second arg is the setpoint.
         hatchGrabberMotor.set(ControlMode.Position, 0);
     	// Put the Talons in "Brake" mode for better accuracy
-    	hatchGrabberMotor.setNeutralMode(NeutralMode.Brake);
+        hatchGrabberMotor.setNeutralMode(NeutralMode.Brake);
+        
+        // get a handle to the Shuffleboard widget for the hatchGrabber encoder
+        m_alienTab = Shuffleboard.getTab("Alien"); // Creates tab if it doesn't already exist.
+        m_hatchGrabberEncoderEntry = m_alienTab.add("Hatch Enc", 0)
+                                                .withSize(2, 1) // make the widget 2x1
+                                                .withPosition(0, 0) // place it in the top-left corner
+                                                .getEntry();
+        m_hatchGrabberEncoderEntry.setDouble(hatchGrabberMotor.getSelectedSensorPosition());
+        
+        // This is the open-loop value for the motor for manual control and calibration.
+        // Used by the HatchGrabOpenMove command button
+        m_hatchGrabberMotorOpenMagdirEntry = m_alienTab.add("Hatch Motor", 0)
+                                                        .withSize(2, 1) // make the widget 2x1
+                                                        .withPosition(0, 4) // place it in the top-left corner
+                                                        .withWidget(BuiltInWidgets.kNumberSlider)
+                                                        .withProperties(Map.of("min", -0.3, "max", 0.3)) // specify widget properties here                                                    
+                                                        .getEntry();
 
+        m_hatchGrabberMotorOpenMagdirEntry.setDouble(0);
     }
 
     @Override
