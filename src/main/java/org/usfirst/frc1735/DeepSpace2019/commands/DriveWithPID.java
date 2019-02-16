@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.usfirst.frc1735.DeepSpace2019.subsystems.DriveTrain;
+import org.usfirst.frc1735.DeepSpace2019.utils.PairOfDoubles;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
@@ -142,7 +143,8 @@ public class DriveWithPID extends Command {
     @Override
     protected boolean isFinished() {
     	//  update our rolling average distance traveled.  We need to compare this AVERAGE when deciding when to terminate.
-    	double avgDist = calcAvgDist(Robot.driveTrain.getRightMotor().getSelectedSensorPosition(0));
+		PairOfDoubles avgDistPair = calcAvgDist(Robot.driveTrain.getLeftMotor().getSelectedSensorPosition(0),
+												Robot.driveTrain.getRightMotor().getSelectedSensorPosition(0));
 
 		if  (Robot.isDbgOn()) { // Use variable rather than print wrapper so that we also avoid all the CAN bus queries...
 			System.out.println(" FLerr: " + Robot.driveTrain.getLeftMotor().getClosedLoopError(0) +
@@ -151,7 +153,8 @@ public class DriveWithPID extends Command {
 					" Pos: " + Robot.driveTrain.getLeftMotor().getSelectedSensorPosition(0) +
 					" Vel: " + Robot.driveTrain.getLeftMotor().getSelectedSensorVelocity(0) + 
 					" Mode: " + Robot.driveTrain.getLeftMotor().getControlMode() + 
-					" AvgDist: " + avgDist + "\n" +
+					" AvgDistL: " + avgDistPair.getLeft() + "\n" +
+					" AvgDistR: " + avgDistPair.getRight() + "\n" +
 					" FRerr: " + Robot.driveTrain.getRightMotor().getClosedLoopError(0) +
 					" out_pct: " + Robot.driveTrain.getRightMotor().getMotorOutputPercent() +
 					" CLTarget: " + Robot.driveTrain.getRightMotor().getClosedLoopTarget(0) +
@@ -165,10 +168,12 @@ public class DriveWithPID extends Command {
     	// However, the first ~5 iterations (@20ms, this is about 100ms) don't report accurate CLerr, so we'll avoid that and instead check if our sensor position is within the allowed error of the setpoint.
     	// Unfortunately, the first iteration of the command hasn't yet actually seen the zeroed out sensor and will see whatever position was present prior to starting this command.
     	// So, we need to skip checking anything on the first iteration.
-    	boolean distReached = (Math.abs(avgDist - m_encDistance) < DriveTrain.kToleranceDistUnits);
+    	boolean distReachedLeft = (Math.abs(avgDistPair.getLeft()- m_encDistance) < DriveTrain.kToleranceDistUnits);
+    	boolean distReachedRight = (Math.abs(avgDistPair.getRight() - m_encDistance) < DriveTrain.kToleranceDistUnits);
     	
-    	if (m_loopCount > 1) //The first execute will inc to 1, so the first isFinished will see 1 as well.  this is the iteration we want to skip.
-    		return distReached || isTimedOut();
+		if (m_loopCount > 1) //The first execute will inc to 1, so the first isFinished will see 1 as well.  this is the iteration we want to skip.
+			// Want both left and right sides to have reached their goal before stopping.
+    		return (distReachedLeft && distReachedRight) || isTimedOut();
     	else
     		return false; // On the first iteration, don't terminate (we have no valid data upon which to calculate a termination value!)
     }
@@ -187,23 +192,26 @@ public class DriveWithPID extends Command {
     	end();
     }
     
-    // Given a new distance, calculate a new rolling average.
-    protected double calcAvgDist(int latestDist) {
+    // Given a new distance on each encoder, calculate a new rolling average.
+    protected PairOfDoubles calcAvgDist(int latestDistLeft, int latestDistRight) {
     	// Remove the oldest item in the distHistory (if too many exist)
     	while (m_distHistory.size() > 50) // Rolling average of n items 0..(n-1)
     		m_distHistory.remove(0);
     	
     	// Add the latest distance to the list
-    	m_distHistory.add(latestDist);
+    	m_distHistory.add(new PairOfDoubles((double)latestDistLeft, (double)latestDistRight));
     	
     	// Calculate the new average
-    	double newSum =  0;
+		double newSumLeft =  0;
+		double newSumRight = 0;
     	for (int i=0; i< m_distHistory.size(); i++) {
-    		newSum = newSum + m_distHistory.get(i);
+    		newSumLeft = newSumLeft + m_distHistory.get(i).getLeft();
+    		newSumRight = newSumRight + m_distHistory.get(i).getRight();
     	}
 
-    	double newAvg = newSum / m_distHistory.size();
-    	return newAvg;
+    	double newAvgLeft = newSumLeft / m_distHistory.size();
+    	double newAvgRight = newSumRight / m_distHistory.size();
+    	return new PairOfDoubles(newAvgLeft, newAvgRight);
     }
     
     // Member Variables
@@ -213,5 +221,5 @@ public class DriveWithPID extends Command {
     boolean m_getDistFromCamera = false;
     double m_loopCount;
     double m_encDistance; // This is the requested distance in encoder ticks, as opposed to m_distance which is in inches.
-    private List<Integer> m_distHistory;  // Holds a history of previous sensor distance values
+    private List<PairOfDoubles> m_distHistory;  // Holds a history of previous sensor distance values
 }
