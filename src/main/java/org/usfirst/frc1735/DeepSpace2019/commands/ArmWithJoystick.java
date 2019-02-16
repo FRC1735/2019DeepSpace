@@ -10,8 +10,10 @@
 
 
 package org.usfirst.frc1735.DeepSpace2019.commands;
-import edu.wpi.first.wpilibj.command.Command;
+
 import org.usfirst.frc1735.DeepSpace2019.Robot;
+
+import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
@@ -43,8 +45,8 @@ public class ArmWithJoystick extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-    //Robot.arm.simpleMoveArm(-Robot.oi.joyRight.getY()); //y axis fwd is negative
-    Robot.arm.PIDMoveArm(-Robot.oi.joyRight.getY()); //y axis fwd is negative
+        //Robot.arm.simpleMoveArm(-Robot.oi.joyRight.getY()); //y axis fwd is negative
+        Robot.arm.PIDMoveArm(-Robot.oi.joyRight.getY()); //y axis fwd is negative
     }
 
     // Make this return true when this Command no longer needs to run execute()
