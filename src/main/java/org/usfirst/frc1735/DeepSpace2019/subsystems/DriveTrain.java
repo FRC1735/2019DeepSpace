@@ -178,14 +178,16 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         // General documentation on CTRE examples at https://github.com/CrossTheRoadElec/Phoenix-Examples-Languages/tree/master/Java
 
     	// set the peak and nominal outputs, -1 to 1 in percentage of nominal voltage (even if battery voltage is higher)
-    	leftMotor.configNominalOutputForward(0.0, 0);
-    	leftMotor.configNominalOutputReverse(-0.0, 0);
+    	leftMotor.configNominalOutputForward(0.3, 0);
+    	leftMotor.configNominalOutputReverse(-0.3, 0);
     	leftMotor.configPeakOutputForward(1.0,0);
     	leftMotor.configPeakOutputReverse(-1.0,0);
-    	rightMotor.configNominalOutputForward(0.0, 0);
-    	rightMotor.configNominalOutputReverse(-0.0, 0);
+    	rightMotor.configNominalOutputForward(0.3, 0);
+    	rightMotor.configNominalOutputReverse(-0.3, 0);
     	rightMotor.configPeakOutputForward(1.0,0);
-    	rightMotor.configPeakOutputReverse(-1.0,0);
+        rightMotor.configPeakOutputReverse(-1.0,0);
+        //leftMotor.configNeutralDeadband(0.3); // 30% motor deadband
+        //rightMotor.configNeutralDeadband(0.3); // 30% motor deadband
 
     	// set closed loop gains in slot0 - see documentation
     	leftMotor.selectProfileSlot(0,0);
@@ -207,8 +209,8 @@ public class DriveTrain extends Subsystem implements PIDOutput {
 
 
     	//Set the closed-loop allowable error.  Empirically on no-load, error was <50 units.
-    	leftMotor.configAllowableClosedloopError(0, (int) kToleranceDistUnits, 0); // index, err, timeout in ms
-    	rightMotor.configAllowableClosedloopError(0, (int) kToleranceDistUnits, 0); // index, err, timeout in ms
+        leftMotor.configAllowableClosedloopError(0, (int) kToleranceDistUnits/1000, 0); // index, err, timeout in ms
+    	rightMotor.configAllowableClosedloopError(0, (int) kToleranceDistUnits/1000, 0); // index, err, timeout in ms
     	
     	// Some packet frames default to updating at 160ms, which is waaaay too slow for our 20ms DS periodic interval!
 		// CTRE recommends that you set relevant frame periods to be at least as fast as periodic rate-- their example uses:
@@ -252,7 +254,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         rightFollower.setNeutralMode(NeutralMode.Coast);
         
         // When driving in Open Loop mode via the differentialDrive object, turn on the WPILib safety checks
-        differentialDrive1.setSafetyEnabled(false);
+        differentialDrive1.setSafetyEnabled(true);
 
     }
 
@@ -282,7 +284,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         rightMotor.setSelectedSensorPosition(0,0,0); // position, PIDidx (0= normal), timeout in ms
    	
         // When driving in PID mode, turn off the WPILib safety checks
-        differentialDrive1.setSafetyEnabled(true);
+        differentialDrive1.setSafetyEnabled(false);
     }
 
     public void drive(final double joystickAX, final double joystickAY, final double joystickBX, final double joystickBY) {
@@ -472,7 +474,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
      public static final double kPracticeSmallTurnPIDOutputMax = 0.19; // Max motor output in small PID mode
  
      /* Hardware PID values for the Talon */
-     static final double kDistP = 0.075; //Practice bot had .15 but was also overshooting.  
+     static final double kDistP = 0.001; // last value was 0.071
      static final double kDistI = 0.0;//0.005 on 2017 robot
      static final double kDistD = 0.0;
      static final double kDistF = 0.3789; // Use for MotionMagic.  You must set this to ZERO if using Position mode!!!!!

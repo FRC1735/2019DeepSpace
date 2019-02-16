@@ -105,7 +105,7 @@ public class DriveWithPID extends Command {
     	// If we created this command without args, it should get its distance from the SmartDashboard:
     	// (if not, it was already passed in from the parent CommandGroup and set in the constructor)
     	if (m_getDistFromSmartDashboard) { 
-    		m_distance = (int) SmartDashboard.getNumber("Cruise Dist", 18.849); // default:  one revolution of a 6" wheel is just short of 19"
+    		m_distance = SmartDashboard.getNumber("Cruise Dist", 18.849); // default:  one revolution of a 6" wheel is just short of 19"
     		System.out.println("Initializing drive distance from SmartDashboard");
     	}
     	
@@ -154,16 +154,14 @@ public class DriveWithPID extends Command {
 					" Vel: " + Robot.driveTrain.getLeftMotor().getSelectedSensorVelocity(0) + 
 					" Mode: " + Robot.driveTrain.getLeftMotor().getControlMode() + 
 					" AvgDistL: " + avgDistPair.getLeft() + "\n" +
-					" AvgDistR: " + avgDistPair.getRight() + "\n" +
 					" FRerr: " + Robot.driveTrain.getRightMotor().getClosedLoopError(0) +
-					" out_pct: " + Robot.driveTrain.getRightMotor().getMotorOutputPercent() +
-					" CLTarget: " + Robot.driveTrain.getRightMotor().getClosedLoopTarget(0) +
+					" out_pct: " + Robot.driveTrain.getRightMotor().getClosedLoopTarget(0) +
 					" Pos: " + Robot.driveTrain.getRightMotor().getSelectedSensorPosition(0) +
 					" Vel: " + Robot.driveTrain.getRightMotor().getSelectedSensorVelocity(0) +
-					" Mode: " + Robot.driveTrain.getLeftMotor().getControlMode());
+					" Mode: " + Robot.driveTrain.getLeftMotor().getControlMode() +
+					" AvgDistR: " + avgDistPair.getRight() + "\n");
 		}
-    	//@FIXME:  Should finished be checking BOTH sensors??
-    	
+   	
     	// The most intuitive thing to check would be the closed loop error, and if it's less than the allowable error we're done.
     	// However, the first ~5 iterations (@20ms, this is about 100ms) don't report accurate CLerr, so we'll avoid that and instead check if our sensor position is within the allowed error of the setpoint.
     	// Unfortunately, the first iteration of the command hasn't yet actually seen the zeroed out sensor and will see whatever position was present prior to starting this command.
@@ -173,7 +171,7 @@ public class DriveWithPID extends Command {
     	
 		if (m_loopCount > 1) //The first execute will inc to 1, so the first isFinished will see 1 as well.  this is the iteration we want to skip.
 			// Want both left and right sides to have reached their goal before stopping.
-    		return (distReachedLeft && distReachedRight) || isTimedOut();
+    		return false; //(distReachedLeft && distReachedRight) || isTimedOut();
     	else
     		return false; // On the first iteration, don't terminate (we have no valid data upon which to calculate a termination value!)
     }

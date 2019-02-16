@@ -81,12 +81,13 @@ public class Robot extends TimedRobot {
     // Method to set the debug status from the SmartDashboard
     // This is called whenever we enable the robot, but can also be called by a Command button on the SD.
     public static void updateDbgModeFromSD() {
-    	dbgOn = SmartDashboard.getBoolean("Master Debug Enable", false); // Second arg is default if entry not found
+        dbgOn = SmartDashboard.getBoolean("Master Debug Enable", false); // Second arg is default if entry not found
+        System.out.println("Updating state of dbgOn to " + dbgOn);
     }
 
     // Support for practice robot versus competition robot
     // This is only updated when we enable the robot.
-    private static boolean practiceBot = false;
+    private static boolean practiceBot = true;
     public static boolean isPracticeBot() {
         return practiceBot;
     }
@@ -219,7 +220,7 @@ public class Robot extends TimedRobot {
 
         // This variable controls any behaviors that differ between the Practice robot and the Competition robot.
         // This could be ignoring/disabling motors, changing PID values, etc.
-        SmartDashboard.putBoolean("PracticeBot", false);
+        SmartDashboard.putBoolean("PracticeBot", practiceBot);
 
     }
 
