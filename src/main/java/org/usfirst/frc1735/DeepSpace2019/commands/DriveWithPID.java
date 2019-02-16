@@ -51,7 +51,8 @@ public class DriveWithPID extends Command {
     //Void constructor gets distance from SmartDashboard.  Allows us to use a button (w/ no preset) to call the command
     public DriveWithPID() {
     	//System.out.println("DriveWithPID Null constructor called");
-    	m_getDistFromSmartDashboard = true;
+		m_getDistFromSmartDashboard = true;
+		m_activeSide = ActiveSide.BOTH;
         requires(Robot.driveTrain);
         // Init dynamic variable
         m_distHistory = new ArrayList<>();
@@ -65,12 +66,21 @@ public class DriveWithPID extends Command {
     	else {
     		// Ummm... punt and pretend this was a null constructor and get data from the SmartDashboard...?\
         	m_getDistFromSmartDashboard = true;
-    	}
+		}
+		m_activeSide = ActiveSide.BOTH;
         requires(Robot.driveTrain);
         // Init dynamic variable
         m_distHistory = new ArrayList<>();
     	
-    }
+	}
+	
+	public DriveWithPID(final double distance, final ActiveSide activeSide) {
+		this.m_distance = distance;
+		this.m_activeSide = activeSide;
+
+		requires(Robot.driveTrain);
+		m_distHistory = new ArrayList<>();
+	}
     
 
     // Called just before this Command runs the first time
@@ -131,10 +141,18 @@ public class DriveWithPID extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-    	// Just update the motor setpoints
-    	Robot.driveTrain.getLeftMotor().set(ControlMode./*Position*/MotionMagic, m_encDistance);
-    	Robot.driveTrain.getRightMotor().set(ControlMode.MotionMagic, m_encDistance);
-    	
+		// Just update the motor setpoints
+		if (m_activeSide.equals(ActiveSide.LEFT)) {
+    		Robot.driveTrain.getLeftMotor().set(ControlMode.MotionMagic, m_encDistance);
+			Robot.driveTrain.getRightMotor().set(ControlMode.MotionMagic, 0);	
+		} else if (m_activeSide.equals(ActiveSide.RIGHT)) {
+			Robot.driveTrain.getLeftMotor().set(ControlMode.MotionMagic, 0);
+			Robot.driveTrain.getRightMotor().set(ControlMode.MotionMagic, m_encDistance);	
+		} else {
+    		Robot.driveTrain.getLeftMotor().set(ControlMode.MotionMagic, m_encDistance);
+			Robot.driveTrain.getRightMotor().set(ControlMode.MotionMagic, m_encDistance);
+		}
+	
     	// Increment the loop count (used in isFinished(); see below)
     	m_loopCount++;
    }
@@ -219,5 +237,12 @@ public class DriveWithPID extends Command {
     boolean m_getDistFromCamera = false;
     double m_loopCount;
     double m_encDistance; // This is the requested distance in encoder ticks, as opposed to m_distance which is in inches.
-    private List<PairOfDoubles> m_distHistory;  // Holds a history of previous sensor distance values
+	private List<PairOfDoubles> m_distHistory;  // Holds a history of previous sensor distance values
+	ActiveSide m_activeSide = ActiveSide.BOTH;
+
+	public enum ActiveSide {
+		LEFT,
+		RIGHT,
+		BOTH
+	}
 }
