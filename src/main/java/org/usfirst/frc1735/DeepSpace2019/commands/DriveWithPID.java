@@ -20,7 +20,9 @@ import java.util.List;
 import org.usfirst.frc1735.DeepSpace2019.subsystems.DriveTrain;
 import org.usfirst.frc1735.DeepSpace2019.utils.PairOfDoubles;
 
+import com.ctre.phoenix.ParamEnum;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 /**
  *
@@ -54,8 +56,6 @@ public class DriveWithPID extends Command {
 		m_getDistFromSmartDashboard = true;
 		m_activeSide = ActiveSide.BOTH;
         requires(Robot.driveTrain);
-        // Init dynamic variable
-        m_distHistory = new ArrayList<>();
    }
     
     // Use this if driving to a cube using the camera
@@ -68,10 +68,7 @@ public class DriveWithPID extends Command {
         	m_getDistFromSmartDashboard = true;
 		}
 		m_activeSide = ActiveSide.BOTH;
-        requires(Robot.driveTrain);
-        // Init dynamic variable
-        m_distHistory = new ArrayList<>();
-    	
+        requires(Robot.driveTrain);    	
 	}
 	
 	public DriveWithPID(final double distance, final ActiveSide activeSide) {
@@ -79,21 +76,25 @@ public class DriveWithPID extends Command {
 		this.m_activeSide = activeSide;
 
 		requires(Robot.driveTrain);
-		m_distHistory = new ArrayList<>();
-	}
-    
+	}    
 
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
     	//Set the driveline's Talons into MotionMagic mode
-    	Robot.driveTrain.setPIDMode(); // This also turns off the motors as part of the mode switch.
+		Robot.driveTrain.setPIDMode(); // This also turns off the motors as part of the mode switch.
+		m_distHistory = new ArrayList<>();
     	//extract the PID values for this command
     	double p = SmartDashboard.getNumber("P", 0);
     	double i = SmartDashboard.getNumber("I", 0);
     	double d = SmartDashboard.getNumber("D", 0);
-    	double f = SmartDashboard.getNumber("F", 0.3789);
-    	Robot.driveTrain.getLeftMotor().config_kP(0, p, 0); // Slot, value, timeout in ms
+		double f = SmartDashboard.getNumber("F", 0.3789);
+		
+		final int izone = 350;
+		Robot.driveTrain.getLeftMotor().config_IntegralZone(0, izone, 0);
+		Robot.driveTrain.getRightMotor().config_IntegralZone(0, izone, 0);
+
+		Robot.driveTrain.getLeftMotor().config_kP(0, p, 0); // Slot, value, timeout in ms
     	Robot.driveTrain.getLeftMotor().config_kI(0, i, 0); // Slot, value, timeout in ms
     	Robot.driveTrain.getLeftMotor().config_kD(0, d, 0); // Slot, value, timeout in ms
     	Robot.driveTrain.getLeftMotor().config_kF(0, f, 0); // Slot, value, timeout in ms
@@ -108,17 +109,24 @@ public class DriveWithPID extends Command {
     	Robot.driveTrain.getRightMotor().configMotionCruiseVelocity(m_magDir, 0);
     	
     	m_accel = (int) SmartDashboard.getNumber("Cruise Accel", 5400); //full speed in 1/2 sec (was 8100 = 1/3)
-    	int r_accel = (int) SmartDashboard.getNumber("Cruise R Accel", 5400); //was 10000
-    	Robot.driveTrain.getLeftMotor().configMotionAcceleration(m_accel, 0); //want xPM in 1 sec, so x/60/10*4096 = 3072 units/100ms
-    	Robot.driveTrain.getRightMotor().configMotionAcceleration(r_accel, 0);
-    	
+		int r_accel = (int) SmartDashboard.getNumber("Cruise R Accel", 5400); //was 10000
+		
     	// If we created this command without args, it should get its distance from the SmartDashboard:
     	// (if not, it was already passed in from the parent CommandGroup and set in the constructor)
     	if (m_getDistFromSmartDashboard) { 
     		m_distance = SmartDashboard.getNumber("Cruise Dist", 18.849); // default:  one revolution of a 6" wheel is just short of 19"
     		System.out.println("Initializing drive distance from SmartDashboard");
     	}
-    	
+		
+		// compensate for acceleration differences between motors
+		if (m_distance > 0) {
+			Robot.driveTrain.getLeftMotor().configMotionAcceleration(m_accel, 0); //want xPM in 1 sec, so x/60/10*4096 = 3072 units/100ms
+			Robot.driveTrain.getRightMotor().configMotionAcceleration(r_accel, 0);
+		} else {
+			Robot.driveTrain.getLeftMotor().configMotionAcceleration(r_accel, 0); //want xPM in 1 sec, so x/60/10*4096 = 3072 units/100ms
+			Robot.driveTrain.getRightMotor().configMotionAcceleration(m_accel, 0);
+		}
+				
     	// We also can get distance from the camera
     	if (m_getDistFromCamera) {
     		m_distance = 0; // was (int) Robot.driveTrain.getDistanceToCube();
@@ -135,24 +143,27 @@ public class DriveWithPID extends Command {
     	// But the HW PID controller wants distance in encoder units.
     	m_encDistance = m_distance * DriveTrain.kEncoderTicksPerInch;
     	    	
-    	System.out.println("DriveWithPID has been reqeusted for " + m_distance + " inches, or " + m_encDistance + " encoder ticks");
-    }
+    	System.out.println("DriveWithPID has been requested for " + m_distance + " inches, or " + m_encDistance + " encoder ticks");
+
+		if (m_activeSide.equals(ActiveSide.LEFT)) {
+			//Robot.driveTrain.getLeftMotor().config_kP(0, 3, 0);
+			Robot.driveTrain.getLeftMotor().set(ControlMode.MotionMagic, m_encDistance);
+			//Robot.driveTrain.getRightMotor().set(ControlMode.MotionMagic, 0);	
+			Robot.driveTrain.getRightMotor().setNeutralMode(NeutralMode.Coast);
+		} else if (m_activeSide.equals(ActiveSide.RIGHT)) {
+			//Robot.driveTrain.getRightMotor().config_kP(0, 3, 0);
+			//Robot.driveTrain.getLeftMotor().set(ControlMode.MotionMagic, 0);
+			Robot.driveTrain.getRightMotor().set(ControlMode.MotionMagic, m_encDistance);	
+			Robot.driveTrain.getLeftMotor().setNeutralMode(NeutralMode.Coast);
+		} else {
+			Robot.driveTrain.getLeftMotor().set(ControlMode.MotionMagic, m_encDistance);
+			Robot.driveTrain.getRightMotor().set(ControlMode.MotionMagic, m_encDistance);
+		}
+	}
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-		// Just update the motor setpoints
-		if (m_activeSide.equals(ActiveSide.LEFT)) {
-    		Robot.driveTrain.getLeftMotor().set(ControlMode.MotionMagic, m_encDistance);
-			Robot.driveTrain.getRightMotor().set(ControlMode.MotionMagic, 0);	
-		} else if (m_activeSide.equals(ActiveSide.RIGHT)) {
-			Robot.driveTrain.getLeftMotor().set(ControlMode.MotionMagic, 0);
-			Robot.driveTrain.getRightMotor().set(ControlMode.MotionMagic, m_encDistance);	
-		} else {
-    		Robot.driveTrain.getLeftMotor().set(ControlMode.MotionMagic, m_encDistance);
-			Robot.driveTrain.getRightMotor().set(ControlMode.MotionMagic, m_encDistance);
-		}
-	
     	// Increment the loop count (used in isFinished(); see below)
     	m_loopCount++;
    }
@@ -164,21 +175,6 @@ public class DriveWithPID extends Command {
 		PairOfDoubles avgDistPair = calcAvgDist(Robot.driveTrain.getLeftMotor().getSelectedSensorPosition(0),
 												Robot.driveTrain.getRightMotor().getSelectedSensorPosition(0));
 
-		if  (Robot.isDbgOn()) { // Use variable rather than print wrapper so that we also avoid all the CAN bus queries...
-			System.out.println(" FLerr: " + Robot.driveTrain.getLeftMotor().getClosedLoopError(0) +
-					" out_pct: " + Robot.driveTrain.getLeftMotor().getMotorOutputPercent() +
-					//" CLTarget: " + Robot.driveTrain.getLeftMotor().getClosedLoopTarget(0) +
-					" Pos: " + Robot.driveTrain.getLeftMotor().getSelectedSensorPosition(0) +
-					//" Vel: " + Robot.driveTrain.getLeftMotor().getSelectedSensorVelocity(0) + 
-					//" Mode: " + Robot.driveTrain.getLeftMotor().getControlMode() + 
-					" AvgDistL: " + avgDistPair.getLeft() + "\n" +
-					" FRerr: " + Robot.driveTrain.getRightMotor().getClosedLoopError(0) +
-					" out_pct: " + Robot.driveTrain.getRightMotor().getMotorOutputPercent() +
-					" Pos: " + Robot.driveTrain.getRightMotor().getSelectedSensorPosition(0) +
-					//" Vel: " + Robot.driveTrain.getRightMotor().getSelectedSensorVelocity(0) +
-					//" Mode: " + Robot.driveTrain.getLeftMotor().getControlMode() +
-					" AvgDistR: " + avgDistPair.getRight() + "\n");
-		}
    	
     	// The most intuitive thing to check would be the closed loop error, and if it's less than the allowable error we're done.
     	// However, the first ~5 iterations (@20ms, this is about 100ms) don't report accurate CLerr, so we'll avoid that and instead check if our sensor position is within the allowed error of the setpoint.
@@ -188,6 +184,30 @@ public class DriveWithPID extends Command {
 		final double rightEncoderDistance = (m_activeSide.equals(ActiveSide.RIGHT) || m_activeSide.equals(ActiveSide.BOTH)) ? m_encDistance : 0;
     	boolean distReachedLeft = (Math.abs(avgDistPair.getLeft()- leftEncoderDistance) < DriveTrain.kToleranceDistUnits);
     	boolean distReachedRight = (Math.abs(avgDistPair.getRight() - rightEncoderDistance) < DriveTrain.kToleranceDistUnits);
+
+		if  (Robot.isDbgOn()) { // Use variable rather than print wrapper so that we also avoid all the CAN bus queries...
+			System.out.println(
+				" loopCount: " + m_loopCount + "\n" +
+			    " FLerr: " + Robot.driveTrain.getLeftMotor().getClosedLoopError(0) +
+					" out_pct: " + Robot.driveTrain.getLeftMotor().getMotorOutputPercent() +
+					//" CLTarget: " + Robot.driveTrain.getLeftMotor().getClosedLoopTarget(0) +
+					" Pos: " + Robot.driveTrain.getLeftMotor().getSelectedSensorPosition(0) +
+					//" Vel: " + Robot.driveTrain.getLeftMotor().getSelectedSensorVelocity(0) + 
+					//" Mode: " + Robot.driveTrain.getLeftMotor().getControlMode() + 
+					" AvgDistL: " + avgDistPair.getLeft() + 
+					" distReachedLeft: " + distReachedLeft + "\n" +
+					" FRerr: " + Robot.driveTrain.getRightMotor().getClosedLoopError(0) +
+					" out_pct: " + Robot.driveTrain.getRightMotor().getMotorOutputPercent() +
+					" Pos: " + Robot.driveTrain.getRightMotor().getSelectedSensorPosition(0) +
+					//" Vel: " + Robot.driveTrain.getRightMotor().getSelectedSensorVelocity(0) +
+					//" Mode: " + Robot.driveTrain.getLeftMotor().getControlMode() +
+					" AvgDistR: " + avgDistPair.getRight() +
+					" distReachedRight: " + distReachedRight + "\n");
+		}
+
+		//   	System.out.println(" leftMotor.configGetParameter: " +  
+      	//	  Robot.driveTrain.getLeftMotor().configGetParameter(ParamEnum.eProfileParamSlot_AllowableErr, 315, 0));
+
 
 		if (m_loopCount > 1) //The first execute will inc to 1, so the first isFinished will see 1 as well.  this is the iteration we want to skip.
 			// Want both left and right sides to have reached their goal before stopping.
@@ -213,7 +233,7 @@ public class DriveWithPID extends Command {
     // Given a new distance on each encoder, calculate a new rolling average.
     protected PairOfDoubles calcAvgDist(int latestDistLeft, int latestDistRight) {
     	// Remove the oldest item in the distHistory (if too many exist)
-    	while (m_distHistory.size() > 25) // Rolling average of n items 0..(n-1)
+    	while (m_distHistory.size() > 10) // Rolling average of n items 0..(n-1)
     		m_distHistory.remove(0);
     	
     	// Add the latest distance to the list

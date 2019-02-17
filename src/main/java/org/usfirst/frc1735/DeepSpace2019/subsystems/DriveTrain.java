@@ -178,12 +178,12 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         // General documentation on CTRE examples at https://github.com/CrossTheRoadElec/Phoenix-Examples-Languages/tree/master/Java
 
     	// set the peak and nominal outputs, -1 to 1 in percentage of nominal voltage (even if battery voltage is higher)
-    	leftMotor.configNominalOutputForward(0.3, 0);
-    	leftMotor.configNominalOutputReverse(-0.3, 0);
+    	leftMotor.configNominalOutputForward(0, 0);
+    	leftMotor.configNominalOutputReverse(0, 0);
     	leftMotor.configPeakOutputForward(1.0,0);
     	leftMotor.configPeakOutputReverse(-1.0,0);
-    	rightMotor.configNominalOutputForward(0.3, 0);
-    	rightMotor.configNominalOutputReverse(-0.3, 0);
+    	rightMotor.configNominalOutputForward(0, 0);
+    	rightMotor.configNominalOutputReverse(0, 0);
     	rightMotor.configPeakOutputForward(1.0,0);
         rightMotor.configPeakOutputReverse(-1.0,0);
         //leftMotor.configNeutralDeadband(0.3); // 30% motor deadband
@@ -194,8 +194,8 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     	rightMotor.selectProfileSlot(0,0);
 
     	// set acceleration and vcruise velocity - see documentation
-    	leftMotor.configMotionCruiseVelocity(2700, 0); // 2700 encoder units per 100ms interval is about 395 RPM
-    	rightMotor.configMotionCruiseVelocity(2700, 0);
+    	leftMotor.configMotionCruiseVelocity((int)kTopSpeed, 0); // 2700 encoder units per 100ms interval is about 395 RPM
+    	rightMotor.configMotionCruiseVelocity((int)kTopSpeedRight, 0);
 
     	// It's not clear how the MotionAcceleration and the ClosedloopRamp differ...
     	leftMotor.configMotionAcceleration(kAccelUnits, 0); //want to get to full speed in 1/3 sec, so triple the velocity
@@ -211,20 +211,28 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     	//Set the closed-loop allowable error.  Empirically on no-load, error was <50 units.
         leftMotor.configAllowableClosedloopError(0, (int) kToleranceDistUnits/1000, 0); // index, err, timeout in ms
     	rightMotor.configAllowableClosedloopError(0, (int) kToleranceDistUnits/1000, 0); // index, err, timeout in ms
-    	
+
     	// Some packet frames default to updating at 160ms, which is waaaay too slow for our 20ms DS periodic interval!
 		// CTRE recommends that you set relevant frame periods to be at least as fast as periodic rate-- their example uses:
-		leftMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, 0);
-		leftMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, 0);
-		rightMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, 0);
-		rightMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, 0);
+		leftMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 5, 0);
+		leftMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 5, 0);
+        leftMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_2_Feedback0, 5, 0);
+        leftMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_3_Quadrature, 5, 0);
+        leftMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_9_MotProfBuffer, 5, 0);
+
+
+        rightMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 5, 0);
+        rightMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 5, 0);
+        rightMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_2_Feedback0, 5, 0);
+        rightMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_3_Quadrature, 5, 0);
+        rightMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_9_MotProfBuffer, 5, 0);
 
 
     	// Throw a lot of settings up on the SmartDashboard...
     	SmartDashboard.putNumber("Cruise SpeedDir", 2700); // speed in units per 100ms (2745 is full speed)
     	SmartDashboard.putNumber("Cruise Dist", 72); // inches (DriveWithPID will convert to encoder ticks)
     	SmartDashboard.putNumber("Cruise Accel", kAccelUnits); //8100 = 1/3 sec to get to full 2700 speed
-    	SmartDashboard.putNumber("Cruise R Accel", kAccelUnits);     	//10000 = Temporary to allow setting left vs right accel separately
+    	SmartDashboard.putNumber("Cruise R Accel", kRightAccelUnits);     	//10000 = Temporary to allow setting left vs right accel separately
     	SmartDashboard.putNumber("P", kDistP);
     	SmartDashboard.putNumber("I", kDistI);
     	SmartDashboard.putNumber("D", kDistD);
@@ -442,9 +450,9 @@ public class DriveTrain extends Subsystem implements PIDOutput {
      /* controllers by displaying a form where you can enter new P, I,  */
      /* and D constants and test the mechanism.                         */
      
-     public static final double kEncoderTicksPerInch = (4096 / (3.1415 * 6)); // 4096 encoder ticks per revolution; wheel diameter is nominally 6"
+     public static final double kEncoderTicksPerInch = (4096 / (3.1415 * 6.21)); // 4096 encoder ticks per revolution; wheel diameter is nominally 6"
      static final double kToleranceDegrees = 0.5; // Stop if we are within this many degrees of the setpoint.
-     public static final double kToleranceDistUnits = (int) 1/*inches*/ * kEncoderTicksPerInch; // stop if we are within this many encoder units of our setpoint.  18.85 inches/rev and 4096 ticks/rev means .25" is ~50 encoder ticks
+     public static final double kToleranceDistUnits = .5/*inches*/ * kEncoderTicksPerInch; // stop if we are within this many encoder units of our setpoint.  18.85 inches/rev and 4096 ticks/rev means .25" is ~50 encoder ticks
  
      static final double kLargeTurnP = 0.015;
      static final double kPracticeLargeTurnP = 0.015;
@@ -474,15 +482,16 @@ public class DriveTrain extends Subsystem implements PIDOutput {
      public static final double kPracticeSmallTurnPIDOutputMax = 0.19; // Max motor output in small PID mode
  
      /* Hardware PID values for the Talon */
-     static final double kDistP = 0.001; // last value was 0.071
-     static final double kDistI = 0.0;//0.005 on 2017 robot
-     static final double kDistD = 0.0;
+     static final double kDistP = 2.1; // last value was 0.071
+     static final double kDistI = 0.00;//0.005 on 2017 robot
+     static final double kDistD = 600;
      static final double kDistF = 0.3789; // Use for MotionMagic.  You must set this to ZERO if using Position mode!!!!!
      static final double kAccelTime  = 0.625; // Time to reach full velocity
-     static final double kTopSpeed = 2700; // Encoder units per 100us.
+     static final double kTopSpeed = 2328; // Encoder units per 100us.
+     static final double kTopSpeedRight = 2700;
      static final int kAccelUnits = (int) (kTopSpeed/kAccelTime); //velocity to reach after 1 second (2700 is full speed)
      static final double kRightAccelTime = 0.625; // allow for a different accel on right side if needed
-     static final int kRightAccelUnits= (int) (kTopSpeed/kRightAccelTime);
+     static final int kRightAccelUnits= (int) (kTopSpeedRight/kRightAccelTime);
  
      // We also need LOCAL COPIES of the following values, which will start as the constants above but can be overridden by the SmartDashboard via updatePIDValuesFromSD()
      static double largeTurnP = kLargeTurnP;

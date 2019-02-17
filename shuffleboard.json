@@ -64,6 +64,39 @@
               "_source0": "network_table:///SmartDashboard/Joystick Deadzone",
               "_title": "Joystick Deadzone"
             }
+          },
+          "13,0": {
+            "size": [
+              3,
+              2
+            ],
+            "content": {
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/Crab",
+              "_title": "SmartDashboard/Crab"
+            }
+          },
+          "11,12": {
+            "size": [
+              3,
+              3
+            ],
+            "content": {
+              "_type": "Toggle Switch",
+              "_source0": "network_table:///SmartDashboard/Master Debug Enable",
+              "_title": "SmartDashboard/Master Debug Enable"
+            }
+          },
+          "10,5": {
+            "size": [
+              3,
+              2
+            ],
+            "content": {
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/UpdateDebugEnable",
+              "_title": "SmartDashboard/UpdateDebugEnable"
+            }
           }
         }
       }
@@ -349,7 +382,7 @@
               "_title": "SmartDashboard/PracticeBot"
             }
           },
-          "13,0": {
+          "18,0": {
             "size": [
               4,
               10
@@ -382,9 +415,9 @@
               ]
             }
           },
-          "9,0": {
+          "12,0": {
             "size": [
-              4,
+              6,
               10
             ],
             "content": {
@@ -437,7 +470,7 @@
               "_title": "SmartDashboard/UpdateDebugEnable"
             }
           },
-          "0,8": {
+          "0,7": {
             "size": [
               4,
               3
@@ -446,6 +479,17 @@
               "_type": "Toggle Switch",
               "_source0": "network_table:///SmartDashboard/Master Debug Enable",
               "_title": "SmartDashboard/Master Debug Enable"
+            }
+          },
+          "9,0": {
+            "size": [
+              3,
+              3
+            ],
+            "content": {
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/Crab",
+              "_title": "SmartDashboard/Crab"
             }
           }
         }
@@ -719,9 +763,9 @@
     }
   ],
   "windowGeometry": {
-    "x": -6.666666507720947,
-    "y": 1.3333333730697632,
-    "width": 2114.666748046875,
-    "height": 901.3333129882812
+    "x": 11.5,
+    "y": 9.5,
+    "width": 1321.5,
+    "height": 611.0
   }
 }
