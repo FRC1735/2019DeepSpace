@@ -167,29 +167,31 @@ public class DriveWithPID extends Command {
 		if  (Robot.isDbgOn()) { // Use variable rather than print wrapper so that we also avoid all the CAN bus queries...
 			System.out.println(" FLerr: " + Robot.driveTrain.getLeftMotor().getClosedLoopError(0) +
 					" out_pct: " + Robot.driveTrain.getLeftMotor().getMotorOutputPercent() +
-					" CLTarget: " + Robot.driveTrain.getLeftMotor().getClosedLoopTarget(0) +
+					//" CLTarget: " + Robot.driveTrain.getLeftMotor().getClosedLoopTarget(0) +
 					" Pos: " + Robot.driveTrain.getLeftMotor().getSelectedSensorPosition(0) +
-					" Vel: " + Robot.driveTrain.getLeftMotor().getSelectedSensorVelocity(0) + 
-					" Mode: " + Robot.driveTrain.getLeftMotor().getControlMode() + 
+					//" Vel: " + Robot.driveTrain.getLeftMotor().getSelectedSensorVelocity(0) + 
+					//" Mode: " + Robot.driveTrain.getLeftMotor().getControlMode() + 
 					" AvgDistL: " + avgDistPair.getLeft() + "\n" +
 					" FRerr: " + Robot.driveTrain.getRightMotor().getClosedLoopError(0) +
-					" out_pct: " + Robot.driveTrain.getRightMotor().getClosedLoopTarget(0) +
+					" out_pct: " + Robot.driveTrain.getRightMotor().getMotorOutputPercent() +
 					" Pos: " + Robot.driveTrain.getRightMotor().getSelectedSensorPosition(0) +
-					" Vel: " + Robot.driveTrain.getRightMotor().getSelectedSensorVelocity(0) +
-					" Mode: " + Robot.driveTrain.getLeftMotor().getControlMode() +
+					//" Vel: " + Robot.driveTrain.getRightMotor().getSelectedSensorVelocity(0) +
+					//" Mode: " + Robot.driveTrain.getLeftMotor().getControlMode() +
 					" AvgDistR: " + avgDistPair.getRight() + "\n");
 		}
    	
     	// The most intuitive thing to check would be the closed loop error, and if it's less than the allowable error we're done.
     	// However, the first ~5 iterations (@20ms, this is about 100ms) don't report accurate CLerr, so we'll avoid that and instead check if our sensor position is within the allowed error of the setpoint.
     	// Unfortunately, the first iteration of the command hasn't yet actually seen the zeroed out sensor and will see whatever position was present prior to starting this command.
-    	// So, we need to skip checking anything on the first iteration.
-    	boolean distReachedLeft = (Math.abs(avgDistPair.getLeft()- m_encDistance) < DriveTrain.kToleranceDistUnits);
-    	boolean distReachedRight = (Math.abs(avgDistPair.getRight() - m_encDistance) < DriveTrain.kToleranceDistUnits);
-    	
+		// So, we need to skip checking anything on the first iteration.
+		final double leftEncoderDistance = (m_activeSide.equals(ActiveSide.LEFT) || m_activeSide.equals(ActiveSide.BOTH)) ? m_encDistance : 0;
+		final double rightEncoderDistance = (m_activeSide.equals(ActiveSide.RIGHT) || m_activeSide.equals(ActiveSide.BOTH)) ? m_encDistance : 0;
+    	boolean distReachedLeft = (Math.abs(avgDistPair.getLeft()- leftEncoderDistance) < DriveTrain.kToleranceDistUnits);
+    	boolean distReachedRight = (Math.abs(avgDistPair.getRight() - rightEncoderDistance) < DriveTrain.kToleranceDistUnits);
+
 		if (m_loopCount > 1) //The first execute will inc to 1, so the first isFinished will see 1 as well.  this is the iteration we want to skip.
 			// Want both left and right sides to have reached their goal before stopping.
-    		return false; //(distReachedLeft && distReachedRight) || isTimedOut();
+    		return (distReachedLeft && distReachedRight) || isTimedOut();
     	else
     		return false; // On the first iteration, don't terminate (we have no valid data upon which to calculate a termination value!)
     }
@@ -211,7 +213,7 @@ public class DriveWithPID extends Command {
     // Given a new distance on each encoder, calculate a new rolling average.
     protected PairOfDoubles calcAvgDist(int latestDistLeft, int latestDistRight) {
     	// Remove the oldest item in the distHistory (if too many exist)
-    	while (m_distHistory.size() > 50) // Rolling average of n items 0..(n-1)
+    	while (m_distHistory.size() > 25) // Rolling average of n items 0..(n-1)
     		m_distHistory.remove(0);
     	
     	// Add the latest distance to the list
@@ -235,7 +237,8 @@ public class DriveWithPID extends Command {
     int m_accel;
     boolean m_getDistFromSmartDashboard = false;
     boolean m_getDistFromCamera = false;
-    double m_loopCount;
+	double m_loopCount;
+	
     double m_encDistance; // This is the requested distance in encoder ticks, as opposed to m_distance which is in inches.
 	private List<PairOfDoubles> m_distHistory;  // Holds a history of previous sensor distance values
 	ActiveSide m_activeSide = ActiveSide.BOTH;
