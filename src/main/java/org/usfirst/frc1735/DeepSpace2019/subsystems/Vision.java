@@ -74,11 +74,20 @@ public class Vision extends Subsystem {
     table.getEntry("ledMode").setNumber(ledMode);
   }
 
+  public void setCameraMode(final int cameraMode) {
+    table.getEntry("camMode").setNumber(cameraMode);
+  }
+
   public interface LedMode {
     public static int USE_CURRENT_PIPELINE = 0;
     public static int FORCE_OFF = 1;
     public static int FORCE_BLINK = 2;
     public static int FORCE_ON = 3;
+  }
+
+  public interface CameraMode {
+    public static int VISION_PROCESSING = 0;
+    public static int DRIVING = 1;
   }
 
   NetworkTable table;
