@@ -42,9 +42,6 @@ public class Vision extends Subsystem {
   }
 
   // show tv, tx in SD
-  // change LED settings
-  // button to switch between streaming mode and vision recognitioin mode
-
 
   public double getTv() {
     return tv.getDouble(0); // Valid bit

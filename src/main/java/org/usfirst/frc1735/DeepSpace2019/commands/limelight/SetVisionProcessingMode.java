@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.usfirst.frc1735.DeepSpace2019.commands;
+package org.usfirst.frc1735.DeepSpace2019.commands.limelight;
 
 
 import org.usfirst.frc1735.DeepSpace2019.Robot;
@@ -13,20 +13,12 @@ import org.usfirst.frc1735.DeepSpace2019.subsystems.Vision.CameraMode;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 
-/**
- * Add your docs here.
- */
-public class SetCameraVisionProcessingMode extends InstantCommand {
-  /**
-   * Add your docs here.
-   */
-  public SetCameraVisionProcessingMode() {
-    super();
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
+public class SetVisionProcessingMode extends InstantCommand {
+
+  public SetVisionProcessingMode() {
+    setRunWhenDisabled(true);
   }
 
-  // Called once when the command executes
   @Override
   protected void initialize() {
     Robot.vision.setCameraMode(CameraMode.VISION_PROCESSING);

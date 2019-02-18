@@ -5,16 +5,16 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.usfirst.frc1735.DeepSpace2019.commands;
+package org.usfirst.frc1735.DeepSpace2019.commands.limelight;
 
 import org.usfirst.frc1735.DeepSpace2019.Robot;
 import org.usfirst.frc1735.DeepSpace2019.subsystems.Vision.CameraMode;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 
-public class SetCameraDrivingMode extends InstantCommand {
+public class SetDrivingMode extends InstantCommand {
 
-  public SetCameraDrivingMode() {
+  public SetDrivingMode() {
     setRunWhenDisabled(true);
   }
 
