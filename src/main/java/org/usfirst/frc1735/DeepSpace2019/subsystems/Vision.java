@@ -24,11 +24,11 @@ public class Vision extends Subsystem {
 
   @Override
   public void periodic() {
-    // TODO
+
   }
 
   public void onRobotReady() {
-    NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+    table = NetworkTableInstance.getDefault().getTable("limelight");
 
     tv = table.getEntry("tv"); // valid bit (target is detected)        
     tx = table.getEntry("tx"); // Horizontal angle to target in degrees
@@ -41,12 +41,17 @@ public class Vision extends Subsystem {
     ShuffleboardTab limelightTab = Shuffleboard.getTab("Limelight");
   }
 
+  // show tv, tx in SD
+  // change LED settings
+  // button to switch between streaming mode and vision recognitioin mode
+
+
   public double getTv() {
     return tv.getDouble(0); // Valid bit
   }
 
   public double getTx() {
-    return tx.getDouble(0);
+    return tx.getDouble(0); //
   }
   
   public double getTx0() {
@@ -62,8 +67,20 @@ public class Vision extends Subsystem {
   }
 
   public double getTy() {
-  return ty.getDouble(0);
+    return ty.getDouble(0);
   } 
 
+  public void setLedMode(final int ledMode) {
+    table.getEntry("ledMode").setNumber(ledMode);
+  }
+
+  public interface LedMode {
+    public static int USE_CURRENT_PIPELINE = 0;
+    public static int FORCE_OFF = 1;
+    public static int FORCE_BLINK = 2;
+    public static int FORCE_ON = 3;
+  }
+
+  NetworkTable table;
   NetworkTableEntry tv, tx, tx0, tx1, tx2, ty, ta;
 }
