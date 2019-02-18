@@ -98,9 +98,9 @@
               "_title": "/limelight/camMode"
             }
           },
-          "2,7": {
+          "0,9": {
             "size": [
-              2,
+              5,
               2
             ],
             "content": {
@@ -205,74 +205,6 @@
               "Layout/Label position": "BOTTOM",
               "_children": [
                 {
-                  "_type": "Speed Controller",
-                  "_source0": "network_table:///LiveWindow/Claw/ClawMotor",
-                  "_title": "ClawMotor",
-                  "Visuals/Orientation": "HORIZONTAL"
-                }
-              ]
-            }
-          },
-          "33,0": {
-            "size": [
-              6,
-              11
-            ],
-            "content": {
-              "_type": "Subsystem Layout",
-              "_source0": "network_table:///LiveWindow/Arm",
-              "_title": "Arm",
-              "Layout/Label position": "BOTTOM",
-              "_children": [
-                {
-                  "_type": "Boolean Box",
-                  "_source0": "network_table:///LiveWindow/Arm/FrontSwingSwitch/Value",
-                  "_title": "FrontSwingSwitch/Value",
-                  "Colors/Color when true": "#7CFC00FF",
-                  "Colors/Color when false": "#8B0000FF"
-                },
-                {
-                  "_type": "Boolean Box",
-                  "_source0": "network_table:///LiveWindow/Arm/BackSwingSwitch/Value",
-                  "_title": "BackSwingSwitch/Value",
-                  "Colors/Color when true": "#7CFC00FF",
-                  "Colors/Color when false": "#8B0000FF"
-                }
-              ]
-            }
-          },
-          "19,2": {
-            "size": [
-              6,
-              11
-            ],
-            "content": {
-              "_type": "Subsystem Layout",
-              "_source0": "network_table:///LiveWindow/AlienDeployer",
-              "_title": "AlienDeployer",
-              "Layout/Label position": "BOTTOM",
-              "_children": [
-                {
-                  "_type": "Speed Controller",
-                  "_source0": "network_table:///LiveWindow/AlienDeployer/AlienDeployerMotor",
-                  "_title": "AlienDeployerMotor",
-                  "Visuals/Orientation": "HORIZONTAL"
-                }
-              ]
-            }
-          },
-          "27,0": {
-            "size": [
-              6,
-              11
-            ],
-            "content": {
-              "_type": "Subsystem Layout",
-              "_source0": "network_table:///LiveWindow/Claw",
-              "_title": "Claw",
-              "Layout/Label position": "BOTTOM",
-              "_children": [
-                {
                   "_type": "Text View",
                   "_source0": "network_table:///LiveWindow/Claw/ClawMotor/Value",
                   "_title": "ClawMotor/Value"
@@ -310,6 +242,16 @@
                   "_title": "FrontSwingSwitch/Value",
                   "Colors/Color when true": "#7CFC00FF",
                   "Colors/Color when false": "#8B0000FF"
+                },
+                {
+                  "_type": "Voltage View",
+                  "_source0": "network_table:///LiveWindow/Arm/Abs Encoder",
+                  "_title": "/LiveWindow/Arm/Abs Encoder",
+                  "Range/Min": 0.0,
+                  "Range/Max": 5.0,
+                  "Range/Center": 0.0,
+                  "Visuals/Orientation": "HORIZONTAL",
+                  "Visuals/Number of tick marks": 5
                 }
               ]
             }
