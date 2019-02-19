@@ -145,7 +145,7 @@ public class HatchGrabber extends Subsystem {
             // Used by the HatchGrabOpenMove command button
             m_hatchGrabberMotorOpenMagdirEntry = m_alienTab.add("Hatch Motor", 0)
                                                             .withSize(2, 1) // make the widget 2x1
-                                                            .withPosition(0, 4) // place it in the top-left corner
+                                                            .withPosition(4, 0) // place it in the top-left corner
                                                             .withWidget(BuiltInWidgets.kNumberSlider)
                                                             .withProperties(Map.of("min", -0.3, "max", 0.3)) // specify widget properties here                                                    
                                                             .getEntry();
