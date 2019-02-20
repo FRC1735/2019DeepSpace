@@ -153,6 +153,8 @@ public class Robot extends TimedRobot {
         Robot.driveTrain.drivetrainInit();
         Robot.arm.initArm();
         Robot.vision.onRobotReady();
+        Robot.claw.initClaw();
+        Robot.hatchGrabber.initHatchGrabber();
 
         new JoystickFactory().get(Robot.oi.operator, Role.OPERATOR);
     }

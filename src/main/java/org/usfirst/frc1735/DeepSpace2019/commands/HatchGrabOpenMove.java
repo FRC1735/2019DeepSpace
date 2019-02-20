@@ -44,6 +44,9 @@ public class HatchGrabOpenMove extends Command {
     @Override
     protected void execute() {
         // Grab the motor magnitude/direction from the Shuffleboard and apply it to the motor
+        // This is for simple open-loop mode testing.
+        Robot.hatchGrabber.hatchGrabberOpenMove();
+
         
     }
 
@@ -56,11 +59,13 @@ public class HatchGrabOpenMove extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
+        Robot.hatchGrabber.stop();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     @Override
     protected void interrupted() {
+        end();
     }
 }
