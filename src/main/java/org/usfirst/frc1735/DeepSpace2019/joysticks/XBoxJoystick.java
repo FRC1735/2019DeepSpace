@@ -50,10 +50,17 @@ public class XBoxJoystick extends AbstractJoystick {
                 Robot.oi.tankMode.whenPressed(new EnterTankMode());
 
                 Robot.oi.clawIn = new JoystickButton(joystick, 1);
-                Robot.oi.clawIn.whileHeld(new ClawCmd(Claw.in));
+                //Robot.oi.clawIn.whileHeld(new ClawCmd(Claw.in));
+                // WhileHeld seems to cause stuttering (perhaps new behavior in 2019?  It starts and stops and stutters.  perhaps terminating the command and stopping the motor every iteration?)
+                // Workaround:  Explicit commands on press and release to accomplish the same thing
+                Robot.oi.clawIn.whenPressed(new ClawCmd(Claw.in));
+                Robot.oi.clawIn.whenReleased(new ClawCmd(0));
+              
 
                 Robot.oi.clawOut = new JoystickButton(joystick, 2);
-                Robot.oi.clawOut.whileHeld(new ClawCmd(Claw.out));
+//                Robot.oi.clawOut.whileHeld(new ClawCmd(Claw.out));
+                Robot.oi.clawOut.whenPressed(new ClawCmd(Claw.out));
+                Robot.oi.clawOut.whenReleased(new ClawCmd(0));
 
                 break;
 
