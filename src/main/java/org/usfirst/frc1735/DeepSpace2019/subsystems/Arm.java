@@ -128,12 +128,24 @@ public class Arm extends Subsystem {
          *  com.revrobotics.ControlType.kVelocity
          *  com.revrobotics.ControlType.kVoltage
          */
-        double setpointDegrees = m_setpointArmEntry.getDouble(0);
+        double setpointDegrees = degreesToTicks(m_setpointArmEntry.getDouble(0));
+        System.out.println(setpointDegrees);
         if ((setpointDegrees != m_setpointDegreesArm)) {
             m_setpointDegreesArm = setpointDegrees;
             System.out.println("Changing ARM setpoint to new value: " + m_setpointDegreesArm);
             armMotor.set(ControlMode.Position, m_setpointDegreesArm);
         }
+    }
+
+    private double degreesToTicks(final double d) {
+        final double t = -171; // the tick value at 120degrees
+        final double tarePoint = 120; // degrees
+        final double ticksPerDegree = -2.84;
+
+        final double difference = tarePoint - d;
+        final double offset = difference * ticksPerDegree;
+
+        return t + offset;
     }
 
     // One-time initialization of the ARM PID controller and hardware.  Called by Robot.robotInit()
