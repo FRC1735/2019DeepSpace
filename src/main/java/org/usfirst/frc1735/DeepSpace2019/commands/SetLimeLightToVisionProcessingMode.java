@@ -12,6 +12,7 @@
 package org.usfirst.frc1735.DeepSpace2019.commands;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import org.usfirst.frc1735.DeepSpace2019.Robot;
+import org.usfirst.frc1735.DeepSpace2019.subsystems.Vision.CameraMode;
 
 /**
  *
@@ -38,6 +39,7 @@ public class SetLimeLightToVisionProcessingMode extends InstantCommand {
     // Called once when this command runs
     @Override
     protected void initialize() {
+        Robot.vision.setCameraMode(CameraMode.VISION_PROCESSING);
     }
 
 }
