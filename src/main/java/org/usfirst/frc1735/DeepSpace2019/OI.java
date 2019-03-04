@@ -11,26 +11,15 @@
 
 package org.usfirst.frc1735.DeepSpace2019;
 
-import org.usfirst.frc1735.DeepSpace2019.commands.AlienDeploy;
 import org.usfirst.frc1735.DeepSpace2019.commands.AutonomousCommand;
 import org.usfirst.frc1735.DeepSpace2019.commands.AutonomousExperiment;
-import org.usfirst.frc1735.DeepSpace2019.commands.ClawCmd;
 import org.usfirst.frc1735.DeepSpace2019.commands.DriveWithPID;
-import org.usfirst.frc1735.DeepSpace2019.commands.EnterArcadeMode;
-import org.usfirst.frc1735.DeepSpace2019.commands.EnterTankMode;
 import org.usfirst.frc1735.DeepSpace2019.commands.GetDefaultPIDs;
-import org.usfirst.frc1735.DeepSpace2019.commands.HatchManipulator;
-import org.usfirst.frc1735.DeepSpace2019.commands.limelight.LightsOff;
-import org.usfirst.frc1735.DeepSpace2019.commands.limelight.LightsOn;
+import org.usfirst.frc1735.DeepSpace2019.commands.LightsOff;
+import org.usfirst.frc1735.DeepSpace2019.commands.LightsOn;
 import org.usfirst.frc1735.DeepSpace2019.commands.ResetGyro;
-import org.usfirst.frc1735.DeepSpace2019.commands.limelight.SetDrivingMode;
-import org.usfirst.frc1735.DeepSpace2019.commands.limelight.SetVisionProcessingMode;
 import org.usfirst.frc1735.DeepSpace2019.commands.Turn;
-import org.usfirst.frc1735.DeepSpace2019.commands.UpdateArmPIDs;
 import org.usfirst.frc1735.DeepSpace2019.commands.UpdateDebugEnable;
-import org.usfirst.frc1735.DeepSpace2019.joysticks.AbstractJoystick;
-import org.usfirst.frc1735.DeepSpace2019.joysticks.JoystickFactory;
-import org.usfirst.frc1735.DeepSpace2019.joysticks.Role;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
