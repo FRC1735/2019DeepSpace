@@ -15,6 +15,7 @@ import org.usfirst.frc1735.DeepSpace2019.commands.AutonomousCommand;
 import org.usfirst.frc1735.DeepSpace2019.commands.AutonomousExperiment;
 import org.usfirst.frc1735.DeepSpace2019.commands.DriveWithPID;
 import org.usfirst.frc1735.DeepSpace2019.commands.GetDefaultPIDs;
+import org.usfirst.frc1735.DeepSpace2019.commands.GreenLightFlash;
 import org.usfirst.frc1735.DeepSpace2019.commands.LightsOff;
 import org.usfirst.frc1735.DeepSpace2019.commands.LightsOn;
 import org.usfirst.frc1735.DeepSpace2019.commands.ResetGyro;
