@@ -12,6 +12,7 @@
 package org.usfirst.frc1735.DeepSpace2019.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc1735.DeepSpace2019.Robot;
+import org.usfirst.frc1735.DeepSpace2019.subsystems.LED;
 
 /**
  *
@@ -43,7 +44,7 @@ public class GreenLightFlash extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        Robot.lED.setColor(0.77);
+        Robot.lED.setColor(LED.GREEN);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -55,7 +56,7 @@ public class GreenLightFlash extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        Robot.lED.setColor(0.99);
+        Robot.lED.setColor(LED.OFF);
     }
 
     // Called when another command which requires one or more of the same

@@ -71,5 +71,7 @@ public class LED extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 
+    public static final double OFF = 0.99;
+    public static final double GREEN = 0.77;
 }
 
