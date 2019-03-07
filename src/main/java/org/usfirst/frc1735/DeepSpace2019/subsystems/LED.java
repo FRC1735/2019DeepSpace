@@ -73,5 +73,6 @@ public class LED extends Subsystem {
 
     public static final double OFF = 0.99;
     public static final double GREEN = 0.77;
+    public static final double ORANGE = 0.63;
 }
 
