@@ -128,12 +128,33 @@ public class Arm extends Subsystem {
          *  com.revrobotics.ControlType.kVelocity
          *  com.revrobotics.ControlType.kVoltage
          */
-        double setpointDegrees = m_setpointArmEntry.getDouble(0);
+        double setpointDegrees = degreesToTicks(m_setpointArmEntry.getDouble(0));
+        System.out.println(setpointDegrees);
         if ((setpointDegrees != m_setpointDegreesArm)) {
             m_setpointDegreesArm = setpointDegrees;
             System.out.println("Changing ARM setpoint to new value: " + m_setpointDegreesArm);
             armMotor.set(ControlMode.Position, m_setpointDegreesArm);
         }
+    }
+
+    private double degreesToTicks(final double d) {
+        final double tarePoint = 120; // this is the intended resting point of the arm in the forward down position when against the ground
+        final double ticksPerDegree = -2.84;
+
+        final double difference = tarePoint - d;
+        final double offset = difference * ticksPerDegree;
+
+        return m_tarePointTicks + offset;
+    }
+
+    // this function will reset what the forward most position of the arm is in encoder ticks
+    // the intended use is to move the arm into that position and call this function
+    // the reason for this function is to compensate in the middle of a match
+    // if the encoder gets shifted on the arm such that -512 is no longer straight up and down
+    public void tareArm() {
+        double oldTarePoint = m_tarePointTicks;
+        m_tarePointTicks = armMotor.getSelectedSensorPosition();
+        DriverStation.reportWarning("Tared arm, new forward position is: " + m_tarePointTicks + ", old position was: " + oldTarePoint , false);
     }
 
     // One-time initialization of the ARM PID controller and hardware.  Called by Robot.robotInit()
@@ -169,7 +190,7 @@ public class Arm extends Subsystem {
         // Chose the sensor and direction
     	armMotor.configSelectedFeedbackSensor(FeedbackDevice.Analog, 0, 0); // extra args are:  primary closed loop, timeout in ms
         armMotor.setSensorPhase(false); //true = invert the value.
-        armMotor.configFeedbackNotContinuous(true, 0); //abs encoder sensor wraps
+        armMotor.configFeedbackNotContinuous(false, 0); // prevent the abs encoder from wrapping
 
         
         // Some packet frames default to updating at 160ms, which is waaaay too slow for our 20ms DS periodic interval!
@@ -308,5 +329,9 @@ public class Arm extends Subsystem {
     static double m_ffArm = kFFArm; 
     static double m_maxOutputArm = kMaxOutputArm;  // May adjust this higher later...
     static double m_minOutputArm = kMinOutputArm;
+
+    // Variables related to taring the arm
+    static final double kTarePointTicks = -171;
+    double m_tarePointTicks = kTarePointTicks;
 }
 

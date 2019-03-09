@@ -7,6 +7,7 @@ import org.usfirst.frc1735.DeepSpace2019.commands.ClawCmd;
 import org.usfirst.frc1735.DeepSpace2019.commands.EnterArcadeMode;
 import org.usfirst.frc1735.DeepSpace2019.commands.EnterTankMode;
 import org.usfirst.frc1735.DeepSpace2019.commands.HatchManipulator;
+import org.usfirst.frc1735.DeepSpace2019.commands.TareArm;
 import org.usfirst.frc1735.DeepSpace2019.subsystems.AlienDeployer;
 import org.usfirst.frc1735.DeepSpace2019.subsystems.Claw;
 import org.usfirst.frc1735.DeepSpace2019.subsystems.HatchGrabber;
@@ -34,17 +35,21 @@ public class Attack3Joystick extends AbstractJoystick {
     void initializeKeymap() {
         switch (role) {
             case DRIVER_LEFT:
-                Robot.oi.arcadeMode = new JoystickButton(joystick, 11);
+                Robot.oi.arcadeMode = new JoystickButton(joystick, 9);
                 Robot.oi.arcadeMode.whenPressed(new EnterArcadeMode());
                 
                 Robot.oi.tankMode = new JoystickButton(joystick, 10);
                 Robot.oi.tankMode.whenPressed(new EnterTankMode());
 
                 Robot.oi.clawIn = new JoystickButton(joystick, 2);
-                Robot.oi.clawIn.whileHeld(new ClawCmd(Claw.in));
-
+                // WhileHeld seems to cause stuttering (perhaps new behavior in 2019?  It starts and stops and stutters.  perhaps terminating the command and stopping the motor every iteration?)
+                // Workaround:  Explicit commands on press and release to accomplish the same thing
+                Robot.oi.clawIn.whenPressed(new ClawCmd(Claw.in));
+                Robot.oi.clawIn.whenReleased(new ClawCmd(0));
+                
                 Robot.oi.clawOut = new JoystickButton(joystick, 1);
-                Robot.oi.clawOut.whileHeld(new ClawCmd(Claw.out));
+                Robot.oi.clawOut.whenPressed(new ClawCmd(Claw.out));
+                Robot.oi.clawOut.whenReleased(new ClawCmd(0));
                 break;  
            
             case DRIVER_RIGHT:
@@ -53,12 +58,18 @@ public class Attack3Joystick extends AbstractJoystick {
             case OPERATOR:
                 Robot.oi.releaseHatch = new JoystickButton(joystick, 5);
                 Robot.oi.releaseHatch.whenPressed(new HatchManipulator(HatchGrabber.out));
+                
                 Robot.oi.grabHatch = new JoystickButton(joystick, 4);
                 Robot.oi.grabHatch.whenPressed(new HatchManipulator(HatchGrabber.in));
+                
                 Robot.oi.alienAttack = new JoystickButton(joystick, 3);
                 Robot.oi.alienAttack.whenPressed(new AlienDeploy(AlienDeployer.out));
+                
                 Robot.oi.alienRetreat = new JoystickButton(joystick, 2);
                 Robot.oi.alienRetreat.whenPressed(new AlienDeploy(AlienDeployer.in));
+                
+                Robot.oi.tareArm = new JoystickButton(joystick, 10);
+                Robot.oi.tareArm.whenPressed(new TareArm());
                 break;
         }
     }
