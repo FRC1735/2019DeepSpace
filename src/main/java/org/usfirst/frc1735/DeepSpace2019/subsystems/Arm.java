@@ -14,8 +14,10 @@ package org.usfirst.frc1735.DeepSpace2019.subsystems;
 
 import org.usfirst.frc1735.DeepSpace2019.commands.*;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.shuffleboard.WidgetType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -230,7 +232,7 @@ public class Arm extends Subsystem {
         m_maxOutputArmEntry = m_armTab.add("Max Output Arm", kMaxOutputArm)
                                 .withSize(4, 1)
                                 .withPosition(4, 2)
-                                .getEntry();
+                                .getEntry();`
         m_setpointArmEntry = m_armTab.add("Set Degrees Arm", 0)
                                .withSize(4, 1)
                                 .withPosition(8, 2)
@@ -252,6 +254,10 @@ public class Arm extends Subsystem {
         m_armTab.add("UpdateArmSetpoint", new UpdateArmSetpoint())
                                 .withSize(4, 1)
                                 .withPosition(12, 2);
+
+        m_armTab.add("TareArm", new TareArm())
+                                .withSize(4, 1)
+                                .withPosition(12, 3);
 
 }
 
@@ -329,6 +335,19 @@ public class Arm extends Subsystem {
     static double m_ffArm = kFFArm; 
     static double m_maxOutputArm = kMaxOutputArm;  // May adjust this higher later...
     static double m_minOutputArm = kMinOutputArm;
+
+    // Preset Angles for Arm in Degrees
+    public static double kForwardBallPickup = 120;
+    public static double kForwardHatchPickup = 90;
+    public static double kForwardRocketOne = 42;
+    public static double kForwardCargo = 52;
+    public static double kForwardRocketTwo = 62;
+    public static double kUp = 0;
+    public static double kBackwardRocketTwo = -kForwardRocketTwo;
+    public static double kBackwardCargo = -kForwardCargo;
+    public static double kBackwardRocketOne = -kForwardRocketOne;
+    public static double kBackwardHatchPickup = -kForwardHatchPickup;
+    public static double kBackwardBallPickup = -kForwardBallPickup;
 
     // Variables related to taring the arm
     static final double kTarePointTicks = -171;
