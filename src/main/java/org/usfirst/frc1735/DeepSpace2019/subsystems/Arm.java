@@ -284,8 +284,7 @@ public class Arm extends Subsystem {
         armMotor.set(ControlMode.Position, setpointArm);
     }
 
-    public double getCurrentEncoderPosition() {
-        // TODO - verify this is the correct call
+    public double getSelectedSensorPosition() {
         return armMotor.getSelectedSensorPosition();
     }
 
