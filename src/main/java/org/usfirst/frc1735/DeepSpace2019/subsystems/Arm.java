@@ -232,7 +232,7 @@ public class Arm extends Subsystem {
         m_maxOutputArmEntry = m_armTab.add("Max Output Arm", kMaxOutputArm)
                                 .withSize(4, 1)
                                 .withPosition(4, 2)
-                                .getEntry();`
+                                .getEntry();
         m_setpointArmEntry = m_armTab.add("Set Degrees Arm", 0)
                                .withSize(4, 1)
                                 .withPosition(8, 2)
@@ -273,6 +273,10 @@ public class Arm extends Subsystem {
         }
         m_simpleArmJoyvalEntry.setDouble(motorVal); //MagDir comes directly from Joysticks (-1 to 1); need to scale to our defined max/min values
         armMotor.set(magDir);
+    }
+
+    public void PIDMoveArmDegrees(double degrees) {
+        PIDMoveArm(degreesToTicks(degrees));
     }
 
     //Use this function to use a joystick value to modifies PID setpoint for the ARM
