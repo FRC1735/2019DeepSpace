@@ -41,17 +41,7 @@ public class AlienExtendedOpen extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        final AlienDeployer.State alienDeployerState = Robot.alienDeployer.getState();
-        final HatchGrabber.State hatchGrabberState = Robot.hatchGrabber.getState();
-        
-        if (alienDeployerState.equals(AlienDeployer.State.EXTENDED)
-            && hatchGrabberState.equals(HatchGrabber.State.CLOSED) ) {
-            // open the hatchgrabber
-        } else if (alienDeployerState.equals(AlienDeployer.State.RETRACTED)
-            && hatchGrabberState.equals(HatchGrabber.State.CLOSED)) {
-            // extend the alien
-            // open the hatchgrabber
-        }
+
     }
 
     // Called repeatedly when this Command is scheduled to run
