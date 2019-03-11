@@ -224,6 +224,15 @@ public class HatchGrabber extends Subsystem {
         this.hatchGrabberMotor.set(ControlMode.PercentOutput, 0);
     }
 
+    public State getState() {
+        return State.CLOSED;
+    }
+
+    public enum State {
+        OPENED,
+        CLOSED
+    }
+
     //variables for controlling direction
     public static final double stop=0;
     public static final double out=1.0;
