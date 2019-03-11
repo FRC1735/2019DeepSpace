@@ -113,9 +113,6 @@ public class OI {
         SmartDashboard.putData("GetDefaultPIDs", new GetDefaultPIDs());
         SmartDashboard.putData("OrangeLight", new OrangeLight());
         SmartDashboard.putData("AlienAttackLight", new AlienAttackLight());
-        SmartDashboard.putData("AlienRetractedClosed", new AlienRetractedClosed());
-        SmartDashboard.putData("AlienExtendedClosed", new AlienExtendedClosed());
-        SmartDashboard.putData("AlienExtendedOpen", new AlienExtendedOpen());
         SmartDashboard.putData("AlienRetractedClosed2", new AlienRetractedClosed2());
         SmartDashboard.putData("AlienExtendedClosed2", new AlienExtendedClosed2());
         SmartDashboard.putData("AlienExtendedOpen2", new AlienExtendedOpen2());
