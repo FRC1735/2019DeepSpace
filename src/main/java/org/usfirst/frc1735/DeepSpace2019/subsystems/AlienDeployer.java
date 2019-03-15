@@ -73,7 +73,7 @@ public class AlienDeployer extends Subsystem {
         } else if (this.alienDeployerMotor.getPosition() == kRetractedPosition) {
             return State.RETRACTED;
         } else {
-            return null; // I guess we would make extended or retracted the default?
+            return State.EXTENDED; // I guess we would make extended or retracted the default?
         }
     }
 

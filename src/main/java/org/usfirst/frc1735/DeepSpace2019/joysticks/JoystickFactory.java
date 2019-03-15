@@ -9,8 +9,12 @@ public class JoystickFactory {
             return new XBoxJoystick(joystick, role);
         } else if (DriverStation.getInstance().getJoystickName(joystick.getPort()).equals("Logitech Dual Action")) {
             return new LogitechDualActionJoystick(joystick, role);
+        } else if (role.equals(Role.DRIVER_RIGHT)) { 
+            return new LaunchPadJoystick(joystick, Role.DRIVER_RIGHT);
         } else {
             return new Attack3Joystick(joystick, role);
         }
     }
+
+    // assuming launchpad is joystick right
 }

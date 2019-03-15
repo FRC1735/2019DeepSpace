@@ -12,8 +12,11 @@ import org.usfirst.frc1735.DeepSpace2019.commands.AlienAttackLight;
 import org.usfirst.frc1735.DeepSpace2019.commands.OrangeLight;
 import org.usfirst.frc1735.DeepSpace2019.subsystems.AlienDeployer;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Joystick.AxisType;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 /**
  * Add your docs here.
@@ -38,11 +41,13 @@ public class LaunchPadJoystick extends AbstractJoystick {
 
         Robot.oi.launchPadTwo = new JoystickButton(joystick, 2);
         Robot.oi.launchPadTwo.whenPressed(new OrangeLight()); // TODO
+
+
     }
 
     @Override
     public double getX() {
-        return 0;
+        return joystick.getX();
     }
 
     @Override
