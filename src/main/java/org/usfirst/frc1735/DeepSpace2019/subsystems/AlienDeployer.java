@@ -73,7 +73,7 @@ public class AlienDeployer extends Subsystem {
         } else if (this.alienDeployerMotor.getPosition() == kRetractedPosition) {
             return State.RETRACTED;
         } else {
-            return State.MOVING;
+            return State.EXTENDED; // I guess we would make extended or retracted the default?
         }
     }
 
@@ -90,8 +90,7 @@ public class AlienDeployer extends Subsystem {
 
     public enum State {
         EXTENDED,
-        RETRACTED,
-        MOVING
+        RETRACTED
     }
 
     //variables for controlling direction

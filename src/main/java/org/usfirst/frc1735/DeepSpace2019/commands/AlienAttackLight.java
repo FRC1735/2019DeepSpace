@@ -56,7 +56,7 @@ public class AlienAttackLight extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
-         Robot.lED.setColor(LED.DEFAULT);
+         //Robot.lED.setColor(LED.DEFAULT);
     }
 
     // Called when another command which requires one or more of the same

@@ -45,7 +45,7 @@ public class ArmWithJoystick extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        //Robot.arm.simpleMoveArm(-Robot.oi.operator.getY()); //y axis fwd is negative
+        Robot.arm.simpleMoveArm(-Robot.oi.operator.getY()); //y axis fwd is negative
         //Robot.arm.PIDMoveArm(-Robot.oi.operator.getY()); //y axis fwd is negative
     }
 
