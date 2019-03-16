@@ -9,14 +9,12 @@ package org.usfirst.frc1735.DeepSpace2019.joysticks;
 
 import org.usfirst.frc1735.DeepSpace2019.Robot;
 import org.usfirst.frc1735.DeepSpace2019.commands.AlienAttackLight;
+import org.usfirst.frc1735.DeepSpace2019.commands.ClawCmd;
 import org.usfirst.frc1735.DeepSpace2019.commands.OrangeLight;
-import org.usfirst.frc1735.DeepSpace2019.subsystems.AlienDeployer;
+import org.usfirst.frc1735.DeepSpace2019.subsystems.Claw;
 
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Joystick.AxisType;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 /**
  * Add your docs here.
@@ -33,16 +31,16 @@ public class LaunchPadJoystick extends AbstractJoystick {
 
         // since the LaunchPad can only do a specific set of things,
         // we do not switch for ROLE here, the LaunchPad only has one role
-        Robot.oi.launchPadZero = new JoystickButton(joystick, 0);
-        Robot.oi.launchPadZero.whenPressed(new OrangeLight()); // TODO
 
         Robot.oi.launchPadOne = new JoystickButton(joystick, 1);
-        Robot.oi.launchPadOne.whenPressed(new AlienAttackLight()); // TODO
-
+        // WhileHeld seems to cause stuttering (perhaps new behavior in 2019?  It starts and stops and stutters.  perhaps terminating the command and stopping the motor every iteration?)
+        // Workaround:  Explicit commands on press and release to accomplish the same thing
+        Robot.oi.launchPadOne.whenPressed(new ClawCmd(Claw.in));
+        Robot.oi.launchPadOne.whenReleased(new ClawCmd(0));
+      
         Robot.oi.launchPadTwo = new JoystickButton(joystick, 2);
-        Robot.oi.launchPadTwo.whenPressed(new OrangeLight()); // TODO
-
-
+        Robot.oi.launchPadTwo.whenPressed(new ClawCmd(Claw.out));
+        Robot.oi.launchPadTwo.whenReleased(new ClawCmd(0));
     }
 
     @Override

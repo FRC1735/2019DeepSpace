@@ -84,11 +84,9 @@ public class Claw extends Subsystem {
         // Put code here to be run every loop
         // We want the ball detector to light up (or change the color of) our onboard lights.
         if (isBallPresent()) {
-            System.out.println("    Detected");
             Robot.lED.setColor(LED.ORANGE);
         }
         else {
-            System.out.println("NOT Detected");
             Robot.lED.setColor(LED.DEFAULT);
         }
     }
