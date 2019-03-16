@@ -70,6 +70,7 @@ public class Attack3Joystick extends AbstractJoystick {
                 Robot.oi.alienRetreat = new JoystickButton(joystick, 2);
                 Robot.oi.alienRetreat.whenPressed(new AlienDeploy(AlienDeployer.in));
                 
+                /*
                 Robot.oi.armPresetForwardBallPickUp = new JoystickButton(joystick, 11);
                 Robot.oi.armPresetForwardBallPickUp.whenPressed(new MoveArmDegrees(Arm.kForwardBallPickup));
 
@@ -90,6 +91,7 @@ public class Attack3Joystick extends AbstractJoystick {
 
                 Robot.oi.armPresetBackwardBallPickUp = new JoystickButton(joystick, 6);
                 Robot.oi.armPresetBackwardBallPickUp.whenPressed(new MoveArmDegrees(Arm.kBackwardBallPickup));
+               */
                 break;
         }
     }
