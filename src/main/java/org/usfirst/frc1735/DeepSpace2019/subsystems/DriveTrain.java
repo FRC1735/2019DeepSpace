@@ -239,6 +239,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     	// (Which is what we use for joystick control)
     	
         // in open loop mode, the WPI lib handles motor controller inversion, so turn it off in the hardware.
+        rightMotor.setInverted(false);
         rightFollower.setInverted(false);
         
     	// Set our mode to be the open-loop drive-by-joystick behavior:

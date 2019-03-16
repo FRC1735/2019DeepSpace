@@ -46,7 +46,13 @@ public class ClawCmd extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        Robot.claw.clawMove(m_magDir); // FIXME:  this is not magnitude/direction, but a pseudo-enum for in vs out.  fix the variable name!
+        if ((m_magDir == Claw.in) &&  // If we are trying to pull in a ball...
+             Robot.claw.isBallPresent()) {
+                Robot.claw.clawMove(0);
+             }
+        else {
+            Robot.claw.clawMove(m_magDir); // FIXME:  this is not magnitude/direction, but a pseudo-enum for in vs out.  fix the variable name!
+        }
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -55,18 +61,18 @@ public class ClawCmd extends Command {
         // FIXME:  rather than calling isBallPresent (and doing a whole I2C read sequence that duplicates what is in Claw.periodic())
         //         We should perhaps cache the periodic call and use the local state.  Need to determine if periodic runs BEFORE commands, or we might be 20ms stale...
         //         
-        if ((m_magDir == Claw.in) &&  // If we are trying to pull in a ball...
-             Robot.claw.isBallPresent()) { // and we have one...
-                return true; // Terminate the command (which will stop the motor so we don't damage the ball!)
-        }
-        else
+//        if ((m_magDir == Claw.in) &&  // If we are trying to pull in a ball...
+//             Robot.claw.isBallPresent()) { // and we have one...
+//                return true; // Terminate the command (which will stop the motor so we don't damage the ball!)
+//        }
+//        else
             return false; // Keep on rollin...
     }
 
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        Robot.claw.clawMove(0);
+            Robot.claw.clawMove(0);
     }
 
     // Called when another command which requires one or more of the same

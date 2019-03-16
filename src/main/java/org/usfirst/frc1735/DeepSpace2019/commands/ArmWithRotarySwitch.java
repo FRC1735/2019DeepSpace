@@ -15,6 +15,7 @@ import org.usfirst.frc1735.DeepSpace2019.joysticks.Role;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 public class ArmWithRotarySwitch extends Command {
@@ -31,10 +32,11 @@ public class ArmWithRotarySwitch extends Command {
     joystickFactory = new JoystickFactory();
     joystickRight = joystickFactory.get(Robot.oi.joyRight, Role.DRIVER_RIGHT);
 
+    m_controllerTab = Shuffleboard.getTab("LaunchPad");
     m_dialValue = m_controllerTab.add("LaunchPad Dial", 0)
-    .withSize(2, 1) // make the widget 2x1
-    .withPosition(0, 0) // place it in the top-left corner
-    .getEntry();
+      .withSize(2, 1) // make the widget 2x1
+      .withPosition(0, 0) // place it in the top-left corner
+      .getEntry();
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -42,8 +44,6 @@ public class ArmWithRotarySwitch extends Command {
   protected void execute() {
     // TODO - delete logs
     final double rotaryValue = joystickRight.getX();
-    System.out.println("JTA: old rotary:" + m_lastKnownRotaryValue);
-    System.out.println("JTA: new rotary:" + rotaryValue);
     if (rotaryValue != m_lastKnownRotaryValue) { // TODO - probably need to compare a range
       
     }        

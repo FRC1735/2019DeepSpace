@@ -39,6 +39,8 @@ public class Vision extends Subsystem {
     tx2 = table.getEntry("tx2"); // one of three raw Tx values.
     
     ShuffleboardTab limelightTab = Shuffleboard.getTab("Limelight");
+    // TODO - permanently add camera
+    //limelightTab.add(video);
   }
 
   // show tv, tx in SD
