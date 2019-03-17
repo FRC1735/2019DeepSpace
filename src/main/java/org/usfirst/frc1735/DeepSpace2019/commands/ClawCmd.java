@@ -48,10 +48,16 @@ public class ClawCmd extends Command {
     protected void execute() {
         if ((m_magDir == Claw.in) &&  // If we are trying to pull in a ball...
              Robot.claw.isBallPresent()) {
+                // Arm the claw retainer here
+                Robot.claw.armBallRetainer(true);
                 Robot.claw.clawMove(0);
              }
         else {
             Robot.claw.clawMove(m_magDir); // FIXME:  this is not magnitude/direction, but a pseudo-enum for in vs out.  fix the variable name!
+            if (m_magDir == Claw.out) {
+                // Disarm the claw retainer if we are spitting a ball out deliberatele
+                Robot.claw.armBallRetainer(false);
+            }
         }
     }
 

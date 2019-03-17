@@ -59,10 +59,10 @@ public class Attack3Joystick extends AbstractJoystick {
 
             case OPERATOR:
                 Robot.oi.releaseHatch = new JoystickButton(joystick, 4);
-                Robot.oi.releaseHatch.whenPressed(new HatchManipulator(HatchGrabber.out));
+                Robot.oi.releaseHatch.whenPressed(new HatchManipulator(HatchGrabber.in));
                 
                 Robot.oi.grabHatch = new JoystickButton(joystick, 5);
-                Robot.oi.grabHatch.whenPressed(new HatchManipulator(HatchGrabber.in));
+                Robot.oi.grabHatch.whenPressed(new HatchManipulator(HatchGrabber.out));
                 
                 Robot.oi.alienAttack = new JoystickButton(joystick, 3);
                 Robot.oi.alienAttack.whenPressed(new AlienDeploy(AlienDeployer.out));
