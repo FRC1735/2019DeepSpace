@@ -35,18 +35,18 @@ public class AlienExtendedOpen extends CommandGroup {
         final AlienDeployer.State alienDeployerState = Robot.alienDeployer.getState();
         final HatchGrabber.State hatchGrabberState = Robot.hatchGrabber.getState();
         
-        addSequential(new PrintALogAndTimeout());
-        addSequential(new PrintALogAndTimeout());
-
         if (alienDeployerState.equals(AlienDeployer.State.EXTENDED)
             && hatchGrabberState.equals(HatchGrabber.State.CLOSED) ) {
                 addSequential(new PrintALogAndTimeout());
                 addSequential(new PrintALogAndTimeout());
-            // open the hatchgrabber
+            // grab hatch
+            addSequential(new HatchManipulator(HatchGrabber.out));
         } else if (alienDeployerState.equals(AlienDeployer.State.RETRACTED)
             && hatchGrabberState.equals(HatchGrabber.State.CLOSED)) {
-            // extend the alien
-            // open the hatchgrabber
+            // alien attack
+            addSequential(new AlienDeploy(AlienDeployer.out));
+            // grab hatch
+            addSequential(new HatchManipulator(HatchGrabber.out));
         }
     } 
 }

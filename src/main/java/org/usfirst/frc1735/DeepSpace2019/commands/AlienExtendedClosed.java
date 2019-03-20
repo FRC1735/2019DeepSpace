@@ -36,10 +36,11 @@ public class AlienExtendedClosed extends CommandGroup {
         if (alienDeployerState.equals(AlienDeployer.State.EXTENDED)
             && hatchGrabberState.equals(HatchGrabber.State.OPENED)) {
             // alien retreat
+            addSequential(new AlienDeploy(AlienDeployer.in));
         } else if (alienDeployerState.equals(AlienDeployer.State.RETRACTED)
             && hatchGrabberState.equals(HatchGrabber.State.CLOSED)) {
-            
-            // alien extend
+            // alien attack
+            addSequential(new AlienDeploy(AlienDeployer.out));
         }
     } 
 }
