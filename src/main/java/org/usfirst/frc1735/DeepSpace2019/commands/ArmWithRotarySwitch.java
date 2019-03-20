@@ -23,8 +23,6 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 public class ArmWithRotarySwitch extends Command {
   public ArmWithRotarySwitch() {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
     requires(Robot.arm);
   }
 
@@ -42,20 +40,25 @@ public class ArmWithRotarySwitch extends Command {
   protected void execute() {
     // TODO - delete logs
     final double rotaryValue = joystickRight.getX();
-    //if (rotaryValue != m_lastKnownRotaryValue) {} // TODO - probably need to compare a range
-    // Floating values seem to end up around zero.  Ignore those, as they are "Between" switch positions...
-    if (rotaryValue == 0) {}
-    else if (rotaryValue < 0) {
-    // if the value is -1 (or negative in general), then we want to override and use the Operatior Joystick
-    System.out.println("Operator Joystick Override");
-    Robot.arm.simpleMoveArm(-Robot.oi.operator.getY()); //y axis fwd is negative
-    }
-    else { // This is a valid PID setpoint
-      // Map the rotary dial values to degrees and into setpoints and move the arm to the right place
+    // if (rotaryValue != m_lastKnownRotaryValue) {} // TODO - probably need to
+    // compare a range
+    // Floating values seem to end up around zero. Ignore those, as they are
+    // "Between" switch positions...
+    if (rotaryValue == 0) {
+    } else if (rotaryValue < 0) {
+      // if the value is -1 (or negative in general), then we want to override and use
+      // the Operatior Joystick
+      System.out.println("Operator Joystick Override");
+      Robot.arm.simpleMoveArm(-Robot.oi.operator.getY()); // y axis fwd is negative
+    } else { // This is a valid PID setpoint
+      // Map the rotary dial values to degrees and into setpoints and move the arm to
+      // the right place
       double setpointDegrees = this.rotary2Degrees(rotaryValue); // What is the angle we're requestin?
-      double setpointTicks = Robot.arm.degreesToTicks(setpointDegrees); //Map that to ticks; takes into account any taring
+      double setpointTicks = Robot.arm.degreesToTicks(setpointDegrees); // Map that to ticks; takes into account any
+                                                                        // taring
       System.out.println("PID to " + setpointDegrees + "Degrees");
-      //System.out.println("Changing ARM setpoint to new value: " + m_setpointDegreesArm);
+      // System.out.println("Changing ARM setpoint to new value: " +
+      // m_setpointDegreesArm);
 
       Robot.arm.PIDMoveArm(setpointTicks);
     }
@@ -78,35 +81,24 @@ public class ArmWithRotarySwitch extends Command {
   protected void interrupted() {
   }
 
-
-
   double rotary2Degrees(double rotaryValue) {
-  // Step 1:  find which preset from the rotary value.
-  // Magic equation:  There is an average of 0.9055 between each of the 11 positions.
-  // therefore:  round (rotary_value/0.09055)
-  int index = (int) Math.round(rotaryValue / 0.09055);
-  //System.out.println("Rotary Value: " + rotaryValue + " Rotary index = " + index);
-  return indexDegreeMap[index - 1];
+    // Step 1: find which preset from the rotary value.
+    // Magic equation: There is an average of 0.9055 between each of the 11
+    // positions.
+    // therefore: round (rotary_value/0.09055)
+    int index = (int) Math.round(rotaryValue / 0.09055);
+    // System.out.println("Rotary Value: " + rotaryValue + " Rotary index = " +
+    // index);
+    return indexDegreeMap[index - 1];
   }
 
- 
-  JoystickFactory joystickFactory;  
-  AbstractJoystick joystickRight;        
+  JoystickFactory joystickFactory;
+  AbstractJoystick joystickRight;
 
   // Array variable for mapping switch index to angle
   // Starts from back of robot and goes forward
 
-    double [] indexDegreeMap = new double[] {
-      Arm.kBackwardBallPickup,
-      Arm.kBackwardHatchPickup,
-      Arm.kBackwardRocketOne,
-      Arm.kBackwardCargo,
-      Arm.kBackwardRocketTwo,
-      Arm.kUp,
-      Arm.kForwardRocketTwo,
-      Arm.kForwardCargo,
-      Arm.kForwardRocketOne,
-      Arm.kForwardHatchPickup,
-      Arm.kForwardBallPickup
-    };
+  double[] indexDegreeMap = new double[] { Arm.kBackwardBallPickup, Arm.kBackwardHatchPickup, Arm.kBackwardRocketOne,
+      Arm.kBackwardCargo, Arm.kBackwardRocketTwo, Arm.kUp, Arm.kForwardRocketTwo, Arm.kForwardCargo,
+      Arm.kForwardRocketOne, Arm.kForwardHatchPickup, Arm.kForwardBallPickup };
 }
