@@ -12,6 +12,10 @@ public abstract class AbstractJoystick {
         initializeKeymap();
     }
 
+    public boolean getRawButton(int buttonId) {
+        return joystick.getRawButton(buttonId);
+    }
+
     abstract void initializeKeymap();
 
     public abstract double getX();
