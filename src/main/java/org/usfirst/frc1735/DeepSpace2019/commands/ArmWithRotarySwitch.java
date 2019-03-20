@@ -38,10 +38,7 @@ public class ArmWithRotarySwitch extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    // TODO - delete logs
     final double rotaryValue = joystickRight.getX();
-    // if (rotaryValue != m_lastKnownRotaryValue) {} // TODO - probably need to
-    // compare a range
     // Floating values seem to end up around zero. Ignore those, as they are
     // "Between" switch positions...
     if (rotaryValue == 0) {
@@ -57,8 +54,6 @@ public class ArmWithRotarySwitch extends Command {
       double setpointTicks = Robot.arm.degreesToTicks(setpointDegrees); // Map that to ticks; takes into account any
                                                                         // taring
       System.out.println("PID to " + setpointDegrees + "Degrees");
-      // System.out.println("Changing ARM setpoint to new value: " +
-      // m_setpointDegreesArm);
 
       Robot.arm.PIDMoveArm(setpointTicks);
     }
@@ -87,8 +82,6 @@ public class ArmWithRotarySwitch extends Command {
     // positions.
     // therefore: round (rotary_value/0.09055)
     int index = (int) Math.round(rotaryValue / 0.09055);
-    // System.out.println("Rotary Value: " + rotaryValue + " Rotary index = " +
-    // index);
     return indexDegreeMap[index - 1];
   }
 
