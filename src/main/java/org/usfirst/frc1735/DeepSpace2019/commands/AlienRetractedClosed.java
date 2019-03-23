@@ -35,10 +35,13 @@ public class AlienRetractedClosed extends CommandGroup {
         if (alienDeployerState.equals(AlienDeployer.State.EXTENDED)
             && hatchGrabberState.equals(HatchGrabber.State.CLOSED)) {
             // retreat alien
+            addSequential(new AlienDeploy(AlienDeployer.in));
         } else  if (alienDeployerState.equals(AlienDeployer.State.EXTENDED)
             && hatchGrabberState.equals(HatchGrabber.State.OPENED)) {
-            // close hatchgrabber
+            // release hatch 
+            addSequential(new HatchManipulator(HatchGrabber.in));
             // retreat alien
+            addSequential(new AlienDeploy(AlienDeployer.in));
         }   
     } 
 }

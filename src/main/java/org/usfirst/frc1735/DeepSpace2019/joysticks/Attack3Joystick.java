@@ -59,10 +59,10 @@ public class Attack3Joystick extends AbstractJoystick {
 
             case OPERATOR:
                 Robot.oi.releaseHatch = new JoystickButton(joystick, 4);
-                Robot.oi.releaseHatch.whenPressed(new HatchManipulator(HatchGrabber.out));
+                Robot.oi.releaseHatch.whenPressed(new HatchManipulator(HatchGrabber.in));
                 
                 Robot.oi.grabHatch = new JoystickButton(joystick, 5);
-                Robot.oi.grabHatch.whenPressed(new HatchManipulator(HatchGrabber.in));
+                Robot.oi.grabHatch.whenPressed(new HatchManipulator(HatchGrabber.out));
                 
                 Robot.oi.alienAttack = new JoystickButton(joystick, 3);
                 Robot.oi.alienAttack.whenPressed(new AlienDeploy(AlienDeployer.out));
@@ -70,6 +70,7 @@ public class Attack3Joystick extends AbstractJoystick {
                 Robot.oi.alienRetreat = new JoystickButton(joystick, 2);
                 Robot.oi.alienRetreat.whenPressed(new AlienDeploy(AlienDeployer.in));
                 
+                /*
                 Robot.oi.armPresetForwardBallPickUp = new JoystickButton(joystick, 11);
                 Robot.oi.armPresetForwardBallPickUp.whenPressed(new MoveArmDegrees(Arm.kForwardBallPickup));
 
@@ -90,6 +91,7 @@ public class Attack3Joystick extends AbstractJoystick {
 
                 Robot.oi.armPresetBackwardBallPickUp = new JoystickButton(joystick, 6);
                 Robot.oi.armPresetBackwardBallPickUp.whenPressed(new MoveArmDegrees(Arm.kBackwardBallPickup));
+               */
                 break;
         }
     }

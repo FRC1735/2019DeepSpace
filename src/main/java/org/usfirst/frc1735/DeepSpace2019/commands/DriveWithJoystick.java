@@ -60,16 +60,19 @@ public class DriveWithJoystick extends Command {
     protected void execute() {
         // If we are doing a demo of the robot, we don't want people accidentally driving it off into the sunset.
         if (Robot.isDemoMode()) return; // and do nothing.
+        int XBOX_RIGHT_SHOULDER = 6;
+        int isFlipped = joystickLeft.getRawButton(XBOX_RIGHT_SHOULDER) ? -1 : 1 ;
+        
         if (joystickLeft.isCapableOfSoloTankMode()) {
             Robot.driveTrain.drive(applyDeadzoneFilter(joystickLeft.getX()), 
-                        -applyDeadzoneFilter(joystickLeft.getY()),
+                        -applyDeadzoneFilter(joystickLeft.getY() * isFlipped),
                         applyDeadzoneFilter(joystickLeft.getSwivelStickX()), 
-                        -applyDeadzoneFilter(joystickLeft.getSwivelStickY()));
+                        -applyDeadzoneFilter(joystickLeft.getSwivelStickY() * isFlipped));
         } else {
             Robot.driveTrain.drive(applyDeadzoneFilter(joystickLeft.getX()), 
-                        -applyDeadzoneFilter(joystickLeft.getY()),
+                        -applyDeadzoneFilter(joystickLeft.getY() * isFlipped),
                         applyDeadzoneFilter(joystickRight.getX()), 
-                        -applyDeadzoneFilter(joystickRight.getY()));
+                        -applyDeadzoneFilter(joystickRight.getY() * isFlipped));
         }
     }
 

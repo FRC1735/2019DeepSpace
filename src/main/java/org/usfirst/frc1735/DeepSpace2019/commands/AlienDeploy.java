@@ -40,11 +40,12 @@ public class AlienDeploy extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
+        final double timeout = 1.2;
         if(m_magDir >= 0) {
-            setTimeout(0.75);
+            setTimeout(timeout);
         }
         else { //Here we are negative
-            setTimeout(0.75);
+            setTimeout(timeout);
         }
     }
 
