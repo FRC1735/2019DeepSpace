@@ -10,6 +10,7 @@
 
 package org.usfirst.frc1735.DeepSpace2019.commands;
 
+
 import org.usfirst.frc1735.DeepSpace2019.Robot;
 import org.usfirst.frc1735.DeepSpace2019.subsystems.HatchGrabber;
 
@@ -61,9 +62,21 @@ public class HatchManipulator extends Command {
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        return isTimedOut()
-                || ((m_magDir == HatchGrabber.out) && Robot.hatchGrabber.isForwardLimitPressed())
-                || ((m_magDir == HatchGrabber.in) && Robot.hatchGrabber.isReverseLimitPressed());
+        boolean timedOut = isTimedOut();
+        boolean isGrabbing = (m_magDir == HatchGrabber.out);
+        boolean isReleasing = (m_magDir == HatchGrabber.in);
+        boolean forwardLimitPressed = Robot.hatchGrabber.isForwardLimitPressed();
+        boolean reverseLimitPressed = Robot.hatchGrabber.isReverseLimitPressed();
+
+        System.out.print("Checking isFinished for HatchManipulator"
+                            + "\n timedOut: " + timedOut
+                            + "\n isGrabbing: " + isGrabbing + " forwardLimit: " + forwardLimitPressed
+                            + "\n isReleasing: " + isReleasing + " reverseLimit: " + reverseLimitPressed);
+
+
+        return timedOut
+                || ((isGrabbing) && forwardLimitPressed)
+                || ((isReleasing) && reverseLimitPressed);
     }
 
     // Called once after isFinished returns true

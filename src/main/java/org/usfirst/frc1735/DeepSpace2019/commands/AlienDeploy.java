@@ -64,9 +64,20 @@ public class AlienDeploy extends Command {
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        return isTimedOut() 
-                || ((m_magDir == AlienDeployer.out) && Robot.alienDeployer.isForwardLimitPressed())
-                || ((m_magDir == AlienDeployer.in) && Robot.alienDeployer.isReverseLimitPressed());
+        boolean timedOut = isTimedOut();
+        boolean isExtending = (m_magDir == AlienDeployer.out);
+        boolean isRetracting = (m_magDir == AlienDeployer.in);
+        boolean forwardLimitPressed = Robot.alienDeployer.isForwardLimitPressed();
+        boolean reverseLimitPressed = Robot.alienDeployer.isReverseLimitPressed();
+
+        System.out.print("Checking isFinished for AlienDeploy"
+                            + "\n timedOut: " + timedOut
+                            + "\n isExtending: " + isExtending + " forwardLimit: " + forwardLimitPressed
+                            + "\n isRetracting: " + isRetracting + " reverseLimit: " + reverseLimitPressed);
+
+        return timedOut 
+                || ((isExtending) && forwardLimitPressed)
+                || ((isRetracting) && reverseLimitPressed);
     }
 
     // Called once after isFinished returns true
