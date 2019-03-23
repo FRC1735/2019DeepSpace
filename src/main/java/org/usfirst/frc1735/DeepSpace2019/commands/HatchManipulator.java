@@ -53,6 +53,7 @@ public class HatchManipulator extends Command {
         if ((m_magDir == HatchGrabber.out) && Robot.alienDeployer.isReverseLimitPressed()) {
             DriverStation.reportError("Cannot open HatchGrabber when Alien is retracted", false);
         } else {
+            System.out.println("HatchManipulator: " + m_magDir);
             Robot.hatchGrabber.hatchGrabberOpenMove(m_magDir);
         }
     }
@@ -60,7 +61,9 @@ public class HatchManipulator extends Command {
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        return isTimedOut();
+        return isTimedOut()
+                || ((m_magDir == HatchGrabber.out) && Robot.hatchGrabber.isForwardLimitPressed())
+                || ((m_magDir == HatchGrabber.in) && Robot.hatchGrabber.isReverseLimitPressed());
     }
 
     // Called once after isFinished returns true
