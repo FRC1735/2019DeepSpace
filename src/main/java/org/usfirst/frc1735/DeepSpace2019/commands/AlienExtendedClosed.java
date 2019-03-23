@@ -33,10 +33,12 @@ public class AlienExtendedClosed extends CommandGroup {
         final AlienDeployer.State alienDeployerState = Robot.alienDeployer.getState();
         final HatchGrabber.State hatchGrabberState = Robot.hatchGrabber.getState();
         
+        System.out.println("AlienExtendedClosed, alienDeployerState: " + alienDeployerState.name() + ", hatchGrabberState: " + hatchGrabberState.name());
+
         if (alienDeployerState.equals(AlienDeployer.State.EXTENDED)
             && hatchGrabberState.equals(HatchGrabber.State.OPENED)) {
-            // alien retreat
-            addSequential(new AlienDeploy(AlienDeployer.in));
+            // release hatch 
+            addSequential(new HatchManipulator(HatchGrabber.in));
         } else if (alienDeployerState.equals(AlienDeployer.State.RETRACTED)
             && hatchGrabberState.equals(HatchGrabber.State.CLOSED)) {
             // alien attack

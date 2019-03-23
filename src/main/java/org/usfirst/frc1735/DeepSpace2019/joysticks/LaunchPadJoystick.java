@@ -9,6 +9,9 @@ package org.usfirst.frc1735.DeepSpace2019.joysticks;
 
 import org.usfirst.frc1735.DeepSpace2019.Robot;
 import org.usfirst.frc1735.DeepSpace2019.commands.AlienAttackLight;
+import org.usfirst.frc1735.DeepSpace2019.commands.AlienExtendedClosed;
+import org.usfirst.frc1735.DeepSpace2019.commands.AlienExtendedOpen;
+import org.usfirst.frc1735.DeepSpace2019.commands.AlienRetractedClosed;
 import org.usfirst.frc1735.DeepSpace2019.commands.ClawCmd;
 import org.usfirst.frc1735.DeepSpace2019.commands.OrangeLight;
 import org.usfirst.frc1735.DeepSpace2019.subsystems.Claw;
@@ -41,6 +44,15 @@ public class LaunchPadJoystick extends AbstractJoystick {
         Robot.oi.launchPadTwo = new JoystickButton(joystick, 2);
         Robot.oi.launchPadTwo.whenPressed(new ClawCmd(Claw.out));
         Robot.oi.launchPadTwo.whenReleased(new ClawCmd(0));
+
+        Robot.oi.launchPadRetractedClosed = new JoystickButton(joystick, 3);
+        Robot.oi.launchPadRetractedClosed.whenPressed(new AlienRetractedClosed());
+
+        Robot.oi.launchPadExtendedClosed = new JoystickButton(joystick, 4);
+        Robot.oi.launchPadExtendedClosed.whenPressed(new AlienExtendedClosed());
+
+        Robot.oi.launchPadExtendedOpen = new JoystickButton(joystick, 5);
+        Robot.oi.launchPadExtendedOpen.whenPressed(new AlienExtendedOpen());
     }
 
     @Override

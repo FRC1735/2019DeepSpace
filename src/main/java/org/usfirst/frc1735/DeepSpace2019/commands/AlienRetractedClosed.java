@@ -32,6 +32,8 @@ public class AlienRetractedClosed extends CommandGroup {
         final AlienDeployer.State alienDeployerState = Robot.alienDeployer.getState();
         final HatchGrabber.State hatchGrabberState = Robot.hatchGrabber.getState();
         
+        System.out.println("AlienRetractedClosed, alienDeployerState: " + alienDeployerState.name() + ", hatchGrabberState: " + hatchGrabberState.name());
+
         if (alienDeployerState.equals(AlienDeployer.State.EXTENDED)
             && hatchGrabberState.equals(HatchGrabber.State.CLOSED)) {
             // retreat alien
