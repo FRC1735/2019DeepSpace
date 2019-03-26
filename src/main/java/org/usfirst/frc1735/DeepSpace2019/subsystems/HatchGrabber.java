@@ -235,13 +235,13 @@ public class HatchGrabber extends Subsystem {
     public boolean isForwardLimitPressed() {
         //return this.hatchGrabberMotor.getSensorCollection().isFwdLimitSwitchClosed();
 
-        return (this.hatchGrabberMotor.getSelectedSensorPosition() <= kMinGrabValue);
+        return (this.hatchGrabberMotor.getSelectedSensorPosition() >= kMaxGrabValue);
     }
 
     public boolean isReverseLimitPressed() {
         //return this.hatchGrabberMotor.getSensorCollection().isRevLimitSwitchClosed();
 
-        return (this.hatchGrabberMotor.getSelectedSensorPosition() >= kMaxGrabValue);
+        return (this.hatchGrabberMotor.getSelectedSensorPosition() <= kMinGrabValue);
     }
 
     public void stop() {
