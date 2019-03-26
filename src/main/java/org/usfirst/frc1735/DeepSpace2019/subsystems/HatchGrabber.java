@@ -228,19 +228,20 @@ public class HatchGrabber extends Subsystem {
     }
 
     public void hatchGrabberOpenMove(final double magDir) {
+        System.out.println("hatchGRabberOpenMove");
         this.hatchGrabberMotor.set(ControlMode.PercentOutput, magDir);
     }
 
     public boolean isForwardLimitPressed() {
-        return this.hatchGrabberMotor.getSensorCollection().isFwdLimitSwitchClosed();
+        //return this.hatchGrabberMotor.getSensorCollection().isFwdLimitSwitchClosed();
 
-        //return (this.hatchGrabberMotor.getSelectedSensorPosition() <= kMinGrabValue);
+        return (this.hatchGrabberMotor.getSelectedSensorPosition() <= kMinGrabValue);
     }
 
     public boolean isReverseLimitPressed() {
-        return this.hatchGrabberMotor.getSensorCollection().isRevLimitSwitchClosed();
+        //return this.hatchGrabberMotor.getSensorCollection().isRevLimitSwitchClosed();
 
-        //return (this.hatchGrabberMotor.getSelectedSensorPosition() >= kMaxGrabValue);
+        return (this.hatchGrabberMotor.getSelectedSensorPosition() >= kMaxGrabValue);
     }
 
     public void stop() {

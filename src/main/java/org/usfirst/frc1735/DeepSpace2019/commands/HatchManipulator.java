@@ -44,19 +44,22 @@ public class HatchManipulator extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        setTimeout(0.75);
+        //setTimeout(0.75);
+        setTimeout(2);
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
         // Robot.hatchGrabber.hatchGrabberPIDMove(m_magDir);
+        /*
         if ((m_magDir == HatchGrabber.out) && Robot.alienDeployer.isReverseLimitPressed()) {
             DriverStation.reportError("Cannot open HatchGrabber when Alien is retracted", false);
         } else {
+            */
             System.out.println("HatchManipulator: " + m_magDir);
             Robot.hatchGrabber.hatchGrabberOpenMove(m_magDir);
-        }
+        //}
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -71,12 +74,15 @@ public class HatchManipulator extends Command {
         System.out.print("Checking isFinished for HatchManipulator"
                             + "\n timedOut: " + timedOut
                             + "\n isGrabbing: " + isGrabbing + " forwardLimit: " + forwardLimitPressed
-                            + "\n isReleasing: " + isReleasing + " reverseLimit: " + reverseLimitPressed);
+                            + "\n isReleasing: " + isReleasing + " reverseLimit: " + reverseLimitPressed +"\n");
+
 
 
         return timedOut
                 || ((isGrabbing) && forwardLimitPressed)
                 || ((isReleasing) && reverseLimitPressed);
+    
+        //return timedOut;
     }
 
     // Called once after isFinished returns true
