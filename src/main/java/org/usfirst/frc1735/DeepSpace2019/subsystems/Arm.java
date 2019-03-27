@@ -12,6 +12,7 @@
 package org.usfirst.frc1735.DeepSpace2019.subsystems;
 
 
+import org.usfirst.frc1735.DeepSpace2019.Robot;
 import org.usfirst.frc1735.DeepSpace2019.commands.*;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
@@ -85,9 +86,11 @@ public class Arm extends Subsystem {
 
     @Override
     public void periodic() {
-        //updatePIDsFromSD(); // optionally update the current PIDs from the SD.  Comment out to avoid this.
-        //updateSetpointFromSD(); // optionally update the controller setpoint based on above calculations.  Comment out to avoid this.
-        m_absEncoderEntry.setDouble(armMotor.getSelectedSensorPosition()); // Current absolute encoder val.  1024 ticks/revolution = 2.84444 ticks/degree.  256 in 90 degrees.
+        if (!Robot.isPracticeBot()) {
+            //updatePIDsFromSD(); // optionally update the current PIDs from the SD.  Comment out to avoid this.
+            //updateSetpointFromSD(); // optionally update the controller setpoint based on above calculations.  Comment out to avoid this.
+            m_absEncoderEntry.setDouble(armMotor.getSelectedSensorPosition()); // Current absolute encoder val.  1024 ticks/revolution = 2.84444 ticks/degree.  256 in 90 degrees.
+        }
     }
 
     // This function causes all thelocal/active PID coefficients and related controller variables to be updated based on whatever's in the SmartDashboard.

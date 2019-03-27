@@ -44,22 +44,26 @@ public class HatchManipulator extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
+        m_abort = false; // Reset any prior errors before issuing the command again
         //setTimeout(0.75);
-        setTimeout(2);
+        setTimeout(2); //@FIXME:  This is purely for testing on the practice bot, where the motor is too slow to hit the max encoder value before the desired timeout.
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        // Robot.hatchGrabber.hatchGrabberPIDMove(m_magDir);
-        /*
-        if ((m_magDir == HatchGrabber.out) && Robot.alienDeployer.isReverseLimitPressed()) {
-            DriverStation.reportError("Cannot open HatchGrabber when Alien is retracted", false);
-        } else {
-            */
+        // The hatchgrabber is not configured to use PID via Robot.hatchGrabber.hatchGrabberPIDMove(m_magDir); we only use open loop plus soft limits via the encoder
+
+        // Implement a subsystem interlock:  If we think the alien is retracted inside the arm, do not attempt to open the hatchgrabber!!
+        // Checking for the alien to be at the forward limit is safe because that rules out both partially and fully retracted cases.
+        // So, abort any attempt to extend if we do not have positive confirmation of the forward limit switch being pressed.
+        if ((m_magDir == HatchGrabber.out) && !Robot.alienDeployer.isForwardLimitPressed()) {
+            DriverStation.reportError("Cannot open HatchGrabber when Alien is fully or partially retracted", false);
+            m_abort = true; // set a flag to abort the command
+        } else { // Normal operation
             System.out.println("HatchManipulator: " + m_magDir);
             Robot.hatchGrabber.hatchGrabberOpenMove(m_magDir);
-        //}
+        }
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -74,15 +78,15 @@ public class HatchManipulator extends Command {
         System.out.print("Checking isFinished for HatchManipulator"
                             + "\n timedOut: " + timedOut
                             + "\n isGrabbing: " + isGrabbing + " forwardLimit: " + forwardLimitPressed
-                            + "\n isReleasing: " + isReleasing + " reverseLimit: " + reverseLimitPressed +"\n");
+                            + "\n isReleasing: " + isReleasing + " reverseLimit: " + reverseLimitPressed
+                            + "\n error_abort: " + m_abort + "\n");
 
 
 
-        return timedOut
-                || (isGrabbing && forwardLimitPressed)
-                || (isReleasing && reverseLimitPressed);
-    
-        //return timedOut;
+        return timedOut // end (abnormally) as a safety net in case limit switches fail
+                || (isGrabbing && forwardLimitPressed) // end (normally) if we opened to our forward/max limit
+                || (isReleasing && reverseLimitPressed) // end (normally) if we closed to our reverse/min limit
+                || m_abort; // end (abnormally) if we took an error due to subsystem interlocks
     }
 
     // Called once after isFinished returns true
@@ -97,4 +101,8 @@ public class HatchManipulator extends Command {
     protected void interrupted() {
         end();
     }
+
+    //Variable for aborting on an error condition
+    boolean m_abort = false;
+
 }

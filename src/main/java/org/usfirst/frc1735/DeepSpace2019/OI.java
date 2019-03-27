@@ -21,6 +21,7 @@ import org.usfirst.frc1735.DeepSpace2019.commands.AutonomousDoNothing;
 import org.usfirst.frc1735.DeepSpace2019.commands.AutonomousExperiment;
 import org.usfirst.frc1735.DeepSpace2019.commands.AutonomousMoveThenJoystick;
 import org.usfirst.frc1735.DeepSpace2019.commands.DriveWithPID;
+import org.usfirst.frc1735.DeepSpace2019.commands.ForceHatchEncToMax;
 import org.usfirst.frc1735.DeepSpace2019.commands.GetDefaultPIDs;
 import org.usfirst.frc1735.DeepSpace2019.commands.LightsOff;
 import org.usfirst.frc1735.DeepSpace2019.commands.LightsOn;
@@ -119,6 +120,7 @@ public class OI {
         SmartDashboard.putData("LightsOn", new LightsOn());
         SmartDashboard.putData("LightsOff", new LightsOff());
         SmartDashboard.putData("GetDefaultPIDs", new GetDefaultPIDs());
+        SmartDashboard.putData("ForceHatchEncToMax", new ForceHatchEncToMax());
         SmartDashboard.putData("OrangeLight", new OrangeLight());
         SmartDashboard.putData("AlienAttackLight", new AlienAttackLight());
         SmartDashboard.putData("AlienRetractedClosed", new AlienRetractedClosed());

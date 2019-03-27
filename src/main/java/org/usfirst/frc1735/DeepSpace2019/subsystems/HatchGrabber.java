@@ -83,7 +83,7 @@ public class HatchGrabber extends Subsystem {
 
     @Override
     public void periodic() {
-        if (!Robot.isPracticeBot()) {
+        if (true /*!Robot.isPracticeBot()*/) {
             // Put code here to be run every loop
             m_hatchGrabberEncoderEntry.setDouble(hatchGrabberMotor.getSelectedSensorPosition());
         }
@@ -100,7 +100,7 @@ public class HatchGrabber extends Subsystem {
     public void initHatchGrabber() {
         // Do initialization that cannot be done in the constructor because robot.init isn't executed yet so we don't have a gyro instance.
         // Only intialize the hatchGrabberMotor if we are on a production robot.
-        if (!Robot.isPracticeBot()) {
+        if (true /*!Robot.isPracticeBot()*/) {
             //-----------------------------
             // Talon closed-loop configuration
             //-----------------------------
@@ -160,7 +160,7 @@ public class HatchGrabber extends Subsystem {
             // initialize the current position of the Hatchgrabber as "0" for the sensor.
             // This does imply that the alien hatchgrabber must be in the stowed/released position upon robot power-on!
             // if not, then the current position will become "stowed" and Bad Things will happen.
-            resetHatchGrabberEnc();
+            //resetHatchGrabberEnc();
 
             hatchGrabberMotor.setInverted(false); // Assume no motor inversion
             //Set the mode to Position.  Second arg is the setpoint.
@@ -193,18 +193,39 @@ public class HatchGrabber extends Subsystem {
         // Command to run the HatchGrabber in open-loop mode from the Shuffleboard
         m_alienTab.add("HatchGrabber Open Loop Run", new HatchGrabOpenMove())
         .withSize(4, 1)
-        .withPosition(0, 12);
+        .withPosition(0, 4);
 
          // Command to reset the hatchGrabber's encoder directly from the Shuffleboard
          m_alienTab.add("Reset Hatch Encoder", new ResetHatchEnc())
          .withSize(6, 1)
          .withPosition(0, 2);
         
+         m_alienTab.add("Force Hatch Encoder to MAX", new ForceHatchEncToMax())
+         .withSize(6,1)
+         .withPosition(8,2);
 
         } // If !practicebot
     }
+
+    // *******************************************
+    // BE EXTREMELY CAREFUL WITH THIS FUNCTION!!!!
+    // *******************************************
+    // This function call is intended to get us "out of jail" in case the hatchGrabber's encoder ever needs to be reset manually to the fully closed encoder value.
+    // Doing so with the hatch in any other opened position will result in damage to the grabber because we would open too far and break something.
+    // The intended use of this function is to reset the encoder on startup in rare cases where it needs to be reset without a full reboot of the robot... like for taring the position.
+    // Originally the subsystem init routine called this, but that was occasionally causing a reset of the encoder when the hatchgrabber was still fully extended, so the call has been commented out.
     public void resetHatchGrabberEnc() {
         hatchGrabberMotor.setSelectedSensorPosition(0);
+    }
+
+    // *******************************************
+    // BE EXTREMELY CAREFUL WITH THIS FUNCTION!!!!
+    // *******************************************
+    // This function call is intended to get us "out of jail" in case the robot is ever shut down or reset while the hatchgrabber is fully opened.
+    // If rebooted, the encoder will initialize to zero, but that would be incorrect (and doing an "open" from that open position would break the grabber mechanism)
+    // So, if we need to reset the hatchgrabber state, use this function to override the sensor to be the (desired) max hatchgrabber encoder value
+    public void forceHatchGraberEncToMax() {
+        hatchGrabberMotor.setSelectedSensorPosition((int)kMaxGrabValue); // Now the subsystem will believe the grabber is fully opened...
     }
 
     // Move the hatchGrabber under PID control

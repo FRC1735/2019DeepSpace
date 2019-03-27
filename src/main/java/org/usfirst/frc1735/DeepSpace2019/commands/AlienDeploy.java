@@ -42,6 +42,7 @@ public class AlienDeploy extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
+        m_abort = false; // Reset any prior errors before issuing the command again
         final double timeout = 1.2;
         if (m_magDir >= 0) {
             setTimeout(timeout);
@@ -53,14 +54,16 @@ public class AlienDeploy extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        /*
-        if ((m_magDir == AlienDeployer.in) && Robot.hatchGrabber.isForwardLimitPressed()) {
-            DriverStation.reportError("Cannot retract Alien while HatchGrabber is open", false);
-        } else {
-            */
+        // Implement a subsystem interlock:  if for some reason we think the hatchgrabber is currently open, do not try to retract the aliean into the arm!!!
+        // Checking for encoder to be at max is not sufficient, because it could be partially open for some reason.
+        // So, abort any attempt to retract if the encoder is not reading as fully closed!
+        if ((m_magDir == AlienDeployer.in) && !Robot.hatchGrabber.isReverseLimitPressed()) {
+            DriverStation.reportError("Cannot retract Alien while HatchGrabber is fully or partially open", false);
+            m_abort = true; // set a flag to abort the command
+        } else { // Normal operation
             System.out.println("AlienDeploy: " + m_magDir);
             Robot.alienDeployer.alienDeployerMove(m_magDir);
-        //}
+        }
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -75,13 +78,13 @@ public class AlienDeploy extends Command {
         System.out.print("Checking isFinished for AlienDeploy"
                             + "\n timedOut: " + timedOut
                             + "\n isExtending: " + isExtending + " forwardLimit: " + forwardLimitPressed
-                            + "\n isRetracting: " + isRetracting + " reverseLimit: " + reverseLimitPressed + "\n");
+                            + "\n isRetracting: " + isRetracting + " reverseLimit: " + reverseLimitPressed
+                            + "\n error_abort: " + m_abort + "\n");
 
-        return timedOut;
-        /* 
-                || ((isExtending) && forwardLimitPressed)
-                || ((isRetracting) && reverseLimitPressed);
-                */
+        return timedOut // end (abnormally) as a safety net in case limit switches fail
+                || ((isExtending) && forwardLimitPressed) // end (normally) if we extended to our forward limit
+                || ((isRetracting) && reverseLimitPressed) // end (normally) if we retracted to our reverse limit
+                || m_abort; // end (abnormally) if we took an error due to subsystem interlocks
     }
 
     // Called once after isFinished returns true
@@ -96,4 +99,7 @@ public class AlienDeploy extends Command {
     protected void interrupted() {
         end();
     }
+
+    //Variable for aborting on an error condition
+    boolean m_abort = false;
 }
