@@ -364,7 +364,7 @@ public class Arm extends Subsystem {
     public static double kBackwardRocketTwo = -kForwardRocketTwo;
     public static double kBackwardCargo = -kForwardCargo;
     public static double kBackwardRocketOne = -kForwardRocketOne;
-    public static double kBackwardHatchPickup = -kForwardBallPickup;
+    public static double kBackwardHatchPickup = -kForwardHatchPickup;
     public static double kBackwardBallPickup = -kForwardBallPickup;
 
 
