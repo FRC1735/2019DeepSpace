@@ -45,7 +45,7 @@ public class ArmWithRotarySwitch extends Command {
     } else if (rotaryValue < 0) {
       // if the value is -1 (or negative in general), then we want to override and use
       // the Operatior Joystick
-      System.out.println("Operator Joystick Override");
+      //System.out.println("Operator Joystick Override");
       Robot.arm.simpleMoveArm(-Robot.oi.operator.getY()); // y axis fwd is negative
     } else { // This is a valid PID setpoint
       // Map the rotary dial values to degrees and into setpoints and move the arm to
@@ -82,6 +82,8 @@ public class ArmWithRotarySwitch extends Command {
     // positions.
     // therefore: round (rotary_value/0.09055)
     int index = (int) Math.round(rotaryValue / 0.09055);
+    // double failsafe
+    if ((index <= 0) || (index > 11)) index = 5; // force a known neutral value if we went out of bounds
     return indexDegreeMap[index - 1];
   }
 

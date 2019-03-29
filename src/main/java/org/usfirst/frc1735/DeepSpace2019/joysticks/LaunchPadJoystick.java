@@ -9,9 +9,14 @@ package org.usfirst.frc1735.DeepSpace2019.joysticks;
 
 import org.usfirst.frc1735.DeepSpace2019.Robot;
 import org.usfirst.frc1735.DeepSpace2019.commands.AlienAttackLight;
+import org.usfirst.frc1735.DeepSpace2019.commands.AlienExtendedClosed;
+import org.usfirst.frc1735.DeepSpace2019.commands.AlienExtendedOpen;
+import org.usfirst.frc1735.DeepSpace2019.commands.AlienRetractedClosed;
 import org.usfirst.frc1735.DeepSpace2019.commands.ClawCmd;
 import org.usfirst.frc1735.DeepSpace2019.commands.OrangeLight;
 import org.usfirst.frc1735.DeepSpace2019.subsystems.Claw;
+import org.usfirst.frc1735.DeepSpace2019.subsystems.HatchGrabber;
+import org.usfirst.frc1735.DeepSpace2019.subsystems.AlienDeployer;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -41,6 +46,15 @@ public class LaunchPadJoystick extends AbstractJoystick {
         Robot.oi.launchPadTwo = new JoystickButton(joystick, 2);
         Robot.oi.launchPadTwo.whenPressed(new ClawCmd(Claw.out));
         Robot.oi.launchPadTwo.whenReleased(new ClawCmd(0));
+
+        Robot.oi.launchPadRetractedClosed = new JoystickButton(joystick, 3);
+        Robot.oi.launchPadRetractedClosed.whenPressed(new AlienRetractedClosed());
+
+        Robot.oi.launchPadExtendedClosed = new JoystickButton(joystick, 4);
+        Robot.oi.launchPadExtendedClosed.whenPressed(new AlienExtendedClosed());
+
+        Robot.oi.launchPadExtendedOpen = new JoystickButton(joystick, 5);
+        Robot.oi.launchPadExtendedOpen.whenPressed(new AlienExtendedOpen());
     }
 
     @Override
@@ -66,5 +80,47 @@ public class LaunchPadJoystick extends AbstractJoystick {
     @Override
     public boolean isCapableOfSoloTankMode() {
         return false;
+    }
+
+    //Launchpad has the ability to drive outputs (which we hook to the button LEDs)
+    public void setAlienRetractedClosedLED(boolean newState) {
+        joystick.setOutput(1, newState);
+    }
+    public void setAlienExtendedClosedLED(boolean newState) {
+        joystick.setOutput(2, newState);
+    }
+    public void setAlienExtendedOpenLED(boolean newState) {
+        joystick.setOutput(3, newState);
+    }
+
+    // This function looks at the hardware state to determine what state the alien is in, and set button lights accordingly
+    public void updateAlienLightState() {
+        if ((Robot.alienDeployer.getState() == AlienDeployer.State.RETRACTED)
+            && (Robot.hatchGrabber.getState() == HatchGrabber.State.CLOSED)) {
+                setAlienRetractedClosedLED(true);
+                setAlienExtendedClosedLED(false);
+                setAlienExtendedOpenLED(false);
+            }
+            else if ((Robot.alienDeployer.getState() == AlienDeployer.State.EXTENDED)
+            && (Robot.hatchGrabber.getState() == HatchGrabber.State.CLOSED)) {
+                setAlienRetractedClosedLED(false);
+                setAlienExtendedClosedLED(true);
+                setAlienExtendedOpenLED(false);
+            }
+            else if ((Robot.alienDeployer.getState() == AlienDeployer.State.EXTENDED)
+            && (Robot.hatchGrabber.getState() == HatchGrabber.State.OPENED)) {
+                setAlienRetractedClosedLED(false);
+                setAlienExtendedClosedLED(false);
+                setAlienExtendedOpenLED(true);
+            }
+            else {
+                // None of the above, so for now just turn the lights all off.
+                // TODO:  perhaps blink if a subsystem is in motion, or if a command is in the process of being executed?
+                setAlienRetractedClosedLED(false);
+                setAlienExtendedClosedLED(false);
+                setAlienExtendedOpenLED(false);
+                 
+            }
+
     }
 }
