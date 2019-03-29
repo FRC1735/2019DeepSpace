@@ -83,7 +83,7 @@ public class ArmWithRotarySwitch extends Command {
     // therefore: round (rotary_value/0.09055)
     int index = (int) Math.round(rotaryValue / 0.09055);
     // double failsafe
-    if ((index <= 0) || (index > 10)) index = 5; // force a known neutral value if we went out of bounds
+    if ((index <= 0) || (index > 11)) index = 5; // force a known neutral value if we went out of bounds
     return indexDegreeMap[index - 1];
   }
 

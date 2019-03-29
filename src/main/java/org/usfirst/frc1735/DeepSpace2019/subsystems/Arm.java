@@ -90,6 +90,7 @@ public class Arm extends Subsystem {
             //updatePIDsFromSD(); // optionally update the current PIDs from the SD.  Comment out to avoid this.
             //updateSetpointFromSD(); // optionally update the controller setpoint based on above calculations.  Comment out to avoid this.
             m_absEncoderEntry.setDouble(armMotor.getSelectedSensorPosition()); // Current absolute encoder val.  1024 ticks/revolution = 2.84444 ticks/degree.  256 in 90 degrees.
+            m_rawRotaryValue.setDouble(Robot.oi.joyRight.getX());
         }
     }
 
@@ -258,10 +259,15 @@ public class Arm extends Subsystem {
         m_armTab.add("UpdateArmSetpoint", new UpdateArmSetpoint())
                                 .withSize(4, 1)
                                 .withPosition(12, 2);
-
         m_armTab.add("TareArm", new TareArm())
                                 .withSize(4, 1)
                                 .withPosition(12, 3);
+ //Raw analog value from rotary switch
+        m_rawRotaryValue= m_armTab.add("Raw Rotary Value", 0)
+                                .withSize(4, 1)
+                                .withPosition(4, 4)
+                                .getEntry();
+                         
 
 }
 
@@ -316,6 +322,7 @@ public class Arm extends Subsystem {
     NetworkTableEntry m_processVariableArmEntry; // current encoder position (Value?  Rotations?)
     NetworkTableEntry m_simpleArmJoyvalEntry; // to print current joystick value for calibration of motor limits
     NetworkTableEntry m_absEncoderEntry; // For absolute encoder values
+    NetworkTableEntry m_rawRotaryValue; // for the rotary switch sampled value
     
 
     // Arm setpoints:
@@ -349,20 +356,20 @@ public class Arm extends Subsystem {
 
     // Preset Angles for Arm in Degrees
     public static double kForwardBallPickup = 120;
-    public static double kForwardHatchPickup = 92;
-    public static double kForwardRocketOne = 80;
-    public static double kForwardCargo = 38 ;
+    public static double kForwardHatchPickup = 87;
+    public static double kForwardRocketOne = 70;
+    public static double kForwardCargo = 40 ;
     public static double kForwardRocketTwo = 20;
     public static double kUp = 0;
     public static double kBackwardRocketTwo = -kForwardRocketTwo;
     public static double kBackwardCargo = -kForwardCargo;
     public static double kBackwardRocketOne = -kForwardRocketOne;
-    public static double kBackwardHatchPickup = -90;
+    public static double kBackwardHatchPickup = -kForwardBallPickup;
     public static double kBackwardBallPickup = -kForwardBallPickup;
 
 
     // Variables related to taring the arm
-    static final double kTarePointTicks = -162;
+    static final double kTarePointTicks = -148;
     double m_tarePointTicks = kTarePointTicks;
 }
 
