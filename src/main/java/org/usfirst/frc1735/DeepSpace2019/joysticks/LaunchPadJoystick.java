@@ -8,15 +8,14 @@
 package org.usfirst.frc1735.DeepSpace2019.joysticks;
 
 import org.usfirst.frc1735.DeepSpace2019.Robot;
-import org.usfirst.frc1735.DeepSpace2019.commands.AlienAttackLight;
 import org.usfirst.frc1735.DeepSpace2019.commands.AlienExtendedClosed;
 import org.usfirst.frc1735.DeepSpace2019.commands.AlienExtendedOpen;
 import org.usfirst.frc1735.DeepSpace2019.commands.AlienRetractedClosed;
 import org.usfirst.frc1735.DeepSpace2019.commands.ClawCmd;
-import org.usfirst.frc1735.DeepSpace2019.commands.OrangeLight;
+import org.usfirst.frc1735.DeepSpace2019.subsystems.AlienDeployer;
 import org.usfirst.frc1735.DeepSpace2019.subsystems.Claw;
 import org.usfirst.frc1735.DeepSpace2019.subsystems.HatchGrabber;
-import org.usfirst.frc1735.DeepSpace2019.subsystems.AlienDeployer;
+import org.usfirst.frc1735.DeepSpace2019.subsystems.LED;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -100,18 +99,24 @@ public class LaunchPadJoystick extends AbstractJoystick {
                 setAlienRetractedClosedLED(true);
                 setAlienExtendedClosedLED(false);
                 setAlienExtendedOpenLED(false);
+
+                Robot.lED.setColor(LED.DEFAULT);
             }
             else if ((Robot.alienDeployer.getState() == AlienDeployer.State.EXTENDED)
             && (Robot.hatchGrabber.getState() == HatchGrabber.State.CLOSED)) {
                 setAlienRetractedClosedLED(false);
                 setAlienExtendedClosedLED(true);
                 setAlienExtendedOpenLED(false);
+
+                Robot.lED.setColor(LED.BLUE);
             }
             else if ((Robot.alienDeployer.getState() == AlienDeployer.State.EXTENDED)
             && (Robot.hatchGrabber.getState() == HatchGrabber.State.OPENED)) {
                 setAlienRetractedClosedLED(false);
                 setAlienExtendedClosedLED(false);
                 setAlienExtendedOpenLED(true);
+
+                Robot.lED.setColor(LED.STROBE_BLUE);
             }
             else {
                 // None of the above, so for now just turn the lights all off.
