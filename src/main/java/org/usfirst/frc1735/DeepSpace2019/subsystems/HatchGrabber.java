@@ -261,8 +261,10 @@ public class HatchGrabber extends Subsystem {
 
     public boolean isReverseLimitPressed() {
         //return this.hatchGrabberMotor.getSensorCollection().isRevLimitSwitchClosed();
-
-        return (this.hatchGrabberMotor.getSelectedSensorPosition() <= kMinGrabValue);
+        // Give a guardband of a few hundred because we initialize to zero, and
+        // motion of the arm causes the encoder to creep up a few ticks.  We still consider
+        // that to be "closed"
+        return (this.hatchGrabberMotor.getSelectedSensorPosition() <= kMinGrabValue+500);
     }
 
     public void stop() {
