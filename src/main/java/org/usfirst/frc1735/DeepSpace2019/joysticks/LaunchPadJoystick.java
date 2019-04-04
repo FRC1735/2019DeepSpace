@@ -18,6 +18,7 @@ import org.usfirst.frc1735.DeepSpace2019.subsystems.HatchGrabber;
 import org.usfirst.frc1735.DeepSpace2019.subsystems.LED;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
@@ -37,11 +38,14 @@ public class LaunchPadJoystick extends AbstractJoystick {
         // we do not switch for ROLE here, the LaunchPad only has one role
 
         Robot.oi.launchPadOne = new JoystickButton(joystick, 1);
-        // WhileHeld seems to cause stuttering (perhaps new behavior in 2019?  It starts and stops and stutters.  perhaps terminating the command and stopping the motor every iteration?)
-        // Workaround:  Explicit commands on press and release to accomplish the same thing
+        // WhileHeld seems to cause stuttering (perhaps new behavior in 2019? It starts
+        // and stops and stutters. perhaps terminating the command and stopping the
+        // motor every iteration?)
+        // Workaround: Explicit commands on press and release to accomplish the same
+        // thing
         Robot.oi.launchPadOne.whenPressed(new ClawCmd(Claw.in));
         Robot.oi.launchPadOne.whenReleased(new ClawCmd(0));
-      
+
         Robot.oi.launchPadTwo = new JoystickButton(joystick, 2);
         Robot.oi.launchPadTwo.whenPressed(new ClawCmd(Claw.out));
         Robot.oi.launchPadTwo.whenReleased(new ClawCmd(0));
@@ -81,51 +85,58 @@ public class LaunchPadJoystick extends AbstractJoystick {
         return false;
     }
 
-    //Launchpad has the ability to drive outputs (which we hook to the button LEDs)
+    // Launchpad has the ability to drive outputs (which we hook to the button LEDs)
     public void setAlienRetractedClosedLED(boolean newState) {
         joystick.setOutput(1, newState);
     }
+
     public void setAlienExtendedClosedLED(boolean newState) {
         joystick.setOutput(2, newState);
     }
+
     public void setAlienExtendedOpenLED(boolean newState) {
         joystick.setOutput(3, newState);
     }
 
-    // This function looks at the hardware state to determine what state the alien is in, and set button lights accordingly
+    // This function looks at the hardware state to determine what state the alien
+    // is in, and set button lights accordingly
     public void updateAlienLightState() {
         if ((Robot.alienDeployer.getState() == AlienDeployer.State.RETRACTED)
-            && (Robot.hatchGrabber.getState() == HatchGrabber.State.CLOSED)) {
+                && (Robot.hatchGrabber.getState() == HatchGrabber.State.CLOSED)) {
+            setAlienRetractedClosedLED(true);
+            setAlienExtendedClosedLED(false);
+            setAlienExtendedOpenLED(false);
+
+            // Robot.lED.setColor(LED.DEFAULT);
+        } else if ((Robot.alienDeployer.getState() == AlienDeployer.State.EXTENDED)
+                && (Robot.hatchGrabber.getState() == HatchGrabber.State.CLOSED)) {
+            setAlienRetractedClosedLED(false);
+            setAlienExtendedClosedLED(true);
+            setAlienExtendedOpenLED(false);
+
+            // Robot.lED.setColor(LED.BLUE);
+        } else if ((Robot.alienDeployer.getState() == AlienDeployer.State.EXTENDED)
+                && (Robot.hatchGrabber.getState() == HatchGrabber.State.OPENED)) {
+            setAlienRetractedClosedLED(false);
+            setAlienExtendedClosedLED(false);
+            setAlienExtendedOpenLED(true);
+
+            // Robot.lED.setColor(LED.STROBE_BLUE);
+        } else {
+            // None of the above, so for now just turn the lights all off.
+            // TODO: perhaps blink if a subsystem is in motion, or if a command is in the
+            // process of being executed?
+            if (Math.round(Timer.getFPGATimestamp()) % 2 == 0) {
+                setAlienRetractedClosedLED(false);
+                setAlienExtendedClosedLED(false);
+                setAlienExtendedOpenLED(false);
+            } else {
                 setAlienRetractedClosedLED(true);
-                setAlienExtendedClosedLED(false);
-                setAlienExtendedOpenLED(false);
-
-                Robot.lED.setColor(LED.DEFAULT);
-            }
-            else if ((Robot.alienDeployer.getState() == AlienDeployer.State.EXTENDED)
-            && (Robot.hatchGrabber.getState() == HatchGrabber.State.CLOSED)) {
-                setAlienRetractedClosedLED(false);
                 setAlienExtendedClosedLED(true);
-                setAlienExtendedOpenLED(false);
-
-                Robot.lED.setColor(LED.BLUE);
-            }
-            else if ((Robot.alienDeployer.getState() == AlienDeployer.State.EXTENDED)
-            && (Robot.hatchGrabber.getState() == HatchGrabber.State.OPENED)) {
-                setAlienRetractedClosedLED(false);
-                setAlienExtendedClosedLED(false);
                 setAlienExtendedOpenLED(true);
+            }
 
-                Robot.lED.setColor(LED.STROBE_BLUE);
-            }
-            else {
-                // None of the above, so for now just turn the lights all off.
-                // TODO:  perhaps blink if a subsystem is in motion, or if a command is in the process of being executed?
-                setAlienRetractedClosedLED(false);
-                setAlienExtendedClosedLED(false);
-                setAlienExtendedOpenLED(false);
-                 
-            }
+        }
 
     }
 }
