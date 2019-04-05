@@ -43,7 +43,7 @@ public class AlienDeploy extends Command {
     @Override
     protected void initialize() {
         m_abort = false; // Reset any prior errors before issuing the command again
-        final double timeout = 1.2;
+        final double timeout = 1.4;
         if (m_magDir >= 0) {
             setTimeout(timeout);
         } else { // Here we are negative
@@ -80,6 +80,19 @@ public class AlienDeploy extends Command {
                             + "\n isExtending: " + isExtending + " forwardLimit: " + forwardLimitPressed
                             + "\n isRetracting: " + isRetracting + " reverseLimit: " + reverseLimitPressed
                             + "\n error_abort: " + m_abort + "\n");
+        // Safety check!
+        // If we retracted the alien but timed out, it probably means the alien jammed up
+        // and the spring couldn't fully pull it back.  In such cases, the string will be
+        // slack and might get tangled or (if operator repeatedly retracts) it can wrap
+        // the wrong way around the pulley and start extending instead!
+        // So...
+        // if we timed out, set a flag that disables the alien extend/retract.
+        // if the arm gets raised vertically, the alien is likely to finish its retraction
+        // and set the reverse limit switch; that can reset the flag and allow normal operation
+        if (timedOut && isRetracting) {
+            DriverStation.reportError("Failed to fully retract Alien!  Disabling until Alien contacts reverse limit switch.", false);
+            Robot.alienDeployer.setTimeoutDisabledFlag(true);
+        }
 
         return timedOut // end (abnormally) as a safety net in case limit switches fail
                 || ((isExtending) && forwardLimitPressed) // end (normally) if we extended to our forward limit

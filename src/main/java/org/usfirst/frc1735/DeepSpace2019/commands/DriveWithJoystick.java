@@ -62,17 +62,20 @@ public class DriveWithJoystick extends Command {
         if (Robot.isDemoMode())
             return; // and do nothing.
         int XBOX_RIGHT_SHOULDER = 6;
+        int XBOX_LEFT_SHOULDER = 5; // TODO
+        
         int isFlipped = joystickLeft.getRawButton(XBOX_RIGHT_SHOULDER) ? -1 : 1;
+        int isIgnoringX = joystickLeft.getRawButton(XBOX_LEFT_SHOULDER) ? 0 : 1;
 
         if (joystickLeft.isCapableOfSoloTankMode()) {
-            Robot.driveTrain.drive(applyDeadzoneFilter(joystickLeft.getX() * isFlipped),
+            Robot.driveTrain.drive(applyDeadzoneFilter(joystickLeft.getX() * isFlipped * isIgnoringX),
                     -applyDeadzoneFilter(joystickLeft.getY() * isFlipped),
-                    applyDeadzoneFilter(joystickLeft.getSwivelStickX()),
+                    applyDeadzoneFilter(joystickLeft.getSwivelStickX() * isIgnoringX),
                     -applyDeadzoneFilter(joystickLeft.getSwivelStickY() * isFlipped));
         } else {
-            Robot.driveTrain.drive(applyDeadzoneFilter(joystickLeft.getX() * isFlipped),
+            Robot.driveTrain.drive(applyDeadzoneFilter(joystickLeft.getX() * isFlipped * isIgnoringX),
                     -applyDeadzoneFilter(joystickLeft.getY() * isFlipped),
-                    applyDeadzoneFilter(joystickRight.getX() * isFlipped),
+                    applyDeadzoneFilter(joystickRight.getX() * isFlipped * isIgnoringX),
                     -applyDeadzoneFilter(joystickRight.getY() * isFlipped));
         }
     }
