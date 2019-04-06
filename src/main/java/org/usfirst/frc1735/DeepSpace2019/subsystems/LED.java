@@ -57,15 +57,13 @@ public class LED extends Subsystem {
         // Put code here to be run every loop
         // We want the ball detector to light up (or change the color of) our onboard
         // lights.
-        
-        if (!driverStation.isAutonomous()
-            && (driverStation.getMatchTime() < 10)
-            && (driverStation.getMatchTime() > 0))  {
-                Robot.lED.setColor(LED.STROBE_RED);
-        } else if (Robot.claw.isBallPresent()
-            && Robot.alienDeployer.getState() == AlienDeployer.State.RETRACTED
-            && Robot.hatchGrabber.getState() == HatchGrabber.State.CLOSED) {
-                Robot.lED.setColor(LED.RED_ORANGE);
+
+        if (!driverStation.isAutonomous() && (driverStation.getMatchTime() < 10)
+                && (driverStation.getMatchTime() > 0)) {
+            Robot.lED.setColor(LED.STROBE_RED);
+        } else if (Robot.claw.isBallPresent() && Robot.alienDeployer.getState() == AlienDeployer.State.RETRACTED
+                && Robot.hatchGrabber.getState() == HatchGrabber.State.CLOSED) {
+            Robot.lED.setColor(LED.RED_ORANGE);
         } else {
             if ((Robot.alienDeployer.getState() == AlienDeployer.State.RETRACTED)
                     && (Robot.hatchGrabber.getState() == HatchGrabber.State.CLOSED)) {
@@ -77,7 +75,19 @@ public class LED extends Subsystem {
                     && (Robot.hatchGrabber.getState() == HatchGrabber.State.OPENED)) {
                 Robot.lED.setColor(LED.HEARTBEAT_BLUE);
             } else {
-                Robot.lED.setColor(LED.HOT_PINK);
+                // Divide this error condition into deploy vs hatchGrab error cases
+                if ((Robot.alienDeployer.getState() == AlienDeployer.State.IN_MOTION)
+                        && (Robot.hatchGrabber.getState() != HatchGrabber.State.IN_MOTION)) {
+                    Robot.lED.setColor(LED.HOT_PINK);
+                } else if ((Robot.hatchGrabber.getState() != HatchGrabber.State.IN_MOTION)
+                        && (Robot.hatchGrabber.getState() == HatchGrabber.State.IN_MOTION)) {
+                    Robot.lED.setColor(LED.VIOLET);
+                } else if ((Robot.alienDeployer.getState() == AlienDeployer.State.IN_MOTION)
+                        && (Robot.hatchGrabber.getState() == HatchGrabber.State.IN_MOTION)) {
+                    // Wow, we're screwed. Both systems are broken!
+                    Robot.lED.setColor(LED.RAINBOW_RAINBOW);
+                }
+
             }
         }
     }
@@ -123,6 +133,7 @@ public class LED extends Subsystem {
     public static final double STROBE_BLUE = -0.09;
     public static final double STROBE_RED = -0.11;
     public static final double HEARTBEAT_BLUE = -0.23;
+    public static final double RAINBOW_RAINBOW = -0.99;
 
     // flashing red for last 10 seconds
     // middle button -
