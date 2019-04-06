@@ -42,7 +42,8 @@ public class AlienDeploy extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        final double timeout = 1.2;
+        m_abort = false; // Reset any prior errors before issuing the command again
+        final double timeout = 1.4;
         if (m_magDir >= 0) {
             setTimeout(timeout);
         } else { // Here we are negative
@@ -53,9 +54,14 @@ public class AlienDeploy extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        if ((m_magDir == AlienDeployer.in) && Robot.hatchGrabber.isForwardLimitPressed()) {
-            DriverStation.reportError("Cannot retract Alien while HatchGrabber is open", false);
-        } else {
+        // Implement a subsystem interlock:  if for some reason we think the hatchgrabber is currently open, do not try to retract the aliean into the arm!!!
+        // Checking for encoder to be at max is not sufficient, because it could be partially open for some reason.
+        // So, abort any attempt to retract if the encoder is not reading as fully closed!
+        if ((m_magDir == AlienDeployer.in) && !Robot.hatchGrabber.isReverseLimitPressed()) {
+            DriverStation.reportError("Cannot retract Alien while HatchGrabber is fully or partially open", false);
+            m_abort = true; // set a flag to abort the command
+        } else { // Normal operation
+            System.out.println("AlienDeploy: " + m_magDir);
             Robot.alienDeployer.alienDeployerMove(m_magDir);
         }
     }
@@ -63,7 +69,35 @@ public class AlienDeploy extends Command {
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        return isTimedOut();
+        boolean timedOut = isTimedOut();
+        boolean isExtending = (m_magDir == AlienDeployer.out);
+        boolean isRetracting = (m_magDir == AlienDeployer.in);
+        boolean forwardLimitPressed = Robot.alienDeployer.isForwardLimitPressed();
+        boolean reverseLimitPressed = Robot.alienDeployer.isReverseLimitPressed();
+
+        System.out.print("Checking isFinished for AlienDeploy"
+                            + "\n timedOut: " + timedOut
+                            + "\n isExtending: " + isExtending + " forwardLimit: " + forwardLimitPressed
+                            + "\n isRetracting: " + isRetracting + " reverseLimit: " + reverseLimitPressed
+                            + "\n error_abort: " + m_abort + "\n");
+        // Safety check!
+        // If we retracted the alien but timed out, it probably means the alien jammed up
+        // and the spring couldn't fully pull it back.  In such cases, the string will be
+        // slack and might get tangled or (if operator repeatedly retracts) it can wrap
+        // the wrong way around the pulley and start extending instead!
+        // So...
+        // if we timed out, set a flag that disables the alien extend/retract.
+        // if the arm gets raised vertically, the alien is likely to finish its retraction
+        // and set the reverse limit switch; that can reset the flag and allow normal operation
+        if (timedOut && isRetracting) {
+            DriverStation.reportError("Failed to fully retract Alien!  Disabling until Alien contacts reverse limit switch.", false);
+            Robot.alienDeployer.setTimeoutDisabledFlag(true);
+        }
+
+        return timedOut // end (abnormally) as a safety net in case limit switches fail
+                || ((isExtending) && forwardLimitPressed) // end (normally) if we extended to our forward limit
+                || ((isRetracting) && reverseLimitPressed) // end (normally) if we retracted to our reverse limit
+                || m_abort; // end (abnormally) if we took an error due to subsystem interlocks
     }
 
     // Called once after isFinished returns true
@@ -78,4 +112,7 @@ public class AlienDeploy extends Command {
     protected void interrupted() {
         end();
     }
+
+    //Variable for aborting on an error condition
+    boolean m_abort = false;
 }
