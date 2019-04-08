@@ -2,6 +2,8 @@ package org.usfirst.frc1735.DeepSpace2019.joysticks;
 
 import org.usfirst.frc1735.DeepSpace2019.Robot;
 import org.usfirst.frc1735.DeepSpace2019.commands.ClawCmd;
+import org.usfirst.frc1735.DeepSpace2019.commands.ClimbExtend;
+import org.usfirst.frc1735.DeepSpace2019.commands.ClimbRetract;
 import org.usfirst.frc1735.DeepSpace2019.commands.EnterArcadeMode;
 import org.usfirst.frc1735.DeepSpace2019.commands.EnterTankMode;
 import org.usfirst.frc1735.DeepSpace2019.subsystems.Claw;
@@ -61,7 +63,11 @@ public class XBoxJoystick extends AbstractJoystick {
                 Robot.oi.clawOut.whenPressed(new ClawCmd(Claw.out));
                 Robot.oi.clawOut.whenReleased(new ClawCmd(0));
 
+                Robot.oi.extendClimber = new JoystickButton(joystick, 3);
+                Robot.oi.extendClimber.whenPressed(new ClimbExtend());
 
+                Robot.oi.retractClimber = new JoystickButton(joystick, 4);
+                Robot.oi.retractClimber.whenPressed(new ClimbRetract());
 
                 break;
 
