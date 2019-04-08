@@ -2,6 +2,8 @@ package org.usfirst.frc1735.DeepSpace2019.joysticks;
 
 import org.usfirst.frc1735.DeepSpace2019.Robot;
 import org.usfirst.frc1735.DeepSpace2019.commands.ClawCmd;
+import org.usfirst.frc1735.DeepSpace2019.commands.ClimbExtend;
+import org.usfirst.frc1735.DeepSpace2019.commands.ClimbRetract;
 import org.usfirst.frc1735.DeepSpace2019.commands.EnterArcadeMode;
 import org.usfirst.frc1735.DeepSpace2019.commands.EnterTankMode;
 import org.usfirst.frc1735.DeepSpace2019.subsystems.Claw;
@@ -43,10 +45,10 @@ public class XBoxJoystick extends AbstractJoystick {
     void initializeKeymap() {
         switch (role) {
             case DRIVER_LEFT:
-                Robot.oi.arcadeMode = new JoystickButton(joystick, 3);
+                Robot.oi.arcadeMode = new JoystickButton(joystick, 7);
                 Robot.oi.arcadeMode.whenPressed(new EnterArcadeMode());
 
-                Robot.oi.tankMode = new JoystickButton(joystick, 4);
+                Robot.oi.tankMode = new JoystickButton(joystick, 8);
                 Robot.oi.tankMode.whenPressed(new EnterTankMode());
 
                 Robot.oi.clawIn = new JoystickButton(joystick, 1);
@@ -62,6 +64,12 @@ public class XBoxJoystick extends AbstractJoystick {
                 Robot.oi.clawOut.whenPressed(new ClawCmd(Claw.out));
                 Robot.oi.clawOut.whenReleased(new ClawCmd(0));
 
+                Robot.oi.climbExtend = new JoystickButton(joystick, 3);
+                Robot.oi.climbExtend.whenPressed(new ClimbExtend());
+
+                Robot.oi.climbRetract = new JoystickButton(joystick, 4);
+                Robot.oi.climbRetract.whenPressed(new ClimbRetract());
+                
                 break;
 
             case DRIVER_RIGHT:
