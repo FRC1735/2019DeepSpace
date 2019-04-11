@@ -230,23 +230,23 @@ public class Robot extends TimedRobot {
 
     private void initializeSmartDashboard() {
         SmartDashboard.putData("Auto mode", chooser);
-        SmartDashboard.putNumber(SmartDashboardKeys.JOYSTICK_DEADZONE, DEFAULT_JOYSTICK_DEADZONE);
-        SmartDashboard.putString(SmartDashboardKeys.DRIVETRAIN_MODE, "ARCADE");
+        //SmartDashboard.putNumber(SmartDashboardKeys.JOYSTICK_DEADZONE, DEFAULT_JOYSTICK_DEADZONE);
+        //SmartDashboard.putString(SmartDashboardKeys.DRIVETRAIN_MODE, "ARCADE");
         
         // This button sets the master debug MODE
         // While this could be dynamically queried during robot operation, that would require many queries to the SmartDashboard.
         // instead, we want a local variable that samples the SmartDashboard only when the robot is getting enabled.
         // If the user desires to update the debug state dynamically, a Command button is provided at the SmartDashboard to force an update.
-        SmartDashboard.putBoolean("Master Debug Enable", false);
+        //SmartDashboard.putBoolean("Master Debug Enable", false);
         
         // Initialize "Demo Mode" variable for the SmartDashboard.
         // This is used to turn off joysticks, etc. at demo events (to avoid having to pull fuses)
         // Note:  it is only sampled when the robot is enabled!
-        SmartDashboard.putBoolean("Demo Mode", false);
+        //SmartDashboard.putBoolean("Demo Mode", false);
 
         // This variable controls any behaviors that differ between the Practice robot and the Competition robot.
         // This could be ignoring/disabling motors, changing PID values, etc.
-        SmartDashboard.putBoolean("PracticeBot", false);
+        //SmartDashboard.putBoolean("PracticeBot", false);
 
     }
 

@@ -46,7 +46,7 @@ public class Turn extends Command {
     public Turn() {
     	m_getDataFromSmartDashboard = true;
         requires(Robot.driveTrain);
-		SmartDashboard.putString("PID Mode", "TBD");
+		//SmartDashboard.putString("PID Mode", "TBD");
 
     }
 
@@ -124,19 +124,19 @@ public class Turn extends Command {
     	// This avoids the "small P -> small motor values -> rely on very slow I values to get to the target
     	if (Math.abs(err) < Robot.driveTrain.kSmallTurnPIDLimit /*degrees*/) {
     		Robot.driveTrain.setSmallTurnPID();
-    		SmartDashboard.putString("PID Mode", "Small");
+    		//SmartDashboard.putString("PID Mode", "Small");
     	}
     	else if (Math.abs(err) < Robot.driveTrain.kMedTurnPIDLimit /*degrees*/) {
     		Robot.driveTrain.setMedTurnPID();
-    		SmartDashboard.putString("PID Mode", "Med");
+    		//SmartDashboard.putString("PID Mode", "Med");
     	}
     	else {
     		Robot.driveTrain.setLargeTurnPID(); // Otherwise use the normal PID values  
-    		SmartDashboard.putString("PID Mode", "Large");
+    		//SmartDashboard.putString("PID Mode", "Large");
     	}
     	Robot.driveTrain.tankDrive(Robot.driveTrain.m_rotateToAngleRate, -Robot.driveTrain.m_rotateToAngleRate);
-    	SmartDashboard.putNumber("MotorOut", Robot.driveTrain.m_rotateToAngleRate);
-    	SmartDashboard.putNumber("PIDErr", err);
+    	//SmartDashboard.putNumber("MotorOut", Robot.driveTrain.m_rotateToAngleRate);
+    	//SmartDashboard.putNumber("PIDErr", err);
     }
 
 
