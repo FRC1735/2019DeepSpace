@@ -39,7 +39,7 @@ public class ClimbExtend extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        setTimeout(2);
+        setTimeout(5); //set timeout back to 2
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -51,8 +51,8 @@ public class ClimbExtend extends Command {
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        return isTimedOut()
-                || Robot.climber.isExtendLimitPressed();
+        return isTimedOut();
+        //        || Robot.climber.isExtendLimitPressed();
     }
 
     // Called once after isFinished returns true

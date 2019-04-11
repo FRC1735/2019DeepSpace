@@ -18,7 +18,7 @@ public class XBoxJoystick extends AbstractJoystick {
     // 0 and 1 are left xbox controller swivel stick
 
     public XBoxJoystick(final Joystick joystick, final Role role) {
-        super(joystick, role);
+         super(joystick, role);
     }
 
     @Override
