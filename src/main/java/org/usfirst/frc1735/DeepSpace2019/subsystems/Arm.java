@@ -90,31 +90,31 @@ public class Arm extends Subsystem {
             // above calculations. Comment out to avoid this.
 
             final int encoderValue = armMotor.getSelectedSensorPosition();
-            m_absEncoderEntry.setDouble(encoderValue); // Current absolute encoder val. 1024 ticks/revolution = 2.84444
+            //m_absEncoderEntry.setDouble(encoderValue); // Current absolute encoder val. 1024 ticks/revolution = 2.84444
                                                        // ticks/degree. 256 in 90 degrees.
-            m_rawRotaryValue.setDouble(Robot.oi.joyRight.getX());
+            //m_rawRotaryValue.setDouble(Robot.oi.joyRight.getX());
 
             final double currentDegrees = ticksToDegrees(encoderValue);
-            m_armDegreesEntry.setDouble(currentDegrees);
+            //m_armDegreesEntry.setDouble(currentDegrees);
 
             if (Math.abs(currentDegrees) < 35) {
                 // If our angle is less than 35 degs off of top dead center then use PID slot 0
                 armMotor.selectProfileSlot(0, 0);
-                m_selectedSlotEntry.setDouble(0);
+                //m_selectedSlotEntry.setDouble(0);
             } else {
                 final double motorOutput = armMotor.getMotorOutputPercent();
                 if (motorOutput > 0 && currentDegrees > 0) {
                     armMotor.selectProfileSlot(2, 0); // with gravity on front of robot
-                    m_selectedSlotEntry.setDouble(2);
+                    //m_selectedSlotEntry.setDouble(2);
                 } else if (motorOutput < 0 && currentDegrees > 0) {
                     armMotor.selectProfileSlot(1, 0); // fighting gravity on front of robot
-                    m_selectedSlotEntry.setDouble(1);
+                   // m_selectedSlotEntry.setDouble(1);
                 } else if (motorOutput < 0 && currentDegrees < 0) {
                     armMotor.selectProfileSlot(2, 0); // with gravity on back of robot
-                    m_selectedSlotEntry.setDouble(2);
+                    //m_selectedSlotEntry.setDouble(2);
                 } else if (motorOutput > 0 && currentDegrees < 0) {
                     armMotor.selectProfileSlot(1, 0); // fighting gravity on back of robot
-                    m_selectedSlotEntry.setDouble(1);
+                    //m_selectedSlotEntry.setDouble(1);
                 } else {
                     // maintain current slot
                 }
@@ -124,6 +124,7 @@ public class Arm extends Subsystem {
 
     // write PIDs from selected slot to SD
     public void writePIDsToSD() {
+        /*
         // read selected slot from SD
         final int selectedSlot = (int) m_slotIndexEntry.getDouble(0);
         
@@ -140,6 +141,7 @@ public class Arm extends Subsystem {
         m_dArmEntry.setDouble(d);
         m_izArmEntry.setDouble(iz);
         m_ffArmEntry.setDouble(ff);
+        */
     }
 
     // This function causes all thelocal/active PID coefficients and related
@@ -147,6 +149,7 @@ public class Arm extends Subsystem {
     // Can be called in the above periodic() function, or intiated by a Command
     // button on the SmartDashboard
     public void updatePIDsFromSD() {
+        /*
         // read PID coefficients from SmartDashboard (Arg is the default)
         double p = m_pArmEntry.getDouble(0);
         double i = m_iArmEntry.getDouble(0);
@@ -186,6 +189,7 @@ public class Arm extends Subsystem {
             m_minOutputArm = min;
             m_maxOutputArm = max;
         }
+        */
     }
 
     // Update the setpoint based on the current ARM member variable
@@ -202,6 +206,7 @@ public class Arm extends Subsystem {
          * com.revrobotics.ControlType.kPosition com.revrobotics.ControlType.kVelocity
          * com.revrobotics.ControlType.kVoltage
          */
+        /*
         double setpointDegrees = degreesToTicks(m_setpointArmEntry.getDouble(0));
         //System.out.println(setpointDegrees);
         // if ((setpointDegrees != m_setpointDegreesArm)) {
@@ -209,6 +214,7 @@ public class Arm extends Subsystem {
         //System.out.println("Changing ARM setpoint to new value: " + m_setpointDegreesArm);
         armMotor.set(ControlMode.Position, m_setpointDegreesArm);
         // }
+        */
     }
 
     public double degreesToTicks(final double d) {
@@ -336,6 +342,10 @@ public class Arm extends Subsystem {
         // .withWidget(BuiltInWidgets.kNumberSlider)
         // .withProperties(Map.of("min", -0.3, "max", 0.3)) // specify widget properties
         // here
+
+        // Commenting these out to reduce network load
+        /*
+
         m_armTab = Shuffleboard.getTab("Arm"); // Creates tab if it doesn't already exist.
 
         m_pArmEntry = m_armTab.add("P Arm", kPArm[0]).withSize(2, 1) // make the widget 2 wide x1 tall
@@ -369,6 +379,7 @@ public class Arm extends Subsystem {
         m_selectedSlotEntry = m_armTab.add("Selected Slot", 0).withSize(2, 1).withPosition(2, 6).getEntry();
 
         m_armTab.add("Get PIDs", new WriteArmPIDFromSlotToSD()).withSize(4, 1).withPosition(17, 4);
+        */
     }
 
     // Simple function to directly control the motor without any PID
@@ -381,7 +392,7 @@ public class Arm extends Subsystem {
         } else {
             motorVal = magDir * Math.abs(m_minOutputArm);
         }
-        m_simpleArmJoyvalEntry.setDouble(motorVal); // MagDir comes directly from Joysticks (-1 to 1); need to scale to
+        //m_simpleArmJoyvalEntry.setDouble(motorVal); // MagDir comes directly from Joysticks (-1 to 1); need to scale to
                                                     // our defined max/min values
         armMotor.set(magDir); // uses open loop mode, when called without a mode.
     }
@@ -410,6 +421,7 @@ public class Arm extends Subsystem {
 
     // END AUTOGENERATED CODE, SOURCE=ROBOTBUILDER ID=CMDPIDGETTERS
 
+    /*
     // Member variables
     // Pointer to the Shuffleboard tab for the Arm:
     ShuffleboardTab m_armTab;
@@ -429,6 +441,7 @@ public class Arm extends Subsystem {
     NetworkTableEntry m_slotIndexEntry; // The selected PID slot
     NetworkTableEntry m_armDegreesEntry;
     NetworkTableEntry m_selectedSlotEntry;
+    */
 
     // Arm setpoints:
     // Max rotation is 240', which is +/-120 if zero is Top Dead Center.
