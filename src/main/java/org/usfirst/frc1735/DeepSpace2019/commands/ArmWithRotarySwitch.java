@@ -53,7 +53,7 @@ public class ArmWithRotarySwitch extends Command {
       double setpointDegrees = this.rotary2Degrees(rotaryValue); // What is the angle we're requestin?
       double setpointTicks = Robot.arm.degreesToTicks(setpointDegrees); // Map that to ticks; takes into account any
                                                                         // taring
-      System.out.println("PID to " + setpointDegrees + "Degrees");
+      //System.out.println("PID to " + setpointDegrees + "Degrees");
 
       Robot.arm.PIDMoveArm(setpointTicks);
     }

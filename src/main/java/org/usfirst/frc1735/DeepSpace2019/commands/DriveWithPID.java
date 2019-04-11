@@ -105,13 +105,13 @@ public class DriveWithPID extends Command {
     	// (if not, it was already passed in from the parent CommandGroup and set in the constructor)
     	if (m_getDistFromSmartDashboard) { 
     		m_distance = (int) SmartDashboard.getNumber("Cruise Dist", 18.849); // default:  one revolution of a 6" wheel is just short of 19"
-    		System.out.println("Initializing drive distance from SmartDashboard");
+    		//System.out.println("Initializing drive distance from SmartDashboard");
     	}
     	
     	// We also can get distance from the camera
     	if (m_getDistFromCamera) {
     		m_distance = 0; // was (int) Robot.driveTrain.getDistanceToCube();
-    		System.out.println("Initializing drive distance from Camera");
+    		//System.out.println("Initializing drive distance from Camera");
     	}
 
     	//Set a timeout value in seconds
@@ -124,7 +124,7 @@ public class DriveWithPID extends Command {
     	// But the HW PID controller wants distance in encoder units.
     	m_encDistance = m_distance * DriveTrain.kEncoderTicksPerInch;
     	    	
-    	System.out.println("DriveWithPID has been reqeusted for " + m_distance + " inches, or " + m_encDistance + " encoder ticks");
+    	//System.out.println("DriveWithPID has been reqeusted for " + m_distance + " inches, or " + m_encDistance + " encoder ticks");
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -145,6 +145,7 @@ public class DriveWithPID extends Command {
     	double avgDist = calcAvgDist(Robot.driveTrain.getRightMotor().getSelectedSensorPosition(0));
 
 		if  (Robot.isDbgOn()) { // Use variable rather than print wrapper so that we also avoid all the CAN bus queries...
+			/*
 			System.out.println(" FLerr: " + Robot.driveTrain.getLeftMotor().getClosedLoopError(0) +
 					" out_pct: " + Robot.driveTrain.getLeftMotor().getMotorOutputPercent() +
 					" CLTarget: " + Robot.driveTrain.getLeftMotor().getClosedLoopTarget(0) +
@@ -158,6 +159,7 @@ public class DriveWithPID extends Command {
 					" Pos: " + Robot.driveTrain.getRightMotor().getSelectedSensorPosition(0) +
 					" Vel: " + Robot.driveTrain.getRightMotor().getSelectedSensorVelocity(0) +
 					" Mode: " + Robot.driveTrain.getLeftMotor().getControlMode());
+					*/
 		}
     	//@FIXME:  Should finished be checking BOTH sensors??
     	

@@ -160,7 +160,7 @@ public class Arm extends Subsystem {
         // if PID coefficients on SmartDashboard are different from our latest operating
         // values, write the new values to controller and store them locally.
         if ((p != m_pArm[slotIdx])) {
-            System.out.println("Setting arm P for slot " + slotIdx);
+            //System.out.println("Setting arm P for slot " + slotIdx);
             armMotor.config_kP(slotIdx, p, 0);
             m_pArm[slotIdx] = p;
         }
@@ -203,10 +203,10 @@ public class Arm extends Subsystem {
          * com.revrobotics.ControlType.kVoltage
          */
         double setpointDegrees = degreesToTicks(m_setpointArmEntry.getDouble(0));
-        System.out.println(setpointDegrees);
+        //System.out.println(setpointDegrees);
         // if ((setpointDegrees != m_setpointDegreesArm)) {
         m_setpointDegreesArm = setpointDegrees;
-        System.out.println("Changing ARM setpoint to new value: " + m_setpointDegreesArm);
+        //System.out.println("Changing ARM setpoint to new value: " + m_setpointDegreesArm);
         armMotor.set(ControlMode.Position, m_setpointDegreesArm);
         // }
     }

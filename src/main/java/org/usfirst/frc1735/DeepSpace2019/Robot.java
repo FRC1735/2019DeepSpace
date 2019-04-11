@@ -86,7 +86,7 @@ public class Robot extends TimedRobot {
     // Wrapper to handle debug console messages cleanly
     public static void dbgPrintln(String message) {
     	if(isDbgOn()) {
-    		System.out.println(message);
+    		//System.out.println(message);
     	}
     }
     // Method to set the debug status from the SmartDashboard

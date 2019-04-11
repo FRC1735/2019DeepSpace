@@ -90,7 +90,7 @@ public class Turn extends Command {
     	// Finally, enable the turn controller
     	Robot.driveTrain.drivelineController.setSetpoint(m_targetAbsAngle);	
     	Robot.driveTrain.drivelineController.enable();
-		System.out.println("Mode = " + m_mode + " ReqAngle= " + m_angle + " absTarget= " + m_targetAbsAngle);
+		//System.out.println("Mode = " + m_mode + " ReqAngle= " + m_angle + " absTarget= " + m_targetAbsAngle);
     	// Reset the iteration counter (for reduced printing)
     	m_exeCount = 0;
     }

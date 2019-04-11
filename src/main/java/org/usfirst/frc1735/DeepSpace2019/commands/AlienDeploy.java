@@ -75,11 +75,13 @@ public class AlienDeploy extends Command {
         boolean forwardLimitPressed = Robot.alienDeployer.isForwardLimitPressed();
         boolean reverseLimitPressed = Robot.alienDeployer.isReverseLimitPressed();
 
+        /*
         System.out.print("Checking isFinished for AlienDeploy"
                             + "\n timedOut: " + timedOut
                             + "\n isExtending: " + isExtending + " forwardLimit: " + forwardLimitPressed
                             + "\n isRetracting: " + isRetracting + " reverseLimit: " + reverseLimitPressed
                             + "\n error_abort: " + m_abort + "\n");
+        */
         // Safety check!
         // If we retracted the alien but timed out, it probably means the alien jammed up
         // and the spring couldn't fully pull it back.  In such cases, the string will be

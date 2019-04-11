@@ -234,8 +234,10 @@ public class HatchGrabber extends Subsystem {
         if ((magDir > kMaxGrabValue) |
             (magDir < kMinGrabValue)) {
                 // Error:  we are out of the legal operating range.
+                /*
                 System.out.println("Error:  HatchGrabber setpoint is outside of allowable range.\n" +
                                    "Range min:max = " + kMinGrabValue + ":" + kMaxGrabValue + ", requested value is = " + magDir);
+                */
         }
         else {
            // this.hatchGrabberMotor.set(ControlMode.Position, magDir);
@@ -249,7 +251,7 @@ public class HatchGrabber extends Subsystem {
     }
 
     public void hatchGrabberOpenMove(final double magDir) {
-        System.out.println("hatchGRabberOpenMove");
+        //System.out.println("hatchGRabberOpenMove");
         this.hatchGrabberMotor.set(ControlMode.PercentOutput, magDir);
     }
 

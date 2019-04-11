@@ -61,7 +61,7 @@ public class HatchManipulator extends Command {
             DriverStation.reportError("Cannot open HatchGrabber when Alien is fully or partially retracted", false);
             m_abort = true; // set a flag to abort the command
         } else { // Normal operation
-            System.out.println("HatchManipulator: " + m_magDir);
+            //System.out.println("HatchManipulator: " + m_magDir);
             Robot.hatchGrabber.hatchGrabberOpenMove(m_magDir);
         }
     }
@@ -75,12 +75,13 @@ public class HatchManipulator extends Command {
         boolean forwardLimitPressed = Robot.hatchGrabber.isForwardLimitPressed();
         boolean reverseLimitPressed = Robot.hatchGrabber.isReverseLimitPressed();
 
+        /*
         System.out.print("Checking isFinished for HatchManipulator"
                             + "\n timedOut: " + timedOut
                             + "\n isGrabbing: " + isGrabbing + " forwardLimit: " + forwardLimitPressed
                             + "\n isReleasing: " + isReleasing + " reverseLimit: " + reverseLimitPressed
                             + "\n error_abort: " + m_abort + "\n");
-
+        */
 
 
         return timedOut // end (abnormally) as a safety net in case limit switches fail
