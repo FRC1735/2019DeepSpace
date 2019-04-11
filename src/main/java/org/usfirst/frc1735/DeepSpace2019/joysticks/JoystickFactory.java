@@ -4,13 +4,18 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 
 public class JoystickFactory {
+    private LaunchPadJoystick m_launchPadJoystick = null;
+
     public AbstractJoystick get(final Joystick joystick, final Role role) {
         if (DriverStation.getInstance().getJoystickIsXbox(joystick.getPort())) {
             return new XBoxJoystick(joystick, role);
         } else if (DriverStation.getInstance().getJoystickName(joystick.getPort()).equals("Logitech Dual Action")) {
             return new LogitechDualActionJoystick(joystick, role);
         } else if (role.equals(Role.DRIVER_RIGHT)) { 
-            return new LaunchPadJoystick(joystick, Role.DRIVER_RIGHT);
+            if (m_launchPadJoystick == null) {
+                m_launchPadJoystick = new LaunchPadJoystick(joystick, Role.DRIVER_RIGHT);
+            }
+            return m_launchPadJoystick;
         } else {
             return new Attack3Joystick(joystick, role);
         }
