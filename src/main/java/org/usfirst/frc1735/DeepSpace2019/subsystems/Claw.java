@@ -106,18 +106,19 @@ public class Claw extends Subsystem {
 
     // Update the claw intake/outake values from the Shuffleboard
     public void updateSetpointFromSD() {
-        outMagDir = m_clawOutEntry.getDouble(0);
-        inMagDir = m_clawInEntry.getDouble(0);
+        //outMagDir = m_clawOutEntry.getDouble(0);
+        //inMagDir = m_clawInEntry.getDouble(0);
         //System.out.println("changed claw magnitudes to out= " + outMagDir + " in= " + inMagDir);
     }
 
     // Pointer to the Shuffleboard tab for the Arm:
-    ShuffleboardTab m_clawTab;
+    //ShuffleboardTab m_clawTab;
     // Entries for each of the values we want to manipulate in the tab
-    NetworkTableEntry m_clawOutEntry;
-    NetworkTableEntry m_clawInEntry;
+    //NetworkTableEntry m_clawOutEntry;
+    //NetworkTableEntry m_clawInEntry;
 
     public void initClaw() {
+        /*
         m_clawTab = Shuffleboard.getTab("Claw"); // Creates tab if it doesn't already exist.
 
         m_clawOutEntry = m_clawTab.add("Claw out", kOutMagDir)
@@ -132,6 +133,7 @@ public class Claw extends Subsystem {
         m_clawTab.add("UpdateClawVals", new UpdateClawFromSD())
                                 .withSize(4, 1)
                                 .withPosition(4, 0);
+                                */
     }
 
     // Function to use rangefinder to see if the ball is present (deprecated)
