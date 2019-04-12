@@ -125,7 +125,9 @@ public class OI {
         SmartDashboard.putData("Turn: abs90", new Turn(90, 0));
         SmartDashboard.putData("UpdateDebugEnable", new UpdateDebugEnable());
         SmartDashboard.putData("ResetGyro", new ResetGyro());
+        */
         SmartDashboard.putData("AutonomousExperiment", new AutonomousExperiment());
+        /*
         SmartDashboard.putData("LightsOn", new LightsOn());
         SmartDashboard.putData("LightsOff", new LightsOff());
         SmartDashboard.putData("GetDefaultPIDs", new GetDefaultPIDs());
@@ -135,8 +137,10 @@ public class OI {
         SmartDashboard.putData("AlienRetractedClosed", new AlienRetractedClosed());
         SmartDashboard.putData("AlienExtendedClosed", new AlienExtendedClosed());
         SmartDashboard.putData("AlienExtendedOpen", new AlienExtendedOpen());
+        */
         SmartDashboard.putData("AutonomousDoNothing", new AutonomousDoNothing());
         SmartDashboard.putData("AutonomousMoveThenJoystick", new AutonomousMoveThenJoystick());
+        /*
         SmartDashboard.putData("WriteArmPIDFromSlotToSD", new WriteArmPIDFromSlotToSD());
         */
 
